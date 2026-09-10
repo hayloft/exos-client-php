@@ -1,0 +1,5 @@
+# Generated OpenAPI client code is always LF.
+lib/** text eol=lf
+docs/** text eol=lf
+*.sh text eol=lf
+*.py text eol=lf

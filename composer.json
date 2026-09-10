@@ -1,0 +1,27 @@
+{
+    "name": "hayloft/exos-client-php",
+    "description": "PHP client for the dormakaba Exos 9300 API (ExosApi + Auth-Service), generated from the OfflineHelp OpenAPI documents.",
+    "keywords": [
+        "exos",
+        "dormakaba",
+        "openapi",
+        "php",
+        "sdk",
+        "api"
+    ],
+    "license": "proprietary",
+    "require": {
+        "php": "^8.1",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "guzzlehttp/guzzle": "^7.3",
+        "guzzlehttp/psr7": "^1.7 || ^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Exos\\ExosApi\\": "lib/ExosApi/",
+            "Exos\\Auth\\": "lib/Auth/"
+        }
+    }
+}
