@@ -22,6 +22,9 @@
         "psr-4": {
             "Exos\\ExosApi\\": "lib/ExosApi/",
             "Exos\\Auth\\": "lib/Auth/"
-        }
+        },
+        "files": [
+            "src/bootstrap.php"
+        ]
     }
 }
