@@ -1,0 +1,177 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "paths": {
+    "/v1.0/personCategories": {
+      "get": {
+        "tags": [
+          "person categories"
+        ],
+        "summary": "get a list of groups by odata query options",
+        "description": "Be aware that a query made here can return up to 10000 records. If you need more, please use the built in paging functionality with $top and $skip.\nhttp://www.asp.net/web-api/overview/odata-support-in-aspnet-web-api/supporting-odata-query-options. ",
+        "parameters": [
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select and $expand.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$skip",
+            "in": "query",
+            "description": "skips the first x entries of the response(paging)",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$top",
+            "in": "query",
+            "description": "limits the number of returned records.",
+            "schema": {
+              "type": "integer",
+              "default": 1000,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoriesOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "",
+        "x-errorcodes": "300004,300008,999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CategoriesOutput": {
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "@odata.count": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CategoryOutput"
+            }
+          }
+        }
+      },
+      "CategoryOutput": {
+        "required": [
+          "CategoryIdInternal"
+        ],
+        "properties": {
+          "CategoryIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "DisplayName": {
+            "type": "string",
+            "default": "Category 1",
+            "nullable": true
+          },
+          "TenantId": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          }
+        },
+        "nullable": true
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "person categories",
+      "description": ""
+    }
+  ]
+}

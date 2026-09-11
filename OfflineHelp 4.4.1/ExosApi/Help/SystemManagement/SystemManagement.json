@@ -1,0 +1,360 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos SystemManagement API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "paths": {
+    "/systemManagement/v1.0/getCommunicationInfo": {
+      "post": {
+        "tags": [
+          "SystemManagement"
+        ],
+        "summary": "Get the communication info of a device (Access Manager 92 xx only).",
+        "description": "Get the communication info of a device (Access Manager 92 xx only).",
+        "requestBody": {
+          "description": "Node id of the device for which the data is requested.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetCommunicationInfoInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseOfGetCommunicationInfoOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "SYS_SYSDEF_OCMANAGE, SYS_SYSDEF_OCMANAGESECURITY",
+        "x-errorcodes": "100000,300004,400215,400216,400221,999999"
+      }
+    },
+    "/systemManagement/v1.0/setCommunicationInfo": {
+      "post": {
+        "tags": [
+          "SystemManagement"
+        ],
+        "summary": "Set the communication info to a device (Access Manager 92 xx only).",
+        "description": "Set the communication info to a device (Access Manager 92 xx only).",
+        "requestBody": {
+          "x-name": "input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetCommunicationInfoInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "SYS_SYSDEF_OCMANAGE, SYS_SYSDEF_OCMANAGESECURITY",
+        "x-errorcodes": "100000,300004,400215,400216,400221,400373,999999"
+      }
+    },
+    "/systemManagement/v1.0/getCertificateApprovalRequest": {
+      "post": {
+        "tags": [
+          "SystemManagement"
+        ],
+        "summary": "Get the certificate approval request of a device (Access Manager 92 xx only).",
+        "description": "Get the certificate approval request of a device (Access Manager 92 xx only).",
+        "requestBody": {
+          "description": "Device address of the device for which the data is requested.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetCertificateApprovalRequestInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseOfGetCertificateApprovalRequestOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "SYS_SYSDEF_OCMANAGE, SYS_SYSDEF_OCMANAGESECURITY",
+        "x-errorcodes": "100000,300004,400372,999999"
+      }
+    },
+    "/systemManagement/v1.0/confirmCertificateApprovalRequest": {
+      "post": {
+        "tags": [
+          "SystemManagement"
+        ],
+        "summary": "Approves or rejects the certificate approval request of a device (Access Manager 92 xx only).",
+        "description": "Approves or rejects the certificate approval request of a device (Access Manager 92 xx only).",
+        "requestBody": {
+          "x-name": "input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmCertificateApprovalRequestInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "SYS_SYSDEF_OCMANAGE, SYS_SYSDEF_OCMANAGESECURITY",
+        "x-errorcodes": "100000,300004,400372,999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ResponseBase": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "VoidResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ResponseBase"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "GetCommunicationInfoInput": {
+        "required": [
+          "NodeIdSubstation"
+        ],
+        "properties": {
+          "NodeIdSubstation": {
+            "type": "string",
+            "nullable": false
+          }
+        }
+      },
+      "SetCommunicationInfoInput": {
+        "required": [
+          "NodeIdFrontserver",
+          "NodeIdSubstation",
+          "CommunicationMode",
+          "Port"
+        ],
+        "properties": {
+          "NodeIdFrontserver": {
+            "type": "string",
+            "nullable": false
+          },
+          "NodeIdSubstation": {
+            "type": "string",
+            "nullable": false
+          },
+          "CommunicationMode": {
+            "type": "integer",
+            "format": "byte",
+            "description": "The new communication mode (0 = cleartext, 1 = PKI, 2 = self-signed)"
+          },
+          "Port": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": false,
+            "description": "The new port"
+          }
+        }
+      },
+      "GetCertificateApprovalRequestInput": {
+        "required": [
+          "NodeIdSubstation"
+        ],
+        "properties": {
+          "NodeIdSubstation": {
+            "type": "string",
+            "nullable": false
+          }
+        }
+      },
+      "GenericResponseOfGetCommunicationInfoOutput": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ResponseBase"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "Value": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/GetCommunicationInfoOutput"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "GenericResponseOfGetCertificateApprovalRequestOutput": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ResponseBase"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "Value": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/GetCertificateApprovalRequestOutput"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "GetCommunicationInfoOutput": {
+        "type": "object",
+        "description": "The communication info of the device",
+        "additionalProperties": false,
+        "properties": {
+          "DeviceAddress": {
+            "type": "string",
+            "nullable": false,
+            "description": "The device address of the related device"
+          },
+          "CommunicationMode": {
+            "type": "integer",
+            "format": "byte",
+            "nullable": false,
+            "description": "The current communication mode (0 = cleartext, 1 = PKI, 2 = self-signed)"
+          },
+          "Port": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": false,
+            "description": "The current port"
+          }
+        }
+      },
+      "GetCertificateApprovalRequestOutput": {
+        "type": "object",
+        "description": "The certificate approval request of the device",
+        "additionalProperties": false,
+        "properties": {
+          "DeviceAddress": {
+            "type": "string",
+            "nullable": false,
+            "description": "The device address of the related device"
+          },
+          "Fingerprint": {
+            "type": "string",
+            "nullable": false,
+            "description": "The fingerprint of the certificate"
+          },
+          "Generation": {
+            "type": "integer",
+            "format": "byte",
+            "nullable": false,
+            "description": "The generation of the certificate"
+          },
+          "RequestTimestamp": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": false,
+            "description": "The request timestamp of the approval request"
+          },
+          "CertificateApprovalRequestId": {
+            "type": "string",
+            "nullable": false,
+            "description": "The id of the certificate approval request"
+          }
+        }
+      },
+      "ConfirmCertificateApprovalRequestInput": {
+        "required": [
+          "CertificateApprovalRequestId",
+          "DoApprove"
+        ],
+        "properties": {
+          "CertificateApprovalRequestId": {
+            "type": "string",
+            "nullable": false
+          },
+          "DoApprove": {
+            "type": "boolean",
+            "nullable": false,
+            "default": false
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "SystemManagement",
+      "description": "<p>Operations related to System management</p>"
+    }
+  ]
+}

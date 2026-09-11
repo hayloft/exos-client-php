@@ -1,0 +1,60 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "safety check",
+      "description": "<p>Operations related to safety check.</p>"
+    }
+  ],
+  "paths": {
+    "/v1.0/safetyCheck/{personId}/pass": {
+      "$ref": "./SafetyCheck.json#/paths/%2Fv1.0%2FsafetyCheck%2F%7BpersonId%7D%2Fpass"
+    },
+    "/v1.0/safetyCheck/settings/ContractorSafetyCheckNotificationInDays": {
+      "$ref": "./SafetyCheck.json#/paths/%2Fv1.0%2FsafetyCheck%2Fsettings%2FContractorSafetyCheckNotificationInDays"
+    },
+    "/v1.0/safetyCheck/settings/ContractorSafetyCheckValidityInDays": {
+      "$ref": "./SafetyCheck.json#/paths/%2Fv1.0%2FsafetyCheck%2Fsettings%2FContractorSafetyCheckValidityInDays"
+    },
+    "/v1.0/safetyCheck/settings/EmployeeSafetyCheckNotificationInDays": {
+      "$ref": "./SafetyCheck.json#/paths/%2Fv1.0%2FsafetyCheck%2Fsettings%2FEmployeeSafetyCheckValidityInDays"
+    },
+    "/v1.0/safetyCheck/settings/EmployeeSafetyCheckValidityInDays": {
+      "$ref": "./SafetyCheck.json#/paths/%2Fv1.0%2FsafetyCheck%2Fsettings%2FEmployeeSafetyCheckValidityInDays"
+    },
+    "/v1.0/safetyCheck/settings/EnableContractorSafetyCheck": {
+      "$ref": "./SafetyCheck.json#/paths/%2Fv1.0%2FsafetyCheck%2Fsettings%2FEnableContractorSafetyCheck"
+    },
+    "/v1.0/safetyCheck/settings/EnableContractorSafetyCheckNotification": {
+      "$ref": "./SafetyCheck.json#/paths/%2Fv1.0%2FsafetyCheck%2Fsettings%2FEnableContractorSafetyCheckNotification"
+    },
+    "/v1.0/safetyCheck/settings/EnableEmployeeSafetyCheck": {
+      "$ref": "./SafetyCheck.json#/paths/%2Fv1.0%2FsafetyCheck%2Fsettings%2FEnableEmployeeSafetyCheck"
+    },
+    "/v1.0/safetyCheck/settings/EnableEmployeeSafetyCheckNotification": {
+      "$ref": "./SafetyCheck.json#/paths/%2Fv1.0%2FsafetyCheck%2Fsettings%2FEnableEmployeeSafetyCheckNotification"
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  }
+}

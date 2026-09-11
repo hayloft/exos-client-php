@@ -1,0 +1,3239 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos report API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/report_api"
+    }
+  ],
+  "paths": {
+    "/v1.0/reports/{applicationViewName}/getAvailable": {
+      "get": {
+        "tags": [
+          "report"
+        ],
+        "summary": "List report(s)",
+        "description": "Will list all available reports belonging to application view name.",
+        "parameters": [
+          {
+            "name": "applicationViewName",
+            "in": "path",
+            "required": true,
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "description": "Location",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "workStation",
+            "in": "query",
+            "description": "Workstation",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetReportsList"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,999999"
+      }
+    },
+    "/v1.0/reports/{reportRdlFileName}/languages": {
+      "get": {
+        "tags": [
+          "report"
+        ],
+        "summary": "Report language(s)",
+        "description": "Lists all languages the report has available.",
+        "parameters": [
+          {
+            "name": "reportRdlFileName",
+            "in": "path",
+            "required": true,
+            "description": "Example: Depots.rdl",
+            "example": "Depots.rdl",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_-]{1,250}\\.rdl"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetReportLanguage"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400207,999999"
+      }
+    },
+    "/v1.1/reports/acCalendarReport": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "AC Calendar Report",
+        "description": "Returns the AC Calendar report.",
+        "requestBody": {
+          "description": "Report Details Input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcCalendarReportInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_AcCalenderReport",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400090,400203,400207,400208,999999"
+      }
+    },
+    "/v1.1/reports/acDoorgroupReport": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "AC Door Group Report",
+        "description": "Returns the AC Door Group report.",
+        "requestBody": {
+          "description": "Report Details Input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcDoorgroupReportInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_AcDoorgroupReport",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400090,400204,400207,400208,999999"
+      }
+    },
+    "/v1.0/reports/acGlobalCalendarReport": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "AC Global Calendar Report",
+        "description": "Returns the AC Global Calendar report.",
+        "requestBody": {
+          "description": "Report Details Input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcGlobalCalendarReportInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_AcGlobalCalendarReport",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400207,400208,999999"
+      }
+    },
+    "/v1.1/reports/acGlobalRoomReport": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "AC Global Room Report",
+        "description": "Returns the AC Global Room report.",
+        "requestBody": {
+          "description": "Report Details Input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcGlobalRoomReportInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_AcGlobalRoomReport",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400035,400207,400208,999999"
+      }
+    },
+    "/v1.1/reports/acPassagewayCodeReport": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "AC Passage Way Code Report",
+        "description": "Returns the AC Passage Way Code report.",
+        "requestBody": {
+          "description": "Report Details Input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcPassagewayCodeReportInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_AcPassageWayCodeReport",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400090,400205,400207,400208,999999"
+      }
+    },
+    "/v1.1/reports/acProfileReport": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "AC Profile Report",
+        "description": "Returns the AC Profile report.",
+        "requestBody": {
+          "description": "Report Details Input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcProfileReportInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_AcProfileReport",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400090,400206,400207,400208,999999"
+      }
+    },
+    "/v1.1/reports/acRoomReport": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "AC Room Report",
+        "description": "Returns the AC Room report.",
+        "requestBody": {
+          "description": "Report Details Input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcRoomReportInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_AcRoomReport",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400090,400035,400207,400208,999999"
+      }
+    },
+    "/v1.1/reports/acRoomzoneReport": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "AC Room Zone Report",
+        "description": "Returns the AC Room Zone report.",
+        "requestBody": {
+          "description": "Report Details Input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcRoomzoneReportInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_AcRoomZoneReport",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400090,400192,400207,400208,999999"
+      }
+    },
+    "/v1.1/reports/acTimezoneReport": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "AC Time Zone Report",
+        "description": "Returns the AC Time Zone report.",
+        "requestBody": {
+          "description": "Report Details Input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcTimezoneReportInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_AcTimeZoneReport",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400012,400090,400207,400208,999999"
+      }
+    },
+    "/v1.1/reports/acValidationTimeReport": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "AC Validation Time Report",
+        "description": "Returns the AC Validation Time report.",
+        "requestBody": {
+          "description": "Report Details Input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcValidationTimeReportInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_AcValidationTimeReport",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400090,400207,400208,999999"
+      }
+    },
+    "/v1.0/reports/depots": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "Depots Report",
+        "description": "Returns the Depots Report.",
+        "requestBody": {
+          "description": "Report Details Input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DepotsInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_DepotsReport",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400207,400208,999999"
+      }
+    },
+    "/v1.0/reports/downTimePeri": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "Down Time Peri Report",
+        "description": "Returns the Down Time Peri Report.",
+        "requestBody": {
+          "description": "Report Details Input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DownTimePeriInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_DownTimePeripherieReport",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400207,400208,999999"
+      }
+    },
+    "/v1.1/reports/mediaHandOutCard": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "Media Hand Out Card Report",
+        "description": "Returns the Media Hand Out Card Report.",
+        "requestBody": {
+          "description": "Report Details Input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MediaHandOutCardInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_MediaHandOutCardReport",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400001,400005,400007,400207,400208,999999"
+      }
+    },
+    "/v1.1/reports/mediaHandOutKey": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "Media Hand Out Key Report",
+        "description": "Returns the Media Hand Out Key Report.",
+        "requestBody": {
+          "description": "Report Details Input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MediaHandOutKeyInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_MediaHandOutKeyReport",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400001,400007,400068,400139,400207,400208,999999"
+      }
+    },
+    "/v1.1/reports/mediaLossCard": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "Media Loss Card Report",
+        "description": "Returns the Media Loss Card Report.",
+        "requestBody": {
+          "description": "Report Details Input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MediaLossCardInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_MediaLossCardReport",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400001,400005,400007,400207,400208,999999"
+      }
+    },
+    "/v1.1/reports/mediaLossKey": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "Media Loss Key Report",
+        "description": "Returns the Media Loss Key Report.",
+        "requestBody": {
+          "description": "Report Details Input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MediaLossKeyInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_MediaLossKeyReport",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400001,400207,400208,999999"
+      }
+    },
+    "/v1.1/reports/mediaOverview": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "Media Overview Report",
+        "description": "Returns the Media Overview Report.",
+        "requestBody": {
+          "description": "Report Details Input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MediaOverviewInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_MediaOverviewReport",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400001,400207,400208,999999"
+      }
+    },
+    "/v1.1/reports/mediaReturnCard": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "Media Return Card Report",
+        "description": "Returns the Media Return Card Report.",
+        "requestBody": {
+          "description": "Report Details Input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MediaReturnCardInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_MediaReturnCardReport",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400001,400004,400007,400207,400208,999999"
+      }
+    },
+    "/v1.1/reports/mediaReturnKey": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "Media Return Key Report",
+        "description": "Returns the Media Return Key Report.",
+        "requestBody": {
+          "description": "Report Details Input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MediaReturnKeyInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_MediaReturnKeyReport",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400001,400207,400208,999999"
+      }
+    },
+    "/v1.1/reports/persAccessReport": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "Pers Access Report",
+        "description": "Returns the Pers Access report.",
+        "requestBody": {
+          "description": "Report Details Input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersAccessReportInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_SDM_PersonAccessReport",
+          "API_CM_PersonAccessReport"
+        ],
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400001,400207,400208,999999"
+      }
+    },
+    "/v1.0/reports/personInRoom": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "Person In Room Report",
+        "description": "Returns the Person In Room report.",
+        "requestBody": {
+          "description": "Report Details Input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonInRoomInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_PersonInRoomReport",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400207,400208,999999"
+      }
+    },
+    "/v1.0/reports/personProfiles": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "Person Profiles Report",
+        "description": "Returns the Person Profiles report.",
+        "requestBody": {
+          "description": "Report Details Input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonProfilesInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_PersonProfilesReport",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400207,400208,999999"
+      }
+    },
+    "/v1.0/reports/rollCall": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "Roll Call Report",
+        "description": "Returns the Roll Call report.",
+        "requestBody": {
+          "description": "Report Details Input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RollCallInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_RollCallReport",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400207,400208,999999"
+      }
+    },
+    "/v1.0/reports/securityCheck": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "Security Check Report",
+        "description": "Returns the Security Check report.",
+        "requestBody": {
+          "description": "Report Details Input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SecurityCheckInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_SecurityCheckReport",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400001,400104,400207,400208,999999"
+      }
+    },
+    "/v1.0/reports/visitConfirmation": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "Visit Confirmation Report",
+        "description": "Returns the Visit Confirmation report.",
+        "requestBody": {
+          "description": "Report Details Input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VisitConfirmationInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_VisitConfirmationReport",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400001,400104,400114,400207,400208,999999"
+      }
+    },
+    "/v1.0/reports/visitPass": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "Visit Pass Report",
+        "description": "Returns the Visit Pass report.",
+        "requestBody": {
+          "description": "Report Details Input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VisitPassInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_VisitPassReport",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400104,400207,400208,999999"
+      }
+    },
+    "/v1.0/reports/visitorPass": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "Visitor Pass Report",
+        "description": "Returns the Visitor Pass report.",
+        "requestBody": {
+          "description": "Report Details Input.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VisitorPassInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_VisitorPassesReport",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400001,400104,400207,400208,400207,400208,999999"
+      }
+    },
+    "/v1.0/reports/visitorPasses": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "Visitor Passes Report",
+        "description": "Returns the Visitor Passes report.",
+        "requestBody": {
+          "description": "Report Details Input. Visitor Id is required only when generate a Visitor Pass for a specific visitor.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VisitorPassesInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_VisitorPassesReport",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400001,400104,400207,400208,400207,400208,999999"
+      }
+    },
+    "/v1.0/reports/controlProfiles": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "Control Profiles Report",
+        "description": "Returns the Control Profiles report.",
+        "requestBody": {
+          "description": "Report Details Input.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ControlProfileInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_ControlProfileReport",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400207,400208,400208,999999"
+      }
+    },
+    "/v1.0/reports/controlProfileUsage": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "Control Profile Usage Report",
+        "description": "Returns a report with the usages of a specific Control Profile.",
+        "requestBody": {
+          "description": "Report Details Input.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ControlProfileUsageInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_ControlProfileUsageReport",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400207,400208,400208,999999"
+      }
+    },
+    "/v1.0/reports/visitorGdprData": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "Visitor GDPR Report",
+        "description": "Returns a report with the visitor GDPR data",
+        "requestBody": {
+          "description": "Report Details Input.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VisitorGdprDataInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_VisitorData",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400207,400208,400208,999999"
+      }
+    },
+    "/v1.0/reports/standaloneComponents": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "Standalone Components Report",
+        "description": "Returns a report with the standalone components loaded to the programmer",
+        "requestBody": {
+          "description": "Report Details Input.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StandaloneComponentsDataInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_StandaloneComponents",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400207,400208,400208,999999"
+      }
+    },
+    "/v1.0/reports/badgeCustom": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "Badge custom report",
+        "description": "Returns a defined badge report",
+        "requestBody": {
+          "description": "Report Details Input.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomReportInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_BM_Custom",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400207,400208,999999"
+      }
+    },
+    "/v1.0/reports/accessCustom": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "Access custom report",
+        "description": "Returns a defined access report",
+        "requestBody": {
+          "description": "Report Details Input.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomReportInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_AC_Custom",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400207,400208,999999"
+      }
+    },
+    "/v1.0/reports/blocklistorderdoor": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "Blocklist order door report",
+        "description": "Returns blocklist order door report.",
+        "requestBody": {
+          "description": "Report Details Input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BlocklistOrderDoorInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_REPORT_BlocklistOrderDoorReport",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400090,400203,400207,400208,999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ReportFormat": {
+        "enum": [
+          "PDF",
+          "Excel",
+          "Word"
+        ],
+        "type": "string",
+        "default": "PDF"
+      },
+      "Language": {
+        "type": "string",
+        "default": "EN",
+        "nullable": false
+      },
+      "ReportName": {
+        "type": "string",
+        "default": null,
+        "nullable": true
+      },
+      "ApplicationViewName": {
+        "type": "string",
+        "default": null,
+        "nullable": true
+      },
+      "CustomReportInput": {
+        "required": [
+          "Language",
+          "ReportFormat"
+        ],
+        "properties": {
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "BlocklistOrderDoorInput": {
+        "required": [
+          "Language",
+          "ReportFormat",
+          "BlocklistOrderUID"
+        ],
+        "properties": {
+          "BlocklistOrderUID": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "StandaloneComponentsDataInput": {
+        "required": [
+          "Language",
+          "ReportFormat",
+          "ComponentsNodeId"
+        ],
+        "properties": {
+          "ComponentsNodeId": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": false
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "V1.0_AcCalendarReportInput": {
+        "required": [
+          "Language",
+          "ReportFormat"
+        ],
+        "properties": {
+          "ACName": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "AccessDomainFK": {
+            "type": "number",
+            "default": null,
+            "nullable": true
+          },
+          "CalendarFK": {
+            "type": "number",
+            "default": null,
+            "nullable": true
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "AcCalendarReportInput": {
+        "required": [
+          "Language",
+          "ReportFormat",
+          "AccessDomainId"
+        ],
+        "properties": {
+          "AccessDomainId": {
+            "type": "string",
+            "default": null,
+            "nullable": false
+          },
+          "CalendarId": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "ControlProfileInput": {
+        "required": [
+          "Language",
+          "ReportFormat"
+        ],
+        "properties": {
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "ControlProfileUsageInput": {
+        "required": [
+          "ControlProfileId",
+          "Language",
+          "ReportFormat"
+        ],
+        "properties": {
+          "ControlProfileId": {
+            "type": "string",
+            "default": null,
+            "nullable": false
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "VisitorGdprDataInput": {
+        "required": [
+          "VisitorId",
+          "Language",
+          "ReportFormat"
+        ],
+        "properties": {
+          "VisitorId": {
+            "type": "string",
+            "default": null,
+            "nullable": false
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "V1.0_AcDoorgroupReportInput": {
+        "required": [
+          "AccessDomainFK",
+          "Language",
+          "ReportFormat"
+        ],
+        "properties": {
+          "ACName": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "AccessDomainFK": {
+            "type": "number",
+            "default": 1
+          },
+          "DoorgroupFK": {
+            "type": "number",
+            "default": null,
+            "nullable": true
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "AcDoorgroupReportInput": {
+        "required": [
+          "AccessDomainId",
+          "Language",
+          "ReportFormat"
+        ],
+        "properties": {
+          "AccessDomainId": {
+            "type": "string",
+            "default": null,
+            "nullable": false
+          },
+          "DoorgroupId": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "AcGlobalCalendarReportInput": {
+        "required": [
+          "Language",
+          "ReportFormat"
+        ],
+        "properties": {
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "V1.0_AcGlobalRoomReportInput": {
+        "required": [
+          "Language",
+          "ReportFormat"
+        ],
+        "properties": {
+          "RoomFK": {
+            "type": "number",
+            "default": null,
+            "nullable": true
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "AcGlobalRoomReportInput": {
+        "required": [
+          "Language",
+          "ReportFormat"
+        ],
+        "properties": {
+          "RoomId": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "V1.0_AcPassagewayCodeReportInput": {
+        "required": [
+          "AccessDomainFK",
+          "Language",
+          "ReportFormat"
+        ],
+        "properties": {
+          "ACName": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "AccessDomainFK": {
+            "type": "number",
+            "default": 1
+          },
+          "PassagewaycodeFK": {
+            "type": "number",
+            "default": null,
+            "nullable": true
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "AcPassagewayCodeReportInput": {
+        "required": [
+          "AccessDomainId",
+          "Language",
+          "ReportFormat"
+        ],
+        "properties": {
+          "AccessDomainId": {
+            "type": "string",
+            "default": null,
+            "nullable": false
+          },
+          "PassagewayCodeId": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "V1.0_AcProfileReportInput": {
+        "required": [
+          "AccessDomainFK",
+          "Language",
+          "ReportFormat"
+        ],
+        "properties": {
+          "ACName": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "AccessDomainFK": {
+            "type": "number",
+            "default": 1
+          },
+          "AProfFK": {
+            "type": "number",
+            "default": null,
+            "nullable": true
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "AcProfileReportInput": {
+        "required": [
+          "AccessDomainId",
+          "Language",
+          "ReportFormat"
+        ],
+        "properties": {
+          "AccessDomainId": {
+            "type": "string",
+            "default": null,
+            "nullable": false
+          },
+          "profileId": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "V1.0_AcRoomReportInput": {
+        "required": [
+          "Language",
+          "ReportFormat"
+        ],
+        "properties": {
+          "ACName": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "AccessDomainFK": {
+            "type": "number",
+            "default": null,
+            "nullable": true
+          },
+          "RoomFK": {
+            "type": "number",
+            "default": null,
+            "nullable": true
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "AcRoomReportInput": {
+        "required": [
+          "Language",
+          "ReportFormat"
+        ],
+        "properties": {
+          "AccessDomainId": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "RoomId": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "V1.0_AcRoomzoneReportInput": {
+        "required": [
+          "Language",
+          "ReportFormat"
+        ],
+        "properties": {
+          "ACName": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "AccessDomainFK": {
+            "type": "number",
+            "default": null,
+            "nullable": true
+          },
+          "RzoneFK": {
+            "type": "number",
+            "default": null,
+            "nullable": true
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "AcRoomzoneReportInput": {
+        "required": [
+          "Language",
+          "ReportFormat",
+          "AccessDomainId"
+        ],
+        "properties": {
+          "AccessDomainId": {
+            "type": "string",
+            "default": null,
+            "nullable": false
+          },
+          "RoomzoneId": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "V1.0_AcTimezoneReportInput": {
+        "required": [
+          "AccessDomainFK",
+          "Language",
+          "ReportFormat"
+        ],
+        "properties": {
+          "AccessDomainFK": {
+            "type": "number",
+            "default": 1
+          },
+          "TzoneFK": {
+            "type": "number",
+            "default": null,
+            "nullable": true
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "AcTimezoneReportInput": {
+        "required": [
+          "AccessDomainId",
+          "Language",
+          "ReportFormat"
+        ],
+        "properties": {
+          "AccessDomainId": {
+            "type": "string",
+            "default": null,
+            "nullable": false
+          },
+          "TimezoneId": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "V1.0_AcValidationTimeReportInput": {
+        "required": [
+          "Language",
+          "ReportFormat"
+        ],
+        "properties": {
+          "ACName": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "AccessDomainFK": {
+            "type": "number",
+            "default": null,
+            "nullable": true
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "AcValidationTimeReportInput": {
+        "required": [
+          "Language",
+          "ReportFormat",
+          "AccessDomainId"
+        ],
+        "properties": {
+          "AccessDomainId": {
+            "type": "string",
+            "default": null,
+            "nullable": false
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "DepotsInput": {
+        "required": [
+          "Language",
+          "ReportFormat"
+        ],
+        "properties": {
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "DownTimePeriInput": {
+        "required": [
+          "Language",
+          "ReportFormat"
+        ],
+        "properties": {
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "V1.0_MediaHandOutCardInput": {
+        "required": [
+          "Language",
+          "PersFK",
+          "ReportFormat",
+          "IncludeIssuedMediaInTheReceipt"
+        ],
+        "properties": {
+          "Image_Path": {
+            "type": "string",
+            "format": "null",
+            "nullable": true
+          },
+          "CardFK": {
+            "type": "number",
+            "default": null,
+            "nullable": true
+          },
+          "LoggedInUserFirstname": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "LoggedInUserLastname": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "IncludeIssuedMediaInTheReceipt": {
+            "type": "boolean",
+            "default": false
+          },
+          "AllKeyFK": {
+            "type": "number",
+            "default": "",
+            "nullable": true
+          },
+          "PersFK": {
+            "type": "number",
+            "default": ""
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "MediaHandOutCardInput": {
+        "required": [
+          "Language",
+          "ReportFormat",
+          "IncludeIssuedMediaInTheReceipt",
+          "BadgeName",
+          "PersonId"
+        ],
+        "properties": {
+          "ImagePath": {
+            "type": "string",
+            "format": "null",
+            "nullable": true
+          },
+          "BadgeName": {
+            "type": "string",
+            "default": null,
+            "nullable": false
+          },
+          "IncludeIssuedMediaInTheReceipt": {
+            "type": "boolean",
+            "default": false
+          },
+          "PersonId": {
+            "type": "string",
+            "default": null,
+            "nullable": false
+          },
+          "SignatureOfIssuer": {
+            "type": "string",
+            "format": "null",
+            "nullable": true
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "V1.0_MediaHandOutKeyInput": {
+        "required": [
+          "Language",
+          "ReportFormat",
+          "AllKeyFK",
+          "PersFK",
+          "IncludeIssuedMediaInTheReceipt"
+        ],
+        "properties": {
+          "IncludeIssuedMediaInTheReceipt": {
+            "type": "boolean",
+            "default": false
+          },
+          "LoggedInUserLastname": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "LoggedInUserFirstname": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "KeyFK": {
+            "type": "number",
+            "default": null,
+            "nullable": true
+          },
+          "AllKeyFK": {
+            "type": "number",
+            "default": 1
+          },
+          "PersFK": {
+            "type": "number",
+            "default": 1
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "MediaHandOutKeyInput": {
+        "required": [
+          "Language",
+          "ReportFormat",
+          "KeyIds",
+          "PersonId",
+          "IncludeIssuedMediaInTheReceipt"
+        ],
+        "properties": {
+          "IncludeIssuedMediaInTheReceipt": {
+            "type": "boolean",
+            "default": false
+          },
+          "KeyIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": null,
+            "nullable": false
+          },
+          "SignatureOfIssuer": {
+            "type": "string",
+            "format": "null",
+            "nullable": true
+          },
+          "PersonId": {
+            "type": "string",
+            "default": null,
+            "nullable": false
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "V1.0_MediaLossCardInput": {
+        "required": [
+          "Language",
+          "ReportFormat",
+          "IncludeIssuedMediaInTheReceipt",
+          "CardFK",
+          "CardLogFK",
+          "AllKeyFK"
+        ],
+        "properties": {
+          "Image_Path": {
+            "type": "string",
+            "format": "null",
+            "nullable": true
+          },
+          "LoggedInUserFirstname": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "LoggedInUserLastname": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "IncludeIssuedMediaInTheReceipt": {
+            "type": "boolean",
+            "default": false
+          },
+          "PersFK": {
+            "type": "number",
+            "default": "",
+            "nullable": true
+          },
+          "CardFK": {
+            "type": "number",
+            "default": 1
+          },
+          "AllKeyFK": {
+            "type": "number",
+            "default": 1
+          },
+          "CardLogFK": {
+            "type": "number",
+            "default": 1
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "MediaLossCardInput": {
+        "required": [
+          "Language",
+          "ReportFormat",
+          "IncludeIssuedMediaInTheReceipt",
+          "BadgeNames",
+          "PersonId"
+        ],
+        "properties": {
+          "ImagePath": {
+            "type": "string",
+            "format": "null",
+            "nullable": true
+          },
+          "IncludeIssuedMediaInTheReceipt": {
+            "type": "boolean",
+            "default": false
+          },
+          "PersonId": {
+            "type": "string",
+            "format": "null",
+            "nullable": false
+          },
+          "BadgeNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "format": "null",
+            "nullable": false
+          },
+          "SignatureOfIssuer": {
+            "type": "string",
+            "format": "null",
+            "nullable": true
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "V1.0_MediaLossKeyInput": {
+        "required": [
+          "Language",
+          "ReportFormat",
+          "PersFK",
+          "HasKeyHolder",
+          "IncludeIssuedMediaInTheReceipt"
+        ],
+        "properties": {
+          "HasKeyHolder": {
+            "type": "boolean",
+            "default": false
+          },
+          "LoggedInUserFirstname": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "LoggedInUserLastname": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "IncludeIssuedMediaInTheReceipt": {
+            "type": "boolean",
+            "default": false
+          },
+          "KeyFK": {
+            "type": "number",
+            "default": "",
+            "nullable": true
+          },
+          "AllKeyFK": {
+            "type": "number",
+            "default": null,
+            "nullable": true
+          },
+          "PersFK": {
+            "type": "number",
+            "default": 1
+          },
+          "CardLogFK": {
+            "type": "number",
+            "default": null,
+            "nullable": true
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "MediaLossKeyInput": {
+        "required": [
+          "Language",
+          "ReportFormat",
+          "HasKeyHolder",
+          "IncludeIssuedMediaInTheReceipt",
+          "PersonId",
+          "CardLogId"
+        ],
+        "properties": {
+          "HasKeyHolder": {
+            "type": "boolean",
+            "default": false
+          },
+          "IncludeIssuedMediaInTheReceipt": {
+            "type": "boolean",
+            "default": false
+          },
+          "PersonId": {
+            "type": "string",
+            "default": "",
+            "nullable": false
+          },
+          "CardLogId": {
+            "type": "number",
+            "default": null,
+            "nullable": true
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "V1.0_MediaOverviewInput": {
+        "required": [
+          "Language",
+          "ReportFormat"
+        ],
+        "properties": {
+          "Image_Path": {
+            "type": "string",
+            "format": "null",
+            "nullable": true
+          },
+          "PersFK": {
+            "type": "number",
+            "default": null,
+            "nullable": true
+          },
+          "LoggedInUserFirstname": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "LoggedInUserLastname": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "MediaOverviewInput": {
+        "required": [
+          "Language",
+          "ReportFormat",
+          "PersonId"
+        ],
+        "properties": {
+          "ImagePath": {
+            "type": "string",
+            "format": "null",
+            "nullable": true
+          },
+          "PersonId": {
+            "type": "string",
+            "default": null,
+            "nullable": false
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "V1.0_MediaReturnCardInput": {
+        "required": [
+          "Language",
+          "ReportFormat",
+          "IncludeIssuedMediaInTheReceipt"
+        ],
+        "properties": {
+          "Image_Path": {
+            "type": "string",
+            "format": "null",
+            "nullable": true
+          },
+          "CardFK": {
+            "type": "number",
+            "default": null,
+            "nullable": true
+          },
+          "LoggedInUserFirstname": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "LoggedInUserLastname": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "IncludeIssuedMediaInTheReceipt": {
+            "type": "boolean",
+            "default": false
+          },
+          "AllKeyFK": {
+            "type": "number",
+            "default": null,
+            "nullable": true
+          },
+          "PersFK": {
+            "type": "number",
+            "default": null,
+            "nullable": true
+          },
+          "CardLogFK": {
+            "type": "number",
+            "default": null,
+            "nullable": true
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "MediaReturnCardInput": {
+        "required": [
+          "Language",
+          "ReportFormat",
+          "IncludeIssuedMediaInTheReceipt",
+          "BadgeNames",
+          "PersonId",
+          "CardLogIds"
+        ],
+        "properties": {
+          "ImagePath": {
+            "type": "string",
+            "format": "null",
+            "nullable": true
+          },
+          "BadgeNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": false
+          },
+          "IncludeIssuedMediaInTheReceipt": {
+            "type": "boolean",
+            "default": false
+          },
+          "PersonId": {
+            "type": "string",
+            "default": null,
+            "nullable": false
+          },
+          "CardLogIds": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "default": null,
+            "nullable": true
+          },
+          "SignatureOfReceiver": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "V1.0_MediaReturnKeyInput": {
+        "required": [
+          "Language",
+          "ReportFormat"
+        ],
+        "properties": {
+          "IncludeIssuedMediaInTheReceipt": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "LoggedInUserFirstname": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "LoggedInUserLastname": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "KeyFK": {
+            "type": "number",
+            "default": null,
+            "nullable": true
+          },
+          "PersFK": {
+            "type": "number",
+            "default": null,
+            "nullable": true
+          },
+          "PledgeText": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "IssueDate": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "PledgeAmountTotal": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "CardLogFK": {
+            "type": "number",
+            "default": null,
+            "nullable": true
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "MediaReturnKeyInput": {
+        "required": [
+          "Language",
+          "ReportFormat",
+          "IncludeIssuedMediaInTheReceipt",
+          "KeyIds",
+          "PersonId",
+          "CardLogIds"
+        ],
+        "properties": {
+          "IncludeIssuedMediaInTheReceipt": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "KeyIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": null,
+            "nullable": false
+          },
+          "PersonId": {
+            "type": "string",
+            "default": null,
+            "nullable": false
+          },
+          "PledgeText": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "IssueDate": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "PledgeAmountTotal": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "CardLogIds": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "default": null,
+            "nullable": false
+          },
+          "SignatureOfReceiver": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "V1.0_PersAccessReportInput": {
+        "required": [
+          "Language",
+          "ReportFormat"
+        ],
+        "properties": {
+          "PersFK": {
+            "type": "number",
+            "default": null,
+            "nullable": true
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "PersAccessReportInput": {
+        "required": [
+          "Language",
+          "ReportFormat",
+          "PersonId"
+        ],
+        "properties": {
+          "PersonId": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "PersonInRoomInput": {
+        "required": [
+          "Language",
+          "ReportFormat"
+        ],
+        "properties": {
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "PersonProfilesInput": {
+        "required": [
+          "Language",
+          "ReportFormat"
+        ],
+        "properties": {
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "RollCallInput": {
+        "required": [
+          "Language",
+          "ReportFormat"
+        ],
+        "properties": {
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "SecurityCheckInput": {
+        "required": [
+          "Language",
+          "ReportFormat",
+          "PersonId",
+          "VisitId"
+        ],
+        "properties": {
+          "PersonId": {
+            "type": "string",
+            "default": null,
+            "nullable": false
+          },
+          "VisitId": {
+            "type": "string",
+            "default": null,
+            "nullable": false
+          },
+          "Signature": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "VisitConfirmationInput": {
+        "required": [
+          "Language",
+          "ReportFormat",
+          "VisitorId",
+          "VisitId"
+        ],
+        "properties": {
+          "VisitorId": {
+            "type": "string",
+            "default": null,
+            "nullable": false
+          },
+          "VisitId": {
+            "type": "string",
+            "default": null,
+            "nullable": false
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "VisitPassInput": {
+        "required": [
+          "Language",
+          "ReportFormat",
+          "VisitId"
+        ],
+        "properties": {
+          "VisitId": {
+            "type": "string",
+            "default": null,
+            "nullable": false
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "VisitorPassInput": {
+        "required": [
+          "Language",
+          "ReportFormat",
+          "VisitId",
+          "VisitorId"
+        ],
+        "properties": {
+          "VisitorId": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "VisitId": {
+            "type": "string",
+            "default": null,
+            "nullable": false
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "VisitorPassesInput": {
+        "required": [
+          "Language",
+          "ReportFormat",
+          "VisitId"
+        ],
+        "properties": {
+          "VisitorId": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "VisitId": {
+            "type": "string",
+            "default": null,
+            "nullable": false
+          },
+          "ReportFormat": {
+            "$ref": "#/components/schemas/ReportFormat"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "ReportName": {
+            "$ref": "#/components/schemas/ReportName"
+          },
+          "ApplicationViewName": {
+            "$ref": "#/components/schemas/ApplicationViewName"
+          }
+        }
+      },
+      "GetReportsList": {
+        "required": [
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/ReportListOutput"
+          },
+          "TimeElapsed": {
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      "GetReportLanguage": {
+        "required": [
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/ReportListLanguageOutput"
+          },
+          "TimeElapsed": {
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      "ReportListOutput": {
+        "required": [
+          "ReportsOutput"
+        ],
+        "properties": {
+          "ReportsOutput": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportOutput"
+            },
+            "nullable": true
+          }
+        }
+      },
+      "ReportOutput": {
+        "properties": {
+          "ReportId": {
+            "type": "string",
+            "default": "",
+            "nullable": false
+          },
+          "DisplayName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "ReportFileName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "ApplicationViewName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "SortOrder": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          }
+        }
+      },
+      "ReportListLanguageOutput": {
+        "required": [
+          "ReportsOutput"
+        ],
+        "properties": {
+          "ReportsOutput": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportLanguageOutput"
+            },
+            "nullable": true
+          }
+        }
+      },
+      "ReportLanguageOutput": {
+        "properties": {
+          "Language": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "report",
+      "description": "Operations for all kind of reports."
+    }
+  ]
+}

@@ -1,0 +1,1914 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos desktop reader API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/desktopReader_api"
+    }
+  ],
+  "paths": {
+    "/v1.0/cardLink/cardLinkInfoFromCardLinkData": {
+      "post": {
+        "tags": [
+          "cardLink"
+        ],
+        "summary": "Gets CardLink information from CardLink data.",
+        "description": "Gets CardLink information from CardLink data.</p>Example code:</br>device = DesktopReaderService/FindDevice</br>mediaDefinitions = ExosApi/desktopReader_api/v1.0/cardLink/mediaDefinitions device.DeviceUid</br>cardLinkData = DesktopReaderService/Read mediaDefinitions</br>cardLinkInfos = ExosApi/desktopReader_api/v1.0/cardLink/cardLinkInfoFromCardLinkData cardLinkData</br>DesktopReaderService/CloseAll</p>",
+        "requestBody": {
+          "description": "The CardLink data read from desktop reader as byte array",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetCardLinkInfoFromCardLinkDataInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCardLinkInfoFromCardLinkDataOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_AC_CardLinkCardLinkInfoFromCardLinkData",
+        "x-errorcodes": "100000,100005,300004,300008"
+      }
+    },
+    "/v1.0/cardLink/mediaDefinitions": {
+      "get": {
+        "tags": [
+          "cardLink"
+        ],
+        "summary": "Gets the CardLink media definitions.",
+        "description": "Gets the CardLink media definitions. The device UID is only required for MIFARE to get the specified site key packet. The device UID can be obtained from the the Desktop Reader Service by calling FindDevice.</p>Example code:</br>device = DesktopReaderService/FindDevice</br>mediaDefinitions = ExosApi/desktopReader_api/v1.0/cardLink/mediaDefinitions device.DeviceUid</br>DesktopReaderService/CloseAll</p>",
+        "parameters": [
+          {
+            "name": "deviceUid",
+            "in": "query",
+            "description": "The desktop reader device UID to get the specified site key packet (only for MIFARE)",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseOfGetMediaDefinitionsOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_AC_CardLinkMediaDefinitionsRead",
+        "x-errorcodes": "100000,100005,300004,300008"
+      }
+    },
+    "/v1.0/freeSelections/actuatorListFromFreeSelectionData": {
+      "post": {
+        "tags": [
+          "freeSelections"
+        ],
+        "summary": "Gets the list of actuators from the free selection data.",
+        "description": "Gets the list of actuators from the free selection data.</p>Example code:</br>device = DesktopReaderService/FindDevice</br>mediaDefinitions = ExosApi/desktopReader_api/v1.0/freeSelections/mediaDefinitions device.MediaCodes device.DeviceUid</br>freeSelectionData = DesktopReaderService/Read mediaDefinitions</br>actuators = ExosApi/desktopReader_api/v1.0/freeSelections/actuatorListFromFreeSelectionData freeSelectionData</br>DesktopReaderService/CloseAll</p>",
+        "requestBody": {
+          "description": "The free selection data read from desktop reader as byte array",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetActuatorListFromFreeSelectionDataInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetActuatorListFromFreeSelectionDataOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_AC_FreeSelectionsActuatorListFromFreeSelectionData",
+        "x-errorcodes": "100000,100001,100005,300004,300008"
+      }
+    },
+    "/v1.0/freeSelections/freeSelectionDataForActuatorIds": {
+      "post": {
+        "tags": [
+          "freeSelections"
+        ],
+        "summary": "Gets the free selection data for actuator ids.",
+        "description": "Gets the free selection data for actuator ids.</p>Example code:</br>device = DesktopReaderService/FindDevice</br>mediaDefinitions = ExosApi/desktopReader_api/v1.0/freeSelections/mediaDefinitions device.MediaCodes device.DeviceUid</br>freeSelectionData = DesktopReaderService/Read mediaDefinitions</br>updatedFreeSelections = ExosApi/desktopReader_api/v1.0/freeSelections/freeSelectionDataForActuatorIds mediaDefinitions.Offset mediaDefinitions.Size freeSelectionData actuatorIds</br>updatedMediaDefinitions = mediaDefinitions</br>updatedMediaDefinitions.Offset = updatedFreeSelections.Offset</br>updatedMediaDefinitions.Size = updatedFreeSelections.Data.Size</br>DesktopReaderService/Write updatedMediaDefinitions updatedFreeSelections.Data</br>DesktopReaderService/CloseAll</p>",
+        "requestBody": {
+          "description": "data passed to get the free selection data for actuator ids.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetFreeSelectionDataForActuatorIdsInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetFreeSelectionDataForActuatorIdsOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_AC_FreeSelectionsFreeSelectionDataForActuatorIds",
+        "x-errorcodes": "100000,100001,100005,100009,300004,300008"
+      }
+    },
+    "/v1.0/freeSelections/mediaDefinitions": {
+      "get": {
+        "tags": [
+          "freeSelections"
+        ],
+        "summary": "Gets the free selection media definitions.",
+        "description": "Gets the free selection media definitions. The device UID is only required for MIFARE to get the specified site key packet. The device UID can be obtained from the the Desktop Reader Service by calling FindDevice.</p>Example code:</br>device = DesktopReaderService/FindDevice</br>mediaDefinitions = ExosApi/desktopReader_api/v1.0/cardLink/mediaDefinitions device.DeviceUid</br>DesktopReaderService/CloseAll</p>",
+        "parameters": [
+          {
+            "name": "deviceUid",
+            "in": "query",
+            "description": "The desktop reader device UID to get the specified site key packet (only for MIFARE)",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseOfGetMediaDefinitionsOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_AC_FreeSelectionsMediaDefinitionsRead",
+        "x-errorcodes": "100000,100005,300004,300008"
+      }
+    },
+    "/v1.0/cardLink/identMediaDefinitions": {
+      "post": {
+        "tags": [
+          "cardLink"
+        ],
+        "summary": "Gets the ident media definitions of the submitted media codes and/or access domain number.",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetCardLinkIdentMediaDefinitionsInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseOfGetMediaDefinitionsOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_AC_CardLinkMediaDefinitionsRead"
+      }
+    },
+    "/v1.0/cardLink/mediaDefinitionsAndData": {
+      "post": {
+        "tags": [
+          "cardLink"
+        ],
+        "summary": "Gets the CardLink media definitions with the CardLink data for the submitted ident.",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetCardLinkMediaDefinitionsAndDataInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseOfGetCardLinkMediaDefinitionsAndDataOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "AC_PERS_CARDLINKUPDATE"
+      }
+    },
+    "/v1.0/cardLink/getCardLinkBlacklistData": {
+      "post": {
+        "tags": [
+          "cardLink"
+        ],
+        "summary": "Gets the CardLink media definitions with the CardLink blacklist data for transfer blocklist.",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetCardLinkMediaDefinitionsAndBlacklistDataInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseOfGetCardLinkMediaDefinitionsAndBlacklistDataOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_BM_TransferBlocklist"
+      }
+    },
+    "/v1.0/cardLink/tracebackMediaDefinitions": {
+      "post": {
+        "tags": [
+          "cardLink"
+        ],
+        "summary": "Gets the Traceback media definitions for the submitted ident media definition.",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetTracebackMediaDefinitionsInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseOfGetMediaDefinitionsOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_AC_CardLinkMediaDefinitionsRead"
+      }
+    },
+    "/v1.0/cardLink/actuatorStatusMediaDefinitions": {
+      "post": {
+        "tags": [
+          "cardLink"
+        ],
+        "summary": "Gets the Actuator Status media definitions for the submitted ident media definition.",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetActuatorStatusMediaDefinitionsInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseOfGetActuatorStatusMediaDefinitionsOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_AC_CardLinkMediaDefinitionsRead"
+      }
+    },
+    "/v1.0/cardLink/processTraceback": {
+      "post": {
+        "tags": [
+          "cardLink"
+        ],
+        "summary": "Processes the Traceback data.",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProcessTracebackInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseOfProcessTracebackOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "AC_PERS_CARDLINKUPDATE"
+      }
+    },
+    "/v1.0/cardLink/processActuatorStatus": {
+      "post": {
+        "tags": [
+          "cardLink"
+        ],
+        "summary": "Processes the Actuator Status data.",
+        "description": "",
+        "requestBody": {
+          "x-name": "input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProcessActuatorStatusInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseOfProcessActuatorStatusOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "AC_PERS_CARDLINKUPDATE"
+      }
+    },
+    "/v1.0/cardLink/fabKeyChanged": {
+      "post": {
+        "tags": [
+          "cardLink"
+        ],
+        "summary": "Triggers that the fabrication key changed.",
+        "description": "",
+        "requestBody": {
+          "x-name": "input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FabKeyChangedInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "AC_PERS_CARDLINKUPDATE"
+      }
+    },
+    "/v1.0/cardLink/cardLinkUpdated": {
+      "post": {
+        "tags": [
+          "cardLink"
+        ],
+        "summary": "Triggers that the CardLink updated.",
+        "description": "",
+        "requestBody": {
+          "x-name": "input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CardLinkUpdatedInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "AC_PERS_CARDLINKUPDATE"
+      }
+    },
+    "/v1.0/cardLink/isCardLinkDuplicateDetectionEnabled": {
+      "get": {
+        "tags": [
+          "cardLink"
+        ],
+        "summary": "Indicates, whether the media duplicate detection based on the CardLink validation time is enabled.",
+        "description": "cParam CARDLINKTRANSACTION > 0.",
+        "responses": {
+          "200": {
+            "description": "Returns true, when CardLink duplicate detection is enabled, otherwise false.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseOfIsCardLinkDuplicateDetectionEnabledOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "AC_PERS_CARDLINKUPDATE"
+      }
+    },
+    "/v1.0/cardLink/checkForDuplicate": {
+      "post": {
+        "tags": [
+          "cardLink"
+        ],
+        "summary": "Check validation stamp order and generate an alarm if there is a duplicate.",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckForDuplicateInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseOfCheckForDuplicateOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "AC_PERS_CARDLINKUPDATE"
+      }
+    },
+    "/v1.0/oss/identMediaDefinitions": {
+      "post": {
+        "tags": [
+          "oss"
+        ],
+        "summary": "Gets the OSS-SO ident media definitions of the submitted media code(s).",
+        "operationId": "GetOssIdentMediaDefinitions",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetCardLinkIdentMediaDefinitionsInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseOfGetMediaDefinitionsOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_BM_TransferBlocklist"
+      }
+    },
+    "/v1.0/oss/blocklistMediaDefinitionsAndData": {
+      "post": {
+        "tags": [
+          "oss"
+        ],
+        "summary": "Gets the media definitions with the blocklist data for transfer blocklist.",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetBlocklistDataInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseOfGetCardLinkMediaDefinitionsAndDataOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_BM_TransferBlocklist"
+      }
+    },
+    "/v1.0/ident/mediaDefinitions": {
+      "post": {
+        "tags": [
+          "idents"
+        ],
+        "summary": "Gets the ident media definitions of the submitted media code(s).",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetMediaDefinitionsInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseOfGetMediaDefinitionsOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_AC_CardLinkMediaDefinitionsRead",
+          "API_BM_MediaApplicationDefinitionRead",
+          "AC_PERS_CARDLINKUPDATE",
+          "API_AC_CardLinkMediaDefinitionsRead",
+          "API_BM_BadgesRead"
+        ]
+      }
+    },
+    "/v1.0/ident/userMedium": {
+      "post": {
+        "tags": [
+          "idents"
+        ],
+        "summary": "Returns a user medium from the submitted ident.",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetUserMediumInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseOfGetUserMediumOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_AC_CardLinkMediaDefinitionsRead",
+          "API_BM_MediaApplicationDefinitionRead",
+          "AC_PERS_CARDLINKUPDATE",
+          "API_AC_CardLinkMediaDefinitionsRead",
+          "API_BM_BadgesRead"
+        ]
+      }
+    },
+    "/v1.0/master/mediaDefinitionsAndData": {
+      "post": {
+        "tags": [
+          "master"
+        ],
+        "summary": "Returns media definitions and data to program a master medium.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetMasterMediaDefinitionsAndDataInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseOfGetMasterMediaDefinitionsAndDataOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_SYS_MasterMediaDataGet"
+      }
+    },
+    "/v1.0/master/mediaDefinitionsAndDataTemporary": {
+      "post": {
+        "tags": [
+          "master"
+        ],
+        "summary": "Returns media definitions and data to program a temporary master medium.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetTemporaryMasterMediaDefinitionsAndDataInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseOfGetMasterMediaDefinitionsAndDataOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_SYS_TemporaryMasterMediaDataGet"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GenericResponseOfGetMediaDefinitionsOutput": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ResponseBase"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "Value": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/GetMediaDefinitionsOutput"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "GetMediaDefinitionsOutput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "MediaDefinitions": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/DesktopReaderMediaDefinition"
+            }
+          }
+        }
+      },
+      "GetActuatorListFromFreeSelectionDataInput": {
+        "required": [
+          "FreeSelectionData"
+        ],
+        "properties": {
+          "FreeSelectionData": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "description": "The free selection data read from desktop reader"
+          }
+        }
+      },
+      "GetActuatorListFromFreeSelectionDataOutput": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "properties": {
+              "ActuatorList": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Actuator"
+                },
+                "nullable": true
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "GetFreeSelectionDataForActuatorIdsInput": {
+        "required": [
+          "FreeSelectionMediaDefinitionOffset",
+          "FreeSelectionMediaDefinitionSize",
+          "FreeSelectionData",
+          "ActuatorIds"
+        ],
+        "properties": {
+          "FreeSelectionMediaDefinitionOffset": {
+            "type": "integer",
+            "description": "The offset value taken from the free selection media definition"
+          },
+          "FreeSelectionMediaDefinitionSize": {
+            "type": "integer",
+            "description": "The size value taken from the free selection media definition"
+          },
+          "FreeSelectionData": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "description": "The free selection data read from desktop reader"
+          },
+          "ActuatorIds": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "description": "List of actuator ids to be included in the free selection data"
+          }
+        }
+      },
+      "GetFreeSelectionDataForActuatorIdsOutput": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "properties": {
+              "FreeSelectionDataOffset": {
+                "type": "integer",
+                "nullable": true
+              },
+              "FreeSelectionData": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "nullable": true
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "GetCardLinkInfoFromCardLinkDataInput": {
+        "required": [
+          "CardLinkData"
+        ],
+        "properties": {
+          "CardLinkData": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "description": "The CardLink data read from desktop reader"
+          }
+        }
+      },
+      "GetCardLinkInfoFromCardLinkDataOutput": {
+        "properties": {
+          "Value": {
+            "properties": {
+              "CardLinkInfo": {
+                "properties": {
+                  "AccessDomainNr": {
+                    "type": "integer",
+                    "nullable": true
+                  },
+                  "ValidationStamp": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2001-01-31T11:55:00",
+                    "nullable": true
+                  },
+                  "DoorGroupCount": {
+                    "type": "integer",
+                    "nullable": true
+                  },
+                  "IndividualAccessRightCount": {
+                    "type": "integer",
+                    "nullable": true
+                  },
+                  "ReservationCount": {
+                    "type": "integer",
+                    "nullable": true
+                  },
+                  "AccessDomainName": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "Validity": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2001-01-31T11:55:00",
+                    "nullable": true
+                  }
+                },
+                "nullable": true
+              }
+            },
+            "nullable": true
+          },
+          "TimeElapsed": {
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      "Actuator": {
+        "properties": {
+          "ActuatorId": {
+            "type": "integer",
+            "nullable": true
+          },
+          "ActuatorName": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "DesktopReaderMediaDefinition": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "Id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "MediaCode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Technology": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Offset": {
+            "type": "integer"
+          },
+          "Size": {
+            "type": "integer"
+          },
+          "Stamp": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "integer",
+              "format": "byte"
+            }
+          },
+          "StampLengthPrime": {
+            "type": "integer",
+            "format": "byte"
+          },
+          "SegmentType": {
+            "type": "integer",
+            "format": "byte"
+          },
+          "IncludeStamp": {
+            "type": "boolean"
+          },
+          "CrcType": {
+            "type": "integer",
+            "format": "byte"
+          },
+          "CrcFlags": {
+            "type": "integer",
+            "format": "byte"
+          },
+          "CrcAddr": {
+            "type": "integer"
+          },
+          "SitekeyIndex": {
+            "type": "integer",
+            "format": "byte"
+          },
+          "SitekeyPackage": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "integer",
+              "format": "byte"
+            }
+          },
+          "FileType": {
+            "type": "integer",
+            "format": "byte"
+          },
+          "ApplicationIndex": {
+            "type": "integer"
+          },
+          "ApplicationId": {
+            "type": "integer"
+          },
+          "FileId": {
+            "type": "integer",
+            "format": "byte"
+          },
+          "KeyUsage": {
+            "type": "integer",
+            "format": "byte"
+          },
+          "ChangeFabKey": {
+            "type": "boolean"
+          },
+          "IsAscii": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ResponseBase": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "GetCardLinkIdentMediaDefinitionsInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "MediaCodes": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "DeviceUid": {
+            "type": "string",
+            "maxLength": 50,
+            "nullable": true
+          },
+          "AccessDomainNr": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        }
+      },
+      "GenericResponseOfGetCardLinkMediaDefinitionsAndDataOutput": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ResponseBase"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "Value": {
+                "nullable": true,
+                "$ref": "#/components/schemas/GetCardLinkMediaDefinitionsAndDataOutput"
+              }
+            }
+          }
+        ]
+      },
+      "GenericResponseOfGetCardLinkMediaDefinitionsAndBlacklistDataOutput": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ResponseBase"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "Value": {
+                "nullable": true,
+                "$ref": "#/components/schemas/GetCardLinkMediaDefinitionsAndBlacklistDataOutput"
+              }
+            }
+          }
+        ]
+      },
+      "GetCardLinkMediaDefinitionsAndBlacklistDataOutput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "Data": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "integer",
+              "format": "byte"
+            }
+          },
+          "MediaDefinitions": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/DesktopReaderMediaDefinition"
+            }
+          }
+        }
+      },
+      "GetCardLinkMediaDefinitionsAndDataOutput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "MediaDefinitionsAndData": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/CardLinkMediaDefinitionEntry"
+            }
+          }
+        }
+      },
+      "CardLinkMediaDefinitionEntry": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "MediaDefinition": {
+            "nullable": true,
+            "$ref": "#/components/schemas/DesktopReaderMediaDefinition"
+          },
+          "Data": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "integer",
+              "format": "byte"
+            }
+          }
+        }
+      },
+      "GetCardLinkMediaDefinitionsAndDataInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "Ident",
+          "IdentData"
+        ],
+        "properties": {
+          "Ident": {
+            "$ref": "#/components/schemas/DesktopReaderMediaDefinition"
+          },
+          "IdentData": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "byte"
+            }
+          },
+          "DeviceUid": {
+            "type": "string",
+            "maxLength": 50,
+            "nullable": true
+          },
+          "AccessDomainNr": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        }
+      },
+      "GetCardLinkMediaDefinitionsAndBlacklistDataInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "DesktopReaderUid",
+          "AdminAreaUid"
+        ],
+        "properties": {
+          "DesktopReaderUid": {
+            "type": "string",
+            "maxLength": 50,
+            "nullable": false
+          },
+          "AdminAreaUid": {
+            "type": "string",
+            "nullable": false
+          },
+          "BlockedCardDataInput": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BlockedCardDataInput"
+            }
+          }
+        }
+      },
+      "GetBlocklistDataInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "Ident",
+          "IdentData",
+          "AdminAreaUid"
+        ],
+        "properties": {
+          "Ident": {
+            "$ref": "#/components/schemas/DesktopReaderMediaDefinition"
+          },
+          "IdentData": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "byte"
+            }
+          },
+          "DeviceUid": {
+            "type": "string",
+            "maxLength": 50,
+            "nullable": true
+          },
+          "AdminAreaUid": {
+            "type": "string",
+            "minLength": 1
+          },
+          "BlockedMedia": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/BlockedMediaInput"
+            }
+          }
+        }
+      },
+      "BlockedMediaInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "BadgeUid": {
+            "type": "string",
+            "nullable": false
+          },
+          "ExpirationInHours": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "BlockedCardDataInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "BadgeUid": {
+            "type": "string",
+            "nullable": false
+          },
+          "CardLinkValidationTimeUid": {
+            "type": "string",
+            "nullable": false
+          }
+        }
+      },
+      "GetTracebackMediaDefinitionsInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "Ident",
+          "IdentData"
+        ],
+        "properties": {
+          "Ident": {
+            "$ref": "#/components/schemas/DesktopReaderMediaDefinition"
+          },
+          "IdentData": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "byte"
+            }
+          },
+          "DeviceUid": {
+            "type": "string",
+            "maxLength": 50,
+            "nullable": true
+          }
+        }
+      },
+      "GenericResponseOfGetActuatorStatusMediaDefinitionsOutput": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ResponseBase"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "Value": {
+                "nullable": true,
+                "$ref": "#/components/schemas/GetActuatorStatusMediaDefinitionsOutput"
+              }
+            }
+          }
+        ]
+      },
+      "GetActuatorStatusMediaDefinitionsOutput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "MediaDefinitions": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ActuatorStatusMediaDefinitionEntry"
+            }
+          }
+        }
+      },
+      "ActuatorStatusMediaDefinitionEntry": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "MediaDefinition": {
+            "nullable": true,
+            "$ref": "#/components/schemas/DesktopReaderMediaDefinition"
+          },
+          "AccessDomainNr": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "GetActuatorStatusMediaDefinitionsInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "Ident"
+        ],
+        "properties": {
+          "Ident": {
+            "$ref": "#/components/schemas/DesktopReaderMediaDefinition"
+          },
+          "DeviceUid": {
+            "type": "string",
+            "maxLength": 50,
+            "nullable": true
+          }
+        }
+      },
+      "GenericResponseOfProcessTracebackOutput": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ResponseBase"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "Value": {
+                "nullable": true,
+                "$ref": "#/components/schemas/ProcessTracebackOutput"
+              }
+            }
+          }
+        ]
+      },
+      "ProcessTracebackOutput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "Success": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ProcessTracebackInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "Ident",
+          "IdentData",
+          "TracebackData"
+        ],
+        "properties": {
+          "Ident": {
+            "$ref": "#/components/schemas/DesktopReaderMediaDefinition"
+          },
+          "IdentData": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "byte"
+            }
+          },
+          "TracebackData": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "byte"
+            }
+          },
+          "AccessDomainNr": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        }
+      },
+      "GenericResponseOfProcessActuatorStatusOutput": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ResponseBase"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "Value": {
+                "nullable": true,
+                "$ref": "#/components/schemas/ProcessActuatorStatusOutput"
+              }
+            }
+          }
+        ]
+      },
+      "ProcessActuatorStatusOutput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "Success": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ProcessActuatorStatusInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "AccessDomainNr",
+          "ActuatorStatusData"
+        ],
+        "properties": {
+          "AccessDomainNr": {
+            "type": "integer",
+            "format": "byte"
+          },
+          "ActuatorStatusData": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "byte"
+            }
+          }
+        }
+      },
+      "VoidResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ResponseBase"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "FabKeyChangedInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "Ident",
+          "IdentData"
+        ],
+        "properties": {
+          "Ident": {
+            "$ref": "#/components/schemas/DesktopReaderMediaDefinition"
+          },
+          "IdentData": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "byte"
+            }
+          }
+        }
+      },
+      "CardLinkUpdatedInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "Ident",
+          "IdentData",
+          "CardLinkData"
+        ],
+        "properties": {
+          "Ident": {
+            "$ref": "#/components/schemas/DesktopReaderMediaDefinition"
+          },
+          "IdentData": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "byte"
+            }
+          },
+          "CardLinkData": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "byte"
+            }
+          }
+        }
+      },
+      "GenericResponseOfIsCardLinkDuplicateDetectionEnabledOutput": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ResponseBase"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "Value": {
+                "nullable": true,
+                "$ref": "#/components/schemas/IsCardLinkDuplicateDetectionEnabledOutput"
+              }
+            }
+          }
+        ]
+      },
+      "IsCardLinkDuplicateDetectionEnabledOutput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "Enabled": {
+            "type": "boolean"
+          }
+        }
+      },
+      "GenericResponseOfCheckForDuplicateOutput": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ResponseBase"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "Value": {
+                "nullable": true,
+                "$ref": "#/components/schemas/CheckForDuplicateOutput"
+              }
+            }
+          }
+        ]
+      },
+      "CheckForDuplicateOutput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "Data": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "byte"
+            }
+          }
+        }
+      },
+      "CheckForDuplicateInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "Ident",
+          "IdentData"
+        ],
+        "properties": {
+          "OldCardLinkData": {
+            "type": "string",
+            "format": "byte",
+            "nullable": true
+          },
+          "Ident": {
+            "$ref": "#/components/schemas/DesktopReaderMediaDefinition"
+          },
+          "IdentData": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "byte"
+            }
+          }
+        }
+      },
+      "GetMediaDefinitionsInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "MediaCodes": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "DeviceUid": {
+            "type": "string",
+            "maxLength": 50,
+            "nullable": true
+          },
+          "CardDefId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        }
+      },
+      "GenericResponseOfGetUserMediumOutput": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ResponseBase"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "Value": {
+                "nullable": true,
+                "$ref": "#/components/schemas/GetUserMediumOutput"
+              }
+            }
+          }
+        ]
+      },
+      "GetUserMediumOutput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "Uid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "ClientId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Name": {
+            "type": "string",
+            "nullable": true
+          },
+          "Number": {
+            "type": "string",
+            "nullable": true
+          },
+          "PersId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Version": {
+            "type": "string",
+            "nullable": true
+          },
+          "CardDefinitionId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ApplicationDefinitionId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "GetUserMediumInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "Ident",
+          "IdentData"
+        ],
+        "properties": {
+          "Ident": {
+            "$ref": "#/components/schemas/DesktopReaderMediaDefinition"
+          },
+          "IdentData": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "byte"
+            }
+          }
+        }
+      },
+      "GenericResponseOfGetMasterMediaDefinitionsAndDataOutput": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ResponseBase"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "Value": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/GetMasterMediaDefinitionsAndDataOutput"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "GetMasterMediaDefinitionsAndDataOutput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "MediaDefinitionsAndData": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/MasterMediaDefinitionEntry"
+            }
+          }
+        }
+      },
+      "MasterMediaDefinitionEntry": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "MediaDefinition": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/DesktopReaderMediaDefinition"
+              }
+            ]
+          },
+          "CreateParameter": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CreateParameter"
+              }
+            ]
+          },
+          "Data": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "integer",
+              "format": "byte"
+            }
+          }
+        }
+      },
+      "CreateParameter": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "EncryptionType": {
+            "$ref": "#/components/schemas/Encryption"
+          },
+          "ReadAccessKeyIndex": {
+            "type": "integer",
+            "format": "byte"
+          }
+        }
+      },
+      "Encryption": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "Plain",
+          "LEGIC",
+          "DES",
+          "Full3Des",
+          "AES128",
+          "AES256"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "GetMasterMediaDefinitionsAndDataInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "MediaType"
+        ],
+        "properties": {
+          "MediaType": {
+            "$ref": "#/components/schemas/MediaType"
+          }
+        }
+      },
+      "MediaType": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "UserMedia",
+          "MasterMediaA",
+          "MasterMediaB",
+          "DealerMedia",
+          "UpgradeMedia",
+          "Programmer",
+          "SecurityCardC",
+          "MasterMediaT",
+          "SecurityCardC1",
+          "SecurityCardC2",
+          "Sam64",
+          "Undefined"
+        ],
+        "enum": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          20,
+          21,
+          22,
+          255
+        ]
+      },
+      "GetTemporaryMasterMediaDefinitionsAndDataInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "MediaTechnology",
+          "DeviceUid",
+          "AccessDomainNr",
+          "ValidationTimeNr"
+        ],
+        "properties": {
+          "MediaTechnology": {
+            "$ref": "#/components/schemas/MediaTechnology"
+          },
+          "DeviceUid": {
+            "type": "string",
+            "minLength": 1
+          },
+          "AccessDomainNr": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ValidationTimeNr": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "MediaTechnology": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "Legic_Prime_LegicRF",
+          "Legic_advant_ISO15693",
+          "Legic_advant_ISO14443a",
+          "Mifare_Classic_ISO14443a",
+          "Mifare_Desfire_ISO14443a",
+          "MAGNET",
+          "Mechanical",
+          "EloStar",
+          "MobileAccess",
+          "InsideSecure",
+          "Other"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          50,
+          51,
+          100,
+          200,
+          300,
+          400,
+          500,
+          1000
+        ]
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ]
+}

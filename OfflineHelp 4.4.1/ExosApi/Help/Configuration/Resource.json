@@ -1,0 +1,163 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "paths": {
+    "/v1.0/resourceTexts/{resourceId}/{languageId}": {
+      "get": {
+        "tags": [
+          "resource"
+        ],
+        "summary": "get a specific resource text in a specific language",
+        "description": "get a specific resource text in a specific language",
+        "parameters": [
+          {
+            "name": "resourceId",
+            "in": "path",
+            "description": "resource Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "languageId",
+            "in": "path",
+            "description": "language Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetResourceTextOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "",
+        "x-errorcodes": "100000,300004,300008,400028,400044,999999"
+      }
+    },
+    "/v1.0/resourceTexts/{resourceId}/update": {
+      "post": {
+        "tags": [
+          "resource"
+        ],
+        "summary": "updates the resource text for a specific resource and language",
+        "description": "updates the resource text for a specific resource and language",
+        "parameters": [
+          {
+            "name": "resourceId",
+            "in": "path",
+            "description": "id of resource",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "set parameter value",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateResourceTextInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_SYS_ResourceTextsUpdate",
+        "x-errorcodes": "100000,300004,300008,400028,400044,999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GetResourceTextOutputWithTime": {
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "value": {
+            "type": "string",
+            "default": "Text01"
+          },
+          "TimeElapsed": {
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      "VoidResponseOutput": {
+        "required": [
+          "TimeElapsed"
+        ],
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "UpdateResourceTextInput": {
+        "required": [
+          "LanguageId",
+          "Text"
+        ],
+        "properties": {
+          "LanguageId": {
+            "type": "string",
+            "default": "ENG"
+          },
+          "Text": {
+            "type": "string",
+            "default": "Text01"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "resource",
+      "description": "<p>Operations related to resources.</p>"
+    }
+  ]
+}

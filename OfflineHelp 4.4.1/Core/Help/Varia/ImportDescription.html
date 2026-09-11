@@ -1,0 +1,163 @@
+<p><strong>Import System configuration</strong></p>
+<p>Following elements can be imported</p>
+<ul>
+    <li>Controller (9200, 9230, 9240, 9290)</li>
+    <li>Reader (9104, 9110, 9112, 9115, 9125)</li>
+    <li>Access point (including passageway components)</li>
+    <li>Turnstile (including passageway components)</li>
+    <li>Binary inputs</li>
+    <li>Binary outputs</li>
+</ul>
+<p>On re-import only new elements will be imported. Already existing elements will be ignored because Exos 9300 is the master. When a existing element should be imported it has to be deleted first.</p>
+<p>The structure of "<span style="color: #ff9900;"><em><code class="language-json"><span class="hljs-attr">ImportConfigContent</span></code></em></span>" is described here</p>
+<pre><code>
+{
+   <span style="color: #800080;">"Controllers"</span>:[
+      {
+         <span style="color: #800080;">"Controller"</span>:{
+            <span style="color: #800080;">"Type"</span>:<span style="color: #993300;">"Controller9200"</span>, <em>(Controller9200, Controller9230, Controller9240, Controller9290)</em>
+            <span style="color: #800080;">"Uid"</span>:<span style="color: #993300;">"AM01"</span>,
+            <span style="color: #800080;">"Name"</span>:<span style="color: #993300;">"Access Manager 01"</span>,
+            <span style="color: #800080;">"IpAddress"</span>:<span style="color: #993300;">"127.0.0.10"</span><em>(127.0.0.10, 2001:db8:3333:4444:5555:6666:7777:8888, ComputerHostName)</em>,
+            <span style="color: #800080;">"Comment"</span>:<span style="color: #993300;">"Comment"</span>,
+            <span style="color: #800080;">"Technology"</span>:<span style="color: #993300;">"LEGIC"</span>, <em>(LEGIC, Mifare)</em>
+            <span style="color: #800080;">"ExtensionModuleInput"</span>:<span style="color: #993300;">2</span>, <span style="color: blue;">available for: Controller9200</span>
+            <span style="color: #800080;">"ExtensionModuleOutput"</span>:<span style="color: #993300;">2</span>, <span style="color: blue;">available for: Controller9200</span>
+            <span style="color: #800080;">"RegistrationUnitA"</span>:<span style="color: #993300;">"RegistrationUnit9001"</span>, <span style="color: blue;">available for: Controller9200, Controller9230, Controller9240</span>, <em>(none, ExosLock, RegistrationUnit9001, RegistrationUnit9001BLE, RegistrationUnit9002, RegistrationUnit9003, RegistrationUnit9004, RegistrationUnit9000, RegistrationUnit9002BadgeInput, OnlineCylinder)</em>
+            <span style="color: #800080;">"RegistrationUnitB"</span>:<span style="color: #993300;">"RegistrationUnit9001"</span>, <span style="color: blue;">available for: Controller9200, Controller9230, Controller9240</span>, <em>(none, ExosLock, RegistrationUnit9001, RegistrationUnit9001BLE, RegistrationUnit9002, RegistrationUnit9003, RegistrationUnit9004, RegistrationUnit9000, RegistrationUnit9002BadgeInput, OnlineCylinder)</em>
+            <span style="color: #800080;">"RS232A"</span>:<span style="color: #993300;">"none"</span>, <span style="color: blue;">available for: Controller9200, Controller9230</span>, <em>(none, ArgusScanner, BadgeInputAlphanumeric, BadgeInputDec, BadgeInput, BadgeOutput, BiometryIdent, BiometryIdentWithCompanyCode, BiometryVerify, BiometryVerifyWithCompanyCode, HyperX, NedapTransit, NedapTransitWithCompanyCode, VenousReader)</em>
+            <span style="color: #800080;">"RS232B"</span>:<span style="color: #993300;">"none"</span>, <span style="color: blue;">available for: Controller9200, Controller9290</span>, <em>(none, ArgusScanner, BadgeInputAlphanumeric, BadgeInputDec, BadgeInput, BadgeOutput, BiometryIdent, BiometryIdentWithCompanyCode, BiometryVerify, BiometryVerifyWithCompanyCode, HyperX, NedapTransit, NedapTransitWithCompanyCode, VenousReader)</em>
+         },
+         <span style="color: #800080;">"Readers"</span>:[
+            {
+               <span style="color: #800080;">"Type"</span>:<span style="color: #993300;">"Reader9125"</span>, <em>(Reader9104, Reader9110, Reader9112, Reader9115, Reader9125)</em>
+               <span style="color: #800080;">"Uid"</span>:<span style="color: #993300;">"3403439A-7B24-4FFF-B299-0442954C930B"</span>,
+               <span style="color: #800080;">"Name"</span>:<span style="color: #993300;">"Reader"</span>,
+               <span style="color: #800080;">"DeviceIndex"</span>:<span style="color: #993300;">1</span>,
+               <span style="color: #800080;">"Comment"</span>:<span style="color: #993300;">"Comment"</span>,
+               <span style="color: #800080;">"ExtensionModuleInput"</span>:<span style="color: #993300;">0</span>,  <span style="color: blue;">available for: Reader9115, Reader9125</span>
+               <span style="color: #800080;">"ExtensionModuleOutput"</span>:<span style="color: #993300;">0</span>, <span style="color: blue;">available for: Reader9115, Reader9125</span>
+               <span style="color: #800080;">"RegistrationUnitA"</span>:<span style="color: #993300;">"RegistrationUnit9001"</span>, <span style="color: blue;">available for: Reader9115, Reader9125</span>, <em>(none, ExosLock, RegistrationUnit9001, RegistrationUnit9001BLE, RegistrationUnit9002, RegistrationUnit9003, RegistrationUnit9004, RegistrationUnit9000, RegistrationUnit9002BadgeInput, OnlineCylinder)</em>
+               <span style="color: #800080;">"RegistrationUnitB"</span>:<span style="color: #993300;">"RegistrationUnit9001"</span>, <span style="color: blue;">available for: Reader9125</span>, <em>(none, ExosLock, RegistrationUnit9001, RegistrationUnit9001BLE, RegistrationUnit9002, RegistrationUnit9003, RegistrationUnit9004, RegistrationUnit9000, RegistrationUnit9002BadgeInput, OnlineCylinder)</em>
+               <span style="color: #800080;">"RS232A"</span>:<span style="color: #993300;">"none"</span>,  <span style="color: blue;">available for: Reader9125</span>, <em>(none, ArgusScanner, BadgeInputAlphanumeric, BadgeInputDec, BadgeInput, BadgeOutput, BiometryIdent, BiometryIdentWithCompanyCode, BiometryVerify, BiometryVerifyWithCompanyCode, HyperX, NedapTransit, NedapTransitWithCompanyCode, VenousReader)</em>
+               <span style="color: #800080;">"RS232B"</span>:<span style="color: #993300;">"none"</span>  <span style="color: blue;">available for: Reader9125</span>, <em>(none, ArgusScanner, BadgeInputAlphanumeric, BadgeInputDec, BadgeInput, BadgeOutput, BiometryIdent, BiometryIdentWithCompanyCode, BiometryVerify, BiometryVerifyWithCompanyCode, HyperX, NedapTransit, NedapTransitWithCompanyCode, VenousReader)</em>
+            }
+         ],
+         <span style="color: #800080;">"Accesspoints"</span>:[
+            {
+               <span style="color: #800080;">"Uid"</span>:<span style="color: #993300;">"D4847AB1-BAC4-4740-8C16-08B64729B211"</span>,
+               <span style="color: #800080;">"Name"</span>:<span style="color: #993300;">"Passageway 01"</span>,
+               <span style="color: #800080;">"Comment"</span>:<span style="color: #993300;">"Comment"</span>,
+               <span style="color: #800080;">"Door"</span>:{
+                  <span style="color: #800080;">"Components"</span>:[
+                     {
+                        <span style="color: #800080;">"Uid"</span>:<span style="color: #993300;">"55036203-406B-4322-8984-F7B439B5C6E6"</span>,
+                        <span style="color: #800080;">"Type"</span>:<span style="color: #993300;">"M1"</span>, <em>(DO,FC,PG,ML,M1,M2,M3,DC,AA,AD,CU,AR,AL,BC,RC,BP,PE,EA)</em>
+                        <span style="color: #800080;">"DeviceUid"</span>:<span style="color: #993300;">"AM01"</span>, (UID of connected Device)
+                        <span style="color: #800080;">"DeviceType"</span>:<span style="color: #993300;">"Controller"</span>, <em>(Controller, Reader)</em>
+                        <span style="color: #800080;">"DeviceIndex"</span>:<span style="color: #993300;">1</span>,
+                        <span style="color: #800080;">"Name"</span>:<span style="color: #993300;">"Motor Bolt locking"</span>
+                     }
+                  ]
+               },
+               <span style="color: #800080;">"Outside"</span>:{
+                  <span style="color: #800080;">"Components"</span>:[
+                     {
+                        <span style="color: #800080;">"Uid"</span>:<span style="color: #993300;">"E64200A9-1327-427C-A25B-319C1E70D6A4"</span>,
+                        <span style="color: #800080;">"Type"</span>:<span style="color: #993300;">"RU"</span>, <em>(RU,RP,DH,BC,IS)</em>
+                        <span style="color: #800080;">"DeviceUid"</span>:<span style="color: #993300;">"AM01"</span>, (UID of connected Device)
+                        <span style="color: #800080;">"DeviceType"</span>:<span style="color: #993300;">"Controller"</span>, <em>(Controller, Reader)</em>
+                        <span style="color: #800080;">"DeviceIndex"</span>:<span style="color: #993300;">1</span>,
+                        <span style="color: #800080;">"Name"</span>:<span style="color: #993300;">"Registration Unit Outside"</span>
+                     }
+                  ]
+               },
+               <span style="color: #800080;">"Inside"</span>:{
+                  <span style="color: #800080;">"Components"</span>:[
+                     {
+                        <span style="color: #800080;">"Uid"</span>:<span style="color: #993300;">"A93EAACC-859D-405C-A733-49AEF9FE4E4B"</span>,
+                        <span style="color: #800080;">"Type"</span>:<span style="color: #993300;">"DH"</span>, <em>(RU,RP,DH,BC,IS)</em>
+                        <span style="color: #800080;">"DeviceUid"</span>:<span style="color: #993300;">"AM01"</span>, (UID of connected Device)
+                        <span style="color: #800080;">"DeviceType"</span>:<span style="color: #993300;">"Controller"</span>, <em>(Controller, Reader)</em>
+                        <span style="color: #800080;">"DeviceIndex"</span>:<span style="color: #993300;">1</span>,
+                        <span style="color: #800080;">"Name"</span>:<span style="color: #993300;">"Door Handle Inside"</span>
+                     }
+                  ]
+               }     
+            }
+         ],
+         <span style="color: #800080;">"Turnstiles"</span>:[
+            {
+               <span style="color: #800080;">"Uid"</span>:<span style="color: #993300;">"D5937823-A16E-4C1A-8FF7-D1A8A217E59A"</span>,
+               <span style="color: #800080;">"Name"</span>:<span style="color: #993300;">"Passageway 02"</span>,
+               <span style="color: #800080;">"Comment"</span>:<span style="color: #993300;">"Comment"</span>,
+               <span style="color: #800080;">"Door"</span>:{
+                  <span style="color: #800080;">"Components"</span>:[
+                     {
+                        <span style="color: #800080;">"Uid"</span>:<span style="color: #993300;">"737B8CB7-FF26-4910-904A-6675FB134DFA"</span>,
+                        <span style="color: #800080;">"Type"</span>:<span style="color: #993300;">"FC"</span>, <em>(FC,PG,AA,AD,CU,AR,AL,BC,PE,EA)</em>
+                        <span style="color: #800080;">"DeviceUid"</span>:<span style="color: #993300;">"3403439A-7B24-4FFF-B299-0442954C930B"</span>, (UID of connected Device)
+                        <span style="color: #800080;">"DeviceType"</span>:<span style="color: #993300;">"Reader"</span>, <em>(Controller, Reader)</em>
+                        <span style="color: #800080;">"DeviceIndex"</span>:<span style="color: #993300;">1</span>,
+                        <span style="color: #800080;">"Name"</span>:<span style="color: #993300;">"Frame contact"</span>
+                     }
+                  ]
+               },
+               <span style="color: #800080;">"Outside"</span>:{
+                  <span style="color: #800080;">"Components"</span>:[
+                     {
+                        <span style="color: #800080;">"Uid"</span>:<span style="color: #993300;">"475BC387-B0E7-47B5-83BF-31CAAD218636"</span>,
+                        <span style="color: #800080;">"Type"</span>:<span style="color: #993300;">"RU"</span>, <em>(RU,DO,DC,PG,AA,RP,DH,BC,IS)</em>
+                        <span style="color: #800080;">"DeviceUid"</span>:<span style="color: #993300;">"3403439A-7B24-4FFF-B299-0442954C930B"</span>, (UID of connected Device)
+                        <span style="color: #800080;">"DeviceType"</span>:<span style="color: #993300;">"Reader"</span>, <em>(Controller, Reader)</em>
+                        <span style="color: #800080;">"DeviceIndex"</span>:<span style="color: #993300;">1</span>,
+                        <span style="color: #800080;">"Name"</span>:<span style="color: #993300;">"Registration Unit Outside"</span>
+                     }
+                  ]
+               },
+               <span style="color: #800080;">"Inside"</span>:{
+                  <span style="color: #800080;">"Components"</span>:[
+                     {
+                        <span style="color: #800080;">"Uid"</span>:<span style="color: #993300;">"6EAA9D7E-A63B-4A08-BC77-DD4BBB48A630"</span>,
+                        <span style="color: #800080;">"Type"</span>:<span style="color: #993300;">"DH"</span>, <em>(RU,DO,DC,PG,AA,RP,DH,BC,IS)</em>
+                        <span style="color: #800080;">"DeviceUid"</span>:<span style="color: #993300;">"3403439A-7B24-4FFF-B299-0442954C930B"</span>, (UID of connected Device)
+                        <span style="color: #800080;">"DeviceType"</span>:<span style="color: #993300;">"Reader"</span>, <em>(Controller, Reader)</em>
+                        <span style="color: #800080;">"DeviceIndex"</span>:<span style="color: #993300;">2</span>,
+                        <span style="color: #800080;">"Name"</span>:<span style="color: #993300;">"Door Handle Inside"</span>
+                     }
+                  ]
+               }
+            }
+         ],
+         <span style="color: #800080;">"BinaryInputs"</span>:[
+            {
+               <span style="color: #800080;">"Uid"</span>:<span style="color: #993300;">"40D908D9-BE80-4395-9626-5210E3768F07"</span>,
+               <span style="color: #800080;">"Name"</span>:<span style="color: #993300;">"BinaryInput 01"</span>,
+               <span style="color: #800080;">"DeviceUid"</span>:<span style="color: #993300;">"3403439A-7B24-4FFF-B299-0442954C930B"</span>, (UID of connected Device)                        
+               <span style="color: #800080;">"DeviceType"</span>:<span style="color: #993300;">"Reader"</span>, <em>(Controller, Reader)</em>
+               <span style="color: #800080;">"DeviceIndex"</span>:<span style="color: #993300;">3</span>,
+               <span style="color: #800080;">"PositiveLogic"</span>:<span style="color: #993300;">false</span>, <em>(true, false)</em> (optional)
+            }
+         ],
+         <span style="color: #800080;">"BinaryOutputs"</span>:[
+            {
+               <span style="color: #800080;">"Uid"</span>:<span style="color: #993300;">"ADCA9BAD-0502-454B-B96F-768C3BD684A5"</span>,
+               <span style="color: #800080;">"Name"</span>:<span style="color: #993300;">"BinaryOutput 01"</span>,
+               <span style="color: #800080;">"DeviceUid"</span>:<span style="color: #993300;">"3403439A-7B24-4FFF-B299-0442954C930B"</span>, (UID of connected Device)                        
+               <span style="color: #800080;">"DeviceType"</span>:<span style="color: #993300;">"Reader"</span>, <em>(Controller, Reader)</em>
+               <span style="color: #800080;">"DeviceIndex"</span>:<span style="color: #993300;">3</span>
+            }
+         ]
+      }
+   ]
+}
+</code></pre><html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"><head>
+<!--[if gte mso 9]><xml>
+<mso:CustomDocumentProperties>
+<mso:_dlc_DocId msdt:dt="string">7SA4M65FZ53H-1542324323-33228</mso:_dlc_DocId>
+<mso:_dlc_DocIdItemGuid msdt:dt="string">425fad69-2643-439d-ae7d-bc79615c5bf2</mso:_dlc_DocIdItemGuid>
+<mso:_dlc_DocIdUrl msdt:dt="string">https://dorma.sharepoint.com/sites/sp-pd/products/_layouts/15/DocIdRedir.aspx?ID=7SA4M65FZ53H-1542324323-33228, 7SA4M65FZ53H-1542324323-33228</mso:_dlc_DocIdUrl>
+<mso:DLCPolicyLabelValue msdt:dt="string">0.1</mso:DLCPolicyLabelValue>
+</mso:CustomDocumentProperties>
+</xml><![endif]-->
+</head>

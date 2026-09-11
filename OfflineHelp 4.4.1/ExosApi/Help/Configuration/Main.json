@@ -1,0 +1,145 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "field configuration",
+      "description": "<p>Operations related to field configurations.</p>"
+    },
+    {
+      "name": "free field configuration",
+      "description": "<p>Operations related to free field configuration.</p>"
+    },
+    {
+      "name": "language",
+      "description": "<p>Operations related to languages.</p>"
+    },
+    {
+      "name": "parameter",
+      "description": ""
+    },
+    {
+      "name": "resource",
+      "description": "<p>Operations related to resources.</p>"
+    },
+    {
+      "name": "setting",
+      "description": "<p>Settings can be stored and received here.</p> <p>Along with the setting, it is possible to store the context information. If no context information is provided, by default the current user's context will be assumed. If another context is required, the parameter <b>PersonalSetting</b> has to be set to false, otherwise the <b>LoginId</b> context will always be set on the server side. This will also be required if you want to store a setting for a different user's context.</p><p>When storing a setting, the context information is always stored together with the setting and will only be retrieved if at least the same context is passed while trying to get the setting.</p><p>When the same setting has been stored under a different context, the priority of the context will decide which setting to return.<p>The setting 'Language' has been stored with the value 'GER' without any context information and <b>PersonalSetting</b> set to false. If there is also a setting for a specific user, the user will always receive the specific setting. If there is no such setting for a user, it will use the default.</p></p><p>Currently possible context: <table><thead><tr><th>Context</th><th>Priority</th><th>Settable</th><th>Description</th></tr></thead><tbody><tr><td>Default</td><td>1</td><td>No</td><td>Global default value from the installation.</td></tr><tr><td>Tenant</td><td>2</td><td>Yes</td><td>The tenant's default value is set if no context is provided and the <b>PersonalSetting</b> is set to false.</td></tr><tr><td>Application</td><td>3</td><td>Yes</td><td>Sets the default for an application. Depends on the setting if it is used or not.</td></tr><tr><td>View</td><td>3</td><td>Yes</td><td>Sets the default for a specific view within an application. Depends on the setting if it is used or not.</td></tr><tr><td>Location</td><td>4</td><td>Yes</td><td>Sets the default for a specific location. Depends on the setting if it is used or not.</td></tr><tr><td>LoginId</td><td>5</td><td>Yes</td><td>Sets the default for a specific user. If <b>PersonalSetting</b> is true or not set at all, this value will be ignored and filled on the server side with the current users LoginId. If it is set manually, the <b>PersonalSetting</b> flag has to be set to false.</td></tr><tr><td>Workstation</td><td>6</td><td>Yes</td><td>Sets the default for a specific workstation. Depends on the setting if it is used or not.</td></tr></tbody></table></p>"
+    },
+    {
+      "name": "system time zones",
+      "description": ""
+    },
+    {
+      "name": "view",
+      "description": "<p>Operations related to views.</p>"
+    }
+  ],
+  "paths": {
+    "/v1.0/fieldConfiguration": {
+      "$ref": "./FieldConfiguration.json#/paths/%2Fv1.0%2FfieldConfiguration"
+    },
+    "/v1.0/fieldConfiguration/{fieldId}/delete": {
+      "$ref": "./FieldConfiguration.json#/paths/%2Fv1.0%2FfieldConfiguration%2F%7BfieldId%7D%2Fdelete"
+    },
+    "/v1.0/fieldConfiguration/{fieldId}/update": {
+      "$ref": "./FieldConfiguration.json#/paths/%2Fv1.0%2FfieldConfiguration%2F%7BfieldId%7D%2Fupdate"
+    },
+    "/v1.0/fieldConfiguration/create": {
+      "$ref": "./FieldConfiguration.json#/paths/%2Fv1.0%2FfieldConfiguration%2Fcreate"
+    },
+    "/v1.0/fieldConfigurationDropList": {
+      "$ref": "./FieldConfiguration.json#/paths/%2Fv1.0%2FfieldConfigurationDropList"
+    },
+    "/v1.0/fieldConfigurationDropList/{fieldId}/delete": {
+      "$ref": "./FieldConfiguration.json#/paths/%2Fv1.0%2FfieldConfigurationDropList%2F%7BfieldId%7D%2Fdelete"
+    },
+    "/v1.0/fieldConfigurationDropList/create": {
+      "$ref": "./FieldConfiguration.json#/paths/%2Fv1.0%2FfieldConfigurationDropList%2Fcreate"
+    },
+    "/v1.0/freeFieldConfiguration": {
+      "$ref": "./FreeFieldConfiguration.json#/paths/%2Fv1.0%2FfreeFieldConfiguration"
+    },
+    "/v1.0/freeFieldConfiguration/activate": {
+      "$ref": "./FreeFieldConfiguration.json#/paths/%2Fv1.0%2FfreeFieldConfiguration%2Factivate"
+    },
+    "/v1.0/freeFieldConfiguration/deactivate": {
+      "$ref": "./FreeFieldConfiguration.json#/paths/%2Fv1.0%2FfreeFieldConfiguration%2Fdeactivate"
+    },
+    "/v1.0/languages": {
+      "$ref": "./Language.json#/paths/%2Fv1.0%2Flanguages"
+    },
+    "/v1.0/parameter": {
+      "$ref": "./Parameter.json#/paths/%2Fv1.0%2Fparameter"
+    },
+    "/v1.0/parameter/ChangeSapBadges": {
+      "$ref": "./Parameter.json#/paths/%2Fv1.0%2Fparameter%2FChangeSapBadges"
+    },
+    "/v1.0/parameter/MultiStandardCard": {
+      "$ref": "./Parameter.json#/paths/%2Fv1.0%2Fparameter%2FMultiStandardCard"
+    },
+    "/v1.0/parameter/OptionInitializedCard": {
+      "$ref": "./Parameter.json#/paths/%2Fv1.0%2Fparameter%2FOptionInitializedCard"
+    },
+    "/v1.0/parameter/OptionTransitionalCard": {
+      "$ref": "./Parameter.json#/paths/%2Fv1.0%2Fparameter%2FOptionTransitionalCard"
+    },
+    "/v1.0/parameter/SetBadgeParameters": {
+      "$ref": "./Parameter.json#/paths/%2Fv1.0%2Fparameter%2FSetBadgeParameters"
+    },
+    "/v1.0/resourceTexts/{resourceId}/{languageId}": {
+      "$ref": "./Resource.json#/paths/%2Fv1.0%2FresourceTexts%2F%7BresourceId%7D%2F%7BlanguageId%7D"
+    },
+    "/v1.0/resourceTexts/{resourceId}/update": {
+      "$ref": "./Resource.json#/paths/%2Fv1.0%2FresourceTexts%2F%7BresourceId%7D%2Fupdate"
+    },
+    "/v1.0/setting/{SettingName}": {
+      "$ref": "./Setting.json#/paths/%2Fv1.0%2Fsetting%2F%7BSettingName%7D"
+    },
+    "/v1.0/settings": {
+      "$ref": "./Setting.json#/paths/%2Fv1.0%2Fsettings"
+    },
+    "/v1.0/settings/{SettingGroupName}": {
+      "$ref": "./Setting.json#/paths/%2Fv1.0%2Fsettings%2F%7BSettingGroupName%7D"
+    },
+    "/v1.0/settings/{SettingGroupName}/{SettingName}": {
+      "$ref": "./Setting.json#/paths/%2Fv1.0%2Fsettings%2F%7BSettingGroupName%7D%2F%7BSettingName%7D"
+    },
+    "/v1.0/systemTimeZones": {
+      "$ref": "./SystemTimeZones.json#/paths/%2Fv1.0%2FsystemTimeZones"
+    },
+    "/v1.0/views": {
+      "$ref": "./View.json#/paths/%2Fv1.0%2Fviews"
+    },
+    "/v1.0/views/{viewId}/delete": {
+      "$ref": "./View.json#/paths/%2Fv1.0%2Fviews%2F%7BviewId%7D%2Fdelete"
+    },
+    "/v1.0/views/{viewId}/update": {
+      "$ref": "./View.json#/paths/%2Fv1.0%2Fviews%2F%7BviewId%7D%2Fupdate"
+    },
+    "/v1.0/views/create": {
+      "$ref": "./View.json#/paths/%2Fv1.0%2Fviews%2Fcreate"
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  }
+}

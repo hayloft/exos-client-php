@@ -1,0 +1,101 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "paths": {
+    "/v1.0/systemTimeZones": {
+      "get": {
+        "tags": [
+          "system time zones"
+        ],
+        "summary": "get all system timezones (world time zones)",
+        "description": "get all system timezones (world time zones)",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetSystemTimeZonesOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "",
+        "x-errorcodes": "300004,300008,999999"
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    },
+    "schemas": {
+      "GetSystemTimeZonesOutputWithTime": {
+        "required": [
+          "Value",
+          "TimeElapsed"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/GetSystemTimeZonesOutput"
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "GetSystemTimeZonesOutput": {
+        "required": [
+          "SystemTimeZones"
+        ],
+        "properties": {
+          "SystemTimeZones": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SystemTimeZone"
+            }
+          }
+        }
+      },
+      "SystemTimeZone": {
+        "required": [
+          "Id",
+          "Name"
+        ],
+        "properties": {
+          "Id": {
+            "type": "string",
+            "default": "UTC"
+          },
+          "Name": {
+            "type": "string",
+            "default": "Coordinated Universal Time"
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "system time zones",
+      "description": ""
+    }
+  ]
+}

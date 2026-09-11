@@ -1,0 +1,1438 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "paths": {
+    "/v1.0/logins": {
+      "get": {
+        "tags": [
+          "login"
+        ],
+        "summary": "get logins by odata query options",
+        "description": "Be aware that a query made here can return up to 10000 records. If you need more, please use the built in paging functionality with $top and $skip.<br /> http://www.asp.net/web-api/overview/odata-support-in-aspnet-web-api/supporting-odata-query-options. <br /> The provided searchString will result in a fulltext search on all selected fields. If the passed value is encapsulated with quotes(\"), it will be treated as an exact match search, otherwise the passed value will be an OR search over all keywords(splitted by space character).",
+        "parameters": [
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "Roles",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Roles/any(r: r/RoleType eq 'Admin')",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select and $expand.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "RoleName desc",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "RoleName",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$skip",
+            "in": "query",
+            "description": "skips the first x entries of the response(paging)",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$top",
+            "in": "query",
+            "description": "limits the number of returned records.",
+            "schema": {
+              "type": "integer",
+              "default": 1000,
+              "nullable": true
+            }
+          },
+          {
+            "name": "includeSystemLogins",
+            "in": "query",
+            "description": "Include system logins such as 'AutoSystemUser'",
+            "schema": {
+              "type": "boolean",
+              "nullable": true
+            }
+          },
+          {
+            "name": "loginType",
+            "in": "query",
+            "description": "the type of login in relation to the person and person type",
+            "schema": {
+              "enum": [
+                "All",
+                "Employee",
+                "Contractor",
+                "Unpersonal"
+              ],
+              "type": "string",
+              "default": "All",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetLoginsOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_LOGIN_LoginsRead",
+          "API_SDM_LoginsRead",
+          "API_CM_LoginsRead"
+        ],
+        "x-errorcodes": "300004,300008,400146,999999"
+      }
+    },
+    "/v1.0/logins/currentUserInfo": {
+      "get": {
+        "tags": [
+          "login"
+        ],
+        "summary": "Get current user information",
+        "description": "Gets current user name and permissions.",
+        "parameters": [
+          {
+            "name": "includedPermissions",
+            "in": "query",
+            "description": "Included permissions in return response",
+            "schema": {
+              "type": "boolean",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentUserInfoOutputWithTime"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1.0/logins/tenantsOfSsoLogin": {
+      "get": {
+        "tags": [
+          "login"
+        ],
+        "summary": "Get available tenants for the current SSO user.",
+        "description": "Gets all tenants available to a user through his SSO authentication.",
+        "parameters": [
+          {
+            "name": "authorisations",
+            "in": "query",
+            "description": "Authorisations the user must have for tenants. If granted, the TenantSsoOutput.LoginIsAuthorised property is true for those tenants.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantsOfSsoLoginOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [],
+        "x-errorcodes": "300004,300008,300011,400292,999999"
+      }
+    },
+    "/v1.0/logins/{loginId}/assignRole/{roleId}": {
+      "post": {
+        "tags": [
+          "login"
+        ],
+        "summary": "assigns a role to a login",
+        "description": "assigns a role to a login. The role will be set for this loginId. ",
+        "parameters": [
+          {
+            "name": "loginId",
+            "in": "path",
+            "description": "id of login",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "roleId",
+            "in": "path",
+            "description": "id of role",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ignoreBlacklist",
+            "in": "query",
+            "description": "Ignore blacklist check",
+            "schema": {
+              "type": "boolean",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_LOGIN_LoginsAssignRole",
+          "API_SDM_LoginsAssignRole",
+          "API_CM_LoginsAssignRole"
+        ],
+        "x-errorcodes": "100000,100001,300004,300008,300011,400038,400040,400042,400072,400146,400159,999999"
+      }
+    },
+    "/v1.0/logins/{loginId}/delete": {
+      "post": {
+        "tags": [
+          "login"
+        ],
+        "summary": "delete a login",
+        "description": "deletes a login.",
+        "parameters": [
+          {
+            "name": "loginId",
+            "in": "path",
+            "description": "id of login",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_LOGIN_LoginsDelete",
+          "API_SDM_LoginsDelete",
+          "API_CM_LoginsDelete"
+        ],
+        "x-errorcodes": "100000,100001,300004,300008,400038,400046,400097,400146,999999"
+      }
+    },
+    "/v1.0/logins/{loginId}/unassignRole/{roleId}": {
+      "post": {
+        "tags": [
+          "login"
+        ],
+        "summary": "unassigns a role from a login",
+        "description": "unassigns a role from a login. The role will be removed for this loginId. ",
+        "parameters": [
+          {
+            "name": "loginId",
+            "in": "path",
+            "description": "id of login",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "roleId",
+            "in": "path",
+            "description": "id of role",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_LOGIN_LoginsUnassignRole",
+          "API_SDM_LoginsUnassignRole",
+          "API_CM_LoginsUnassignRole"
+        ],
+        "x-errorcodes": "100000,100001,300004,300008,400038,400041,400042,400146,999999"
+      }
+    },
+    "/v1.0/logins/{loginId}/update": {
+      "post": {
+        "tags": [
+          "login"
+        ],
+        "summary": "update a login",
+        "description": "updates a login.",
+        "parameters": [
+          {
+            "name": "loginId",
+            "in": "path",
+            "description": "id of login",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "login to create",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLoginInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateLoginOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_LOGIN_LoginsUpdate",
+          "API_SDM_LoginsUpdate",
+          "API_CM_LoginsUpdate"
+        ],
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100007,100012,300004,300008,400038,400043,400044,400045,400146,999999"
+      }
+    },
+    "/v1.0/logins/create": {
+      "post": {
+        "tags": [
+          "login"
+        ],
+        "summary": "create a new login",
+        "description": "<p>creates a new login.</p><p>To create a Single Sign On login(SSO), specify a user name with a backslash. The password is optional for SSO logins. <b>Important Information: backslash in username must be escaped with a second backslash</b>.</p> ",
+        "requestBody": {
+          "description": "login to create",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLoginInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateLoginOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_PERS_LoginsCreate",
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100007,100012,300004,300008,400043,400044,400045,999999"
+      }
+    },
+    "/v1.0/logins/setpassword": {
+      "post": {
+        "tags": [
+          "login"
+        ],
+        "summary": "set password for a specific login",
+        "description": "<p>Sets password for a specific login.</p><p>Set the password for a user provided by a LiginId. The new password is autmatically set as expired and has to be updated after the next login.</p> ",
+        "requestBody": {
+          "description": "login and password to update",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetPasswordInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SetPasswordOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_PERS_LoginsCreate",
+        "x-errorcodes": "100000,400038,999999"
+      }
+    },
+    "/v1.0/logins/logoutMyself": {
+      "post": {
+        "tags": [
+          "login"
+        ],
+        "summary": "logs out the currently logged in user",
+        "description": "logs out the currently logged in user and releases the identity token. (Deprecated:  use '{ExosAuth}/api/v1/Token/revoke' instead)",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": true,
+        "x-rights": "",
+        "x-errorcodes": "300008,999999"
+      }
+    },
+    "/v1.0/logins/keepMyLoginAlive": {
+      "post": {
+        "tags": [
+          "login"
+        ],
+        "summary": "keeps the current session alive",
+        "description": "allows you to keep an active login alive. (Deprecated:  use '{ExosAuth}/api/v1/Token/keepAlive' instead) ",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": true,
+        "x-rights": "",
+        "x-errorcodes": "999999"
+      }
+    },
+    "/v1.0/logins/settings/PasswordComplexityCheck": {
+      "post": {
+        "tags": [
+          "login"
+        ],
+        "summary": "expression that defines a check for the password complexity",
+        "description": "Default ^(?=.*\\d)(?=.*[a-z,A-Z]).{6,}$ (at least one digit and one alphanumeric character and at least 6 characters long). ",
+        "requestBody": {
+          "description": "set parameter value",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetPasswordComplexityCheckInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_PERS_LoginsSettingsPasswordComplexityCheck",
+        "x-errorcodes": "100000,100002,100004,100005,100006,100010,300004,300008,999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GetLoginsOutput": {
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "@odata.count": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetLoginOutput"
+            }
+          }
+        }
+      },
+      "VoidResponseOutput": {
+        "required": [
+          "TimeElapsed"
+        ],
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "CreateLoginOutput": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "required": [
+              "LoginId"
+            ],
+            "properties": {
+              "LoginId": {
+                "type": "string",
+                "default": "LoginId1"
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "CreateLoginInput": {
+        "required": [
+          "LoginName"
+        ],
+        "properties": {
+          "LoginName": {
+            "type": "string",
+            "default": "MyLoginName"
+          },
+          "Password": {
+            "type": "string",
+            "format": "password",
+            "nullable": true
+          },
+          "LoginId": {
+            "type": "string",
+            "default": "Loginid",
+            "nullable": true
+          },
+          "LanguageFk": {
+            "type": "string",
+            "default": "ENG",
+            "nullable": true
+          },
+          "Description": {
+            "type": "string",
+            "default": "MyDescription",
+            "nullable": true
+          },
+          "PasswordValidityInDays": {
+            "type": "integer",
+            "format": "int32",
+            "default": 60,
+            "nullable": true
+          },
+          "TimeZoneId": {
+            "type": "string",
+            "default": "UTC",
+            "nullable": true
+          },
+          "AuthenticationType": {
+            "$ref": "#/components/schemas/AuthenticationType",
+            "nullable": true
+          }
+        }
+      },
+      "UpdateLoginOutput": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "required": [
+              "LoginId"
+            ],
+            "properties": {
+              "LoginId": {
+                "type": "string",
+                "default": "LoginId1"
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "UpdateLoginInput": {
+        "properties": {
+          "LoginName": {
+            "type": "string",
+            "default": "MyLoginName",
+            "nullable": true
+          },
+          "Password": {
+            "type": "string",
+            "format": "password",
+            "nullable": true
+          },
+          "LoginId": {
+            "type": "string",
+            "default": "LoginId",
+            "nullable": true
+          },
+          "LanguageFk": {
+            "type": "string",
+            "default": "ENG",
+            "nullable": true
+          },
+          "Description": {
+            "type": "string",
+            "default": "MyDescription",
+            "nullable": true
+          },
+          "PasswordValidityInDays": {
+            "type": "integer",
+            "format": "int32",
+            "default": 60,
+            "nullable": true
+          },
+          "TimeZoneId": {
+            "type": "string",
+            "default": "UTC",
+            "nullable": true
+          },
+          "AuthenticationType": {
+            "$ref": "#/components/schemas/AuthenticationType",
+            "nullable": true
+          }
+        }
+      },
+      "SetPasswordComplexityCheckInput": {
+        "required": [
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "type": "string",
+            "default": "^(?=.*\\d)(?=.*[a-z,A-Z]).{6,}$"
+          }
+        }
+      },
+      "SetPasswordInput": {
+        "required": [
+          "LoginId",
+          "Password"
+        ],
+        "properties": {
+          "Password": {
+            "type": "string",
+            "format": "password",
+            "nullable": false
+          },
+          "LoginId": {
+            "type": "string",
+            "default": "LoginId",
+            "nullable": false
+          }
+        }
+      },
+      "SetPasswordOutput": {
+        "properties": {
+          "LoginId": {
+            "type": "string",
+            "default": "LoginId",
+            "nullable": true
+          }
+        }
+      },
+      "GetLoginOutput": {
+        "required": [
+          "LoginIdInternal",
+          "TenantId"
+        ],
+        "properties": {
+          "LoginId": {
+            "type": "string",
+            "default": "Loginid",
+            "nullable": true
+          },
+          "LoginIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "LanguageFk": {
+            "type": "string",
+            "default": "ENG",
+            "nullable": true
+          },
+          "LoginName": {
+            "type": "string",
+            "default": "MyLoginName",
+            "nullable": true
+          },
+          "Description": {
+            "type": "string",
+            "default": "MyDescription",
+            "nullable": true
+          },
+          "TenantId": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "PasswordValidityInDays": {
+            "type": "integer",
+            "format": "int32",
+            "default": 60,
+            "nullable": true
+          },
+          "CurrentPasswordValidTo": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "TimeZoneId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Roles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetRoleOutput"
+            },
+            "nullable": true
+          },
+          "Persons": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PersonBaseDataOutput"
+            },
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "GetRoleOutput": {
+        "required": [
+          "RoleId"
+        ],
+        "properties": {
+          "RoleId": {
+            "type": "string",
+            "default": "RoleId"
+          },
+          "RoleIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "RoleName": {
+            "type": "string",
+            "default": "Supervisor",
+            "nullable": true
+          },
+          "RoleType": {
+            "$ref": "#/components/schemas/RoleType"
+          },
+          "TenantId": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "IsEnabled": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          }
+        }
+      },
+      "PersonBaseDataOutput": {
+        "properties": {
+          "PersonId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "PersonIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "LastName": {
+            "type": "string",
+            "default": "ApiLastName",
+            "nullable": true
+          },
+          "FirstName": {
+            "type": "string",
+            "default": "ApiFirstName",
+            "nullable": true
+          },
+          "PersonalNumber": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "LastChangeDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "FullName": {
+            "type": "string",
+            "default": "ApiLastName,ApiFirstName",
+            "nullable": true
+          },
+          "PhoneNumber": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "BirthDate": {
+            "type": "string",
+            "format": "date",
+            "nullable": true,
+            "example": "2001-01-31"
+          },
+          "Sex": {
+            "enum": [
+              "M",
+              "F",
+              "X"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "CompanyEntryDate": {
+            "type": "string",
+            "format": "date",
+            "nullable": true,
+            "example": "2001-01-31"
+          },
+          "EMail": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "HierarchyFk": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "PersonType": {
+            "enum": [
+              "Employee",
+              "Visitor",
+              "Contractor"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "Text": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Comment": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "DefaultLocationFk": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "DefaultLocationUid": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Nationality": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Street": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Zipcode": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "City": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Country": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "OfficialIdcardExpeditionDate": {
+            "type": "string",
+            "format": "date",
+            "nullable": true,
+            "example": "2001-01-31"
+          },
+          "OfficialIdcardExpirationDate": {
+            "type": "string",
+            "format": "date",
+            "nullable": true,
+            "example": "2001-01-31"
+          },
+          "OfficialIdcardMedium": {
+            "enum": [
+              "None",
+              "Identity card",
+              "Passport",
+              "Driving license"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "OfficialIdcardNr": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "VehicleLicensePlate": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "VehicleType": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "VehicleModel": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "IsActivatedForTimeRegistration": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "PersIdLastVisited": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "DateLastUsed": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "CompanyFk": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "DepartmentFk": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "PrivacyStatus": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "OwnerPersonFk": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Info": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Hierarchy": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "HasMobileAccessDevice": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "HasDigitalWallet": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "BaseTenant": {
+            "$ref": "#/components/schemas/GetTenantOutput"
+          },
+          "PersonLoginData": {
+            "$ref": "#/components/schemas/GetLoginOutput"
+          },
+          "PersonWalletData": {
+            "$ref": "#/components/schemas/GetPersonWalletOutput"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/PersonLanguageOutput"
+          },
+          "BadgesOfMainTenant": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BadgeOfMainTenantOutput"
+            },
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "RoleType": {
+        "enum": [
+          "Admin",
+          "Supervisor",
+          "EmployeeSelfService",
+          "System",
+          "Category"
+        ],
+        "type": "string",
+        "nullable": true
+      },
+      "AuthenticationType": {
+        "enum": [
+          "UserNamePassword",
+          "Windows",
+          "OpenIdConnect"
+        ],
+        "type": "string"
+      },
+      "GetTenantOutput": {
+        "required": [
+          "TenantIdInternal",
+          "TenantId",
+          "DisplayName"
+        ],
+        "properties": {
+          "TenantIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "TenantId": {
+            "type": "string",
+            "default": "Tenant 1"
+          },
+          "DisplayName": {
+            "type": "string",
+            "default": "Tenant 1"
+          }
+        },
+        "nullable": true
+      },
+      "GetPersonWalletOutput": {
+        "required": [
+          "Status"
+        ],
+        "properties": {
+          "MobileNumber": {
+            "type": "string",
+            "default": "+123456789",
+            "nullable": true
+          },
+          "EmailAddress": {
+            "type": "string",
+            "default": "john.doe@company.com",
+            "nullable": true
+          },
+          "Status": {
+            "enum": [
+              "Undefined",
+              "InRegistration",
+              "RegistrationFailed",
+              "RegistrationSuccessful"
+            ],
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "PersonLanguageOutput": {
+        "properties": {
+          "LanguageId": {
+            "type": "string",
+            "default": "GER",
+            "nullable": true
+          },
+          "DisplayName": {
+            "type": "string",
+            "default": "Deutsch",
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "BadgeOfMainTenantOutput": {
+        "required": [
+          "BadgeName",
+          "BadgeId"
+        ],
+        "properties": {
+          "BadgeIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "BadgeId": {
+            "type": "string",
+            "default": ""
+          },
+          "BadgeName": {
+            "type": "string",
+            "default": ""
+          },
+          "TenantIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": "",
+            "nullable": true
+          },
+          "Tenant": {
+            "$ref": "#/components/schemas/TenantOutput"
+          }
+        }
+      },
+      "CurrentUserInfoOutputWithTime": {
+        "type": "object",
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer",
+            "default": "0"
+          },
+          "Value": {
+            "$ref": "#/components/schemas/CurrentUserInfoOutput"
+          }
+        }
+      },
+      "CurrentUserInfoOutput": {
+        "type": "object",
+        "properties": {
+          "ClientId": {
+            "type": "number",
+            "default": 0
+          },
+          "LoginIdInternal": {
+            "type": "number",
+            "default": 0
+          },
+          "LoginId": {
+            "type": "string",
+            "default": "LoginId"
+          },
+          "PersonIdInternal": {
+            "type": "number",
+            "default": 0,
+            "nullable": true
+          },
+          "PersonId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "FirstName": {
+            "type": "string",
+            "default": "Firstname",
+            "nullable": true
+          },
+          "LastName": {
+            "type": "string",
+            "default": "Lastname",
+            "nullable": true
+          },
+          "FullName": {
+            "type": "string",
+            "default": "Fullname",
+            "nullable": true
+          },
+          "LoginName": {
+            "type": "string",
+            "default": "LoginName"
+          },
+          "AuthenticationType": {
+            "$ref": "#/components/schemas/AuthenticationType"
+          },
+          "Language": {
+            "type": "string",
+            "default": "GER",
+            "nullable": true
+          },
+          "Culture": {
+            "type": "string",
+            "nullable": true
+          },
+          "RoleTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RoleType"
+            }
+          },
+          "Permissions": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/UserPermission"
+            }
+          }
+        }
+      },
+      "UserPermission": {
+        "type": "object",
+        "properties": {
+          "AuthId": {
+            "type": "string"
+          },
+          "PermissionLevel": {
+            "$ref": "#/components/schemas/Permission"
+          }
+        }
+      },
+      "Permission": {
+        "enum": [
+          "None",
+          "ReadOnly",
+          "Full"
+        ],
+        "type": "string"
+      },
+      "TenantsOfSsoLoginOutputWithTime": {
+        "type": "object",
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer",
+            "default": "0"
+          },
+          "Value": {
+            "$ref": "#/components/schemas/TenantsOfSsoLoginOutput"
+          }
+        }
+      },
+      "TenantsOfSsoLoginOutput": {
+        "type": "object",
+        "required": [
+          "Tenants"
+        ],
+        "properties": {
+          "Tenants": {
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "$ref": "#/components/schemas/TenantSsoOutput"
+            }
+          }
+        }
+      },
+      "TenantSsoOutput": {
+        "type": "object",
+        "required": [
+          "TenantId",
+          "TenantName",
+          "IsCurrent",
+          "LoginIsAuthorised"
+        ],
+        "properties": {
+          "TenantId": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "TenantName": {
+            "type": "string",
+            "default": "Tenant 1"
+          },
+          "IsCurrent": {
+            "type": "boolean",
+            "nullable": false
+          },
+          "LoginIsAuthorised": {
+            "type": "boolean",
+            "nullable": false
+          }
+        },
+        "nullable": false
+      },
+      "TenantOutput": {
+        "required": [
+          "TenantIdInternal",
+          "TenantId",
+          "DisplayName"
+        ],
+        "properties": {
+          "TenantIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "TenantId": {
+            "type": "string",
+            "default": "Tenant 1"
+          },
+          "DisplayName": {
+            "type": "string",
+            "default": "Tenant 1"
+          }
+        },
+        "nullable": true
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "login",
+      "description": "<p>Operations related to login. For a user login please use the dedicated login Page</p>"
+    }
+  ]
+}

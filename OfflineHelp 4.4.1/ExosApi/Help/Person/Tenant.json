@@ -1,0 +1,108 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "paths": {
+    "/v1.0/tenants": {
+      "get": {
+        "tags": [
+          "tenant"
+        ],
+        "summary": "get all configured tenants",
+        "description": "get all configured tenants",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetTenantsOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_SYS_TenantsRead",
+        "x-errorcodes": "300004,300008,999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GetTenantsOutputWithTime": {
+        "required": [
+          "Value",
+          "TimeElapsed"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/GetTenantsOutput"
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "GetTenantsOutput": {
+        "required": [
+          "Tenants"
+        ],
+        "properties": {
+          "Tenants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetTenantOutput"
+            }
+          }
+        }
+      },
+      "GetTenantOutput": {
+        "required": [
+          "TenantIdInternal",
+          "TenantId",
+          "DisplayName"
+        ],
+        "properties": {
+          "TenantIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "TenantId": {
+            "type": "string",
+            "default": "Tenant 1"
+          },
+          "DisplayName": {
+            "type": "string",
+            "default": "Tenant 1"
+          }
+        },
+        "nullable": true
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "tenant",
+      "description": "<p>Operations related to tenants.</p>"
+    }
+  ]
+}

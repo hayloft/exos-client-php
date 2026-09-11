@@ -1,0 +1,335 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "paths": {
+    "/v1.0/tbsBiometry/getTbsUser": {
+      "get": {
+        "tags": [
+          "TbsBiometry"
+        ],
+        "summary": "Get tbs user",
+        "description": "Get tbs user",
+        "parameters": [
+          {
+            "name": "personUid",
+            "in": "query",
+            "description": "Uid of person",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseGetTbsUserOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_SDM_TBS_Biometry_Read, API_VM_TBS_Biometry_Read, API_CM_TBS_Biometry_Read",
+        "x-errorcodes": "100000,300004,300008,300009,400001,400333,400334,400335,400336,400337,999999"
+      }
+    },
+    "/v1.0/tbsBiometry/GetTbsConfiguration": {
+      "get": {
+        "tags": [
+          "TbsBiometry"
+        ],
+        "summary": "Get configuration for the tbs enrollment module.",
+        "description": "Get configuration for the tbs enrollment module.",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseGetTbsConfigurationOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_SDM_TBS_Biometry_Read, API_VM_TBS_Biometry_Read, API_CM_TBS_Biometry_Read",
+        "x-errorcodes": "100000,300004,300008,300009,400001,400333,400334,400335,400336,400337,999999"
+      }
+    },
+    "/v1.0/tbsBiometry/setTbsMedium": {
+      "post": {
+        "tags": [
+          "TbsBiometry"
+        ],
+        "summary": "Set Tbs data",
+        "description": "Set Tbs data",
+        "parameters": [
+          {
+            "name": "personUid",
+            "in": "query",
+            "description": "Uid of person",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "flexId",
+            "in": "query",
+            "description": "FlexId",
+            "required": false,
+            "nullable": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseResultTbsOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_SDM_TBS_Biometry_Write, API_VM_TBS_Biometry_Write, API_CM_TBS_Biometry_Write",
+        "x-errorcodes": "100000,300004,300008,300009,400001,400333,400334,400335,400336,400337,400338,999999"
+      }
+    },
+    "/v1.0/tbsBiometry/deleteTbsEnrollment": {
+      "post": {
+        "tags": [
+          "TbsBiometry"
+        ],
+        "summary": "Ensure delete a TBS user",
+        "description": "Ensure delete a TBS user",
+        "parameters": [
+          {
+            "name": "personUid",
+            "in": "query",
+            "description": "Uid of person",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_SDM_TBS_Biometry_Write, API_VM_TBS_Biometry_Write, API_CM_TBS_Biometry_Write",
+        "x-errorcodes": "100000,300004,300008,300009,400001,400333,400334,400335,400336,400337,999999"
+      }
+    },
+    "/v1.0/tbsBiometry/syncBiometryFlag": {
+      "post": {
+        "tags": [
+          "TbsBiometry"
+        ],
+        "summary": "Sync biometric flag",
+        "description": "Sync biometric flag",
+        "parameters": [
+          {
+            "name": "personUid",
+            "in": "query",
+            "description": "Uid of person",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseResultTbsOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_SDM_TBS_Biometry_Write, API_VM_TBS_Biometry_Write, API_CM_TBS_Biometry_Write",
+        "x-errorcodes": "100000,300004,300008,300009,400001,400333,400334,400335,400336,400337,999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "VoidResponseOutput": {
+        "required": [
+          "TimeElapsed"
+        ],
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "ResponseBase": {
+        "type": "object",
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "GenericResponseGetTbsUserOutput": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ResponseBase"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "Value": {
+                "$ref": "#/components/schemas/GetTbsUserOutput"
+              }
+            }
+          }
+        ]
+      },
+      "GenericResponseResultTbsOutput": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ResponseBase"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "Value": {
+                "$ref": "#/components/schemas/ResultTbsOutput"
+              }
+            }
+          }
+        ]
+      },
+      "GenericResponseGetTbsConfigurationOutput": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ResponseBase"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "Value": {
+                "$ref": "#/components/schemas/GetTbsConfigurationOutput"
+              }
+            }
+          }
+        ]
+      },
+      "GetTbsUserOutput": {
+        "properties": {
+          "AvailableMedia": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TbsMediumDto"
+            }
+          },
+          "BadgesHidden": {
+            "type": "boolean"
+          },
+          "ExosBiometry": {
+            "type": "boolean"
+          },
+          "FirstName": {
+            "type": "string"
+          },
+          "FlexId": {
+            "type": "string"
+          },
+          "Lastname": {
+            "type": "string"
+          },
+          "TbsHasBiometry": {
+            "type": "boolean"
+          },
+          "UserId": {
+            "type": "string"
+          }
+        }
+      },
+      "TbsMediumDto": {
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "FlexId": {
+            "type": "string"
+          }
+        }
+      },
+      "GetTbsConfigurationOutput": {
+        "properties": {
+          "Token": {
+            "type": "string"
+          },
+          "ServerUrl": {
+            "type": "string"
+          }
+        }
+      },
+      "ResultTbsOutput": {
+        "properties": {
+          "ExosBiometry": {
+            "type": "boolean"
+          },
+          "FlexId": {
+            "type": "string"
+          },
+          "TbsHasBiometry": {
+            "type": "boolean"
+          },
+          "UserId": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "TbsBiometry",
+      "description": ""
+    }
+  ]
+}

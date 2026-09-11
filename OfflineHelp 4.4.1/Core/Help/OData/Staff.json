@@ -1,0 +1,2334 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Core API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosCore"
+    },
+    {
+      "url": "/"
+    }
+  ],
+  "paths": {
+    "/api/v1.0/staff/employees": {
+      "get": {
+        "tags": [
+          "employee"
+        ],
+        "operationId": "StaffOData_ApiV1.0StaffEmployees",
+        "summary": "get employees by odata query options (returns only persons of type employee)",
+        "description": "Be aware that a query made here can return up to 10000 records. If you need more, please use the built in paging functionality with $top and $skip.",
+        "parameters": [
+          {
+            "name": "$top",
+            "in": "query",
+            "description": "Limits the number of returned records.",
+            "schema": {
+              "type": "integer",
+              "default": 50,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$skip",
+            "in": "query",
+            "description": "Skips the first n entries of the response. Used for paging.",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "Adds the total number of possible results with the given parameter",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Example: CompanyEntryDate,FullName,PersonalNumber",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "Example: Badges($select=BadgeName,LastChangeDate)",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Example: startswith(LastName,'a')",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "Example: FullName desc",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Search string for convenience search. See also the description of the searchStringLogic.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchStringLogic",
+            "in": "query",
+            "description": "Logic that has to be applied to the search string. SelectedFields is no longer supported and has no affect.<p>BasicFields: Applies the filter only to fullname, personal nr and current card nr.</br>PersonalNumberOnly: Applies the filter to personal number only.</p>",
+            "schema": {
+              "enum": [
+                "BasicFields",
+                "PersonalNumberOnly"
+              ],
+              "type": "string",
+              "default": null,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeesOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_SDM_EmployeeRead"
+        ],
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/api/v1.0/staff/employees/export": {
+      "post": {
+        "tags": [
+          "export"
+        ],
+        "operationId": "StaffOData_ApiV1.0StaffEmployeesExport",
+        "summary": "Generate the employee export.",
+        "description": "Starts the generation of the employee export in the background.",
+        "parameters": [
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "PersonBaseData($select=LastName,FirstName)",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "startswith(PersonBaseData/LastName,'a')",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "PersonBaseData/LastName desc",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "PersonId,ClientId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "exportFormat",
+            "in": "query",
+            "description": "format of the export file",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ExportFormat"
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Search string for convenience search. See also the description of the searchStringLogic.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchStringLogic",
+            "in": "query",
+            "description": "Logic that is to be applied to the search string. If no value is provided: 'SelectedFields' is applied. ('SelectedFields': Filter in fields provided in the select/expand clause, 'BasicFields': filter only in fullname, personal nr, badge filtering, 'PersonalNumberOnly': only filter in personal number)",
+            "schema": {
+              "enum": [
+                "SelectedFields",
+                "BasicFields",
+                "PersonalNumberOnly"
+              ],
+              "type": "string",
+              "default": "SelectedFields",
+              "nullable": true
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetEmployeeExportInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExportItem"
+                }
+              }
+            }
+          }
+        },
+        "x-errorcodes": "300004,300008,999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "EmployeesOutput": {
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "@odata.count": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EmployeeOutput"
+            }
+          }
+        }
+      },
+      "EmployeeOutput": {
+        "properties": {
+          "PersonClientId": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "TenantId": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "CategoryId": {
+            "type": "integer",
+            "format": "int32",
+            "default": null,
+            "nullable": true
+          },
+          "CategoryText": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "PersonIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "BaseTenantId": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "BaseTenantName": {
+            "type": "string",
+            "default": null
+          },
+          "PersonalNumber": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "IsDownloadEnabled": {
+            "type": "boolean",
+            "default": true,
+            "nullable": true
+          },
+          "LastChangeDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "CurrentNumberOfInvalidPinCodeEntries": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "LastName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "FirstName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "FullName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "PhoneNumber": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "BirthDate": {
+            "type": "string",
+            "format": "date",
+            "nullable": true,
+            "example": "2001-01-31"
+          },
+          "Sex": {
+            "enum": [
+              "M",
+              "F",
+              "X"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "LanguageId": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "LanguageName": {
+            "type": "string",
+            "default": "Deutsch",
+            "nullable": true
+          },
+          "AccessExitDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "LastAccessDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "LastReaderAddress": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "LastReaderName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "LastAccessDomainId": {
+            "type": "string",
+            "default": "AccessDomain 1",
+            "nullable": true
+          },
+          "RoomId": {
+            "type": "integer",
+            "default": 0,
+            "nullable": true
+          },
+          "RoomName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Outside": {
+            "type": "boolean",
+            "description": "'false': persons in this room are considered present, 'true': persons in this room are considered absent.",
+            "default": false,
+            "nullable": true
+          },
+          "Image": {
+            "type": "string",
+            "format": "byte",
+            "default": "",
+            "nullable": true
+          },
+          "ImageChangedDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "SapEntryDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "IsActivatedForTimeRegistration": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "SapExitDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "CompanyEntryDate": {
+            "type": "string",
+            "format": "date",
+            "nullable": true,
+            "example": "2001-01-31"
+          },
+          "HierarchyFk": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "SapRecordingAuth": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "EMail": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Comment": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "SapMoabw": {
+            "type": "string",
+            "nullable": true
+          },
+          "SapMolga": {
+            "type": "string",
+            "nullable": true
+          },
+          "SapBdegr": {
+            "type": "string",
+            "nullable": true
+          },
+          "SapZeity": {
+            "type": "string",
+            "nullable": true
+          },
+          "SapZdgbe": {
+            "type": "string",
+            "nullable": true
+          },
+          "SapImail": {
+            "type": "string",
+            "nullable": true
+          },
+          "SapZmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "SapZanbe": {
+            "type": "string",
+            "nullable": true
+          },
+          "SapInfo0": {
+            "type": "string",
+            "nullable": true
+          },
+          "SapInfo1": {
+            "type": "string",
+            "nullable": true
+          },
+          "SapInfo2": {
+            "type": "string",
+            "nullable": true
+          },
+          "SapInfo3": {
+            "type": "string",
+            "nullable": true
+          },
+          "SapInfo4": {
+            "type": "string",
+            "nullable": true
+          },
+          "SapInfo5": {
+            "type": "string",
+            "nullable": true
+          },
+          "SapInfo6": {
+            "type": "string",
+            "nullable": true
+          },
+          "SapInfo7": {
+            "type": "string",
+            "nullable": true
+          },
+          "SapInfo8": {
+            "type": "string",
+            "nullable": true
+          },
+          "SapInfo9": {
+            "type": "string",
+            "nullable": true
+          },
+          "IsSapPerson": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "CurrentCardNr": {
+            "type": "string",
+            "nullable": true
+          },
+          "SecurityLevel": {
+            "maximum": 9,
+            "minimum": 0,
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "SafetyCheckExpired": {
+            "type": "string",
+            "format": "date",
+            "nullable": true,
+            "example": "2001-01-31"
+          },
+          "IsSafetyCheckExpired": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "WorkingPermitEndDate": {
+            "type": "string",
+            "format": "date",
+            "nullable": true,
+            "example": "2001-01-31"
+          },
+          "IsBlocked": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "IsMediaTracebackEnabled": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "PersonType": {
+            "enum": [
+              "Employee",
+              "Visitor",
+              "Contractor"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "IsInterventionMediaPermitted": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "IsFingerprintUnfeasible": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "LoginFk": {
+            "type": "integer",
+            "format": "int32",
+            "default": null,
+            "nullable": true
+          },
+          "PersonId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "IsInOutControlIgnored": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "IsMinMaxPersonInRoomIgnored": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "IsAntipassbackIgnored": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "IsBiometricEnabled": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "HasMobileAccessDevice": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "HasDigitalWallet": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "PersonTenantFreeFields": {
+            "$ref": "#/components/schemas/PersonTenantFreeFieldsOutput"
+          },
+          "PersonLoginData": {
+            "$ref": "#/components/schemas/PersonLoginDataOutput"
+          },
+          "PersonElevatorData": {
+            "$ref": "#/components/schemas/PersonElevatorDataOutput"
+          },
+          "PersonOfficeFlowData": {
+            "$ref": "#/components/schemas/PersonOfficeFlowDataOutput",
+            "nullable": true
+          },
+          "PersonWalletData": {
+            "$ref": "#/components/schemas/PersonWalletDataOutput",
+            "nullable": true
+          },
+          "Keys": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/KeyOutput"
+            },
+            "nullable": true
+          },
+          "KeyRings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/KeyRingOutput"
+            },
+            "nullable": true
+          },
+          "AccessRights": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessRightOutput"
+            },
+            "nullable": true
+          },
+          "Badges": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BadgeOutput"
+            },
+            "nullable": true
+          },
+          "BadgesOfMainTenant": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BadgeOfMainTenantOutput"
+            },
+            "nullable": true
+          }
+        }
+      },
+      "PersonTenantFreeFieldsOutput": {
+        "properties": {
+          "PersonIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "TenantId": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Text1": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text2": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text3": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text4": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text5": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text6": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text7": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text8": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text9": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text10": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text11": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text12": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text13": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text14": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text15": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text16": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text17": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text18": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text19": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text20": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text21": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text22": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text23": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text24": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text25": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text26": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text27": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text28": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text29": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text30": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text31": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text32": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text33": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text34": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text35": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text36": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text37": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text38": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text39": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text40": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text41": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text42": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text43": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text44": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text45": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text46": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text47": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text48": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text49": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text50": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Date1": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date2": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date3": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date4": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date5": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date6": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date7": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date8": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date9": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date10": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date11": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date12": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date13": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date14": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date15": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date16": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date17": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date18": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date19": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date20": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date21": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date22": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date23": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date24": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date25": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date26": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date27": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date28": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date29": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date30": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date31": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date32": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date33": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date34": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date35": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date36": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date37": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date38": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date39": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date40": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date41": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date42": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date43": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date44": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date45": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date46": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date47": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date48": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date49": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date50": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Bool1": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool2": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool3": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool4": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool5": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool6": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool7": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool8": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool9": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool10": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool11": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool12": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool13": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool14": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool15": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool16": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool17": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool18": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool19": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool20": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool21": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool22": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool23": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool24": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool25": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool26": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool27": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool28": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool29": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool30": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool31": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool32": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool33": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool34": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool35": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool36": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool37": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool38": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool39": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool40": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool41": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool42": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool43": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool44": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool45": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool46": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool47": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool48": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool49": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool50": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Number1": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number2": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number3": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number4": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number5": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number6": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number7": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number8": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number9": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number10": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number11": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number12": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number13": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number14": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number15": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number16": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number17": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number18": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number19": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number20": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number21": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number22": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number23": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number24": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number25": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number26": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number27": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number28": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number29": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number30": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number31": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number32": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number33": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number34": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number35": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number36": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number37": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number38": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number39": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number40": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number41": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number42": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number43": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number44": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number45": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number46": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number47": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number48": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number49": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number50": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "PersonLoginDataOutput": {
+        "properties": {
+          "LoginIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "TenantIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": "",
+            "nullable": true
+          },
+          "LoginName": {
+            "type": "string",
+            "default": "MyLoginName",
+            "nullable": true
+          },
+          "LoginId": {
+            "type": "string",
+            "default": "Loginid",
+            "nullable": true
+          },
+          "PasswordValidityInDays": {
+            "type": "integer",
+            "format": "int32",
+            "default": 60,
+            "nullable": true
+          },
+          "CurrentPasswordValidTo": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Roles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RoleOutput"
+            },
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "PersonElevatorDataOutput": {
+        "properties": {
+          "PersonIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "CallTypeId": {
+            "type": "integer",
+            "default": 0
+          },
+          "HomeFloorId": {
+            "type": "integer",
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "PersonOfficeFlowDataOutput": {
+        "properties": {
+          "PersonIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "Language": {
+            "type": "string",
+            "default": ""
+          },
+          "MobilexEnabled": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "DirectCallDestinations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DirectCallDestinationOutput"
+            },
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "PersonWalletDataOutput": {
+        "required": [
+          "Status"
+        ],
+        "properties": {
+          "MobileNumber": {
+            "type": "string",
+            "default": "+123456789",
+            "nullable": true
+          },
+          "EmailAddress": {
+            "type": "string",
+            "default": "john.doe@company.com",
+            "nullable": true
+          },
+          "Status": {
+            "enum": [
+              "Undefined",
+              "InRegistration",
+              "RegistrationFailed",
+              "RegistrationSuccessful"
+            ],
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "KeyOutput": {
+        "properties": {
+          "KeyIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "KeyId": {
+            "type": "string",
+            "default": ""
+          },
+          "KeyName": {
+            "type": "string",
+            "default": ""
+          },
+          "CategoryId": {
+            "type": "integer",
+            "format": "int32",
+            "default": null,
+            "nullable": true
+          },
+          "KeyRing": {
+            "$ref": "#/components/schemas/KeyRingOutput",
+            "nullable": true
+          }
+        }
+      },
+      "KeyRingOutput": {
+        "properties": {
+          "KeyRingIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "KeyRingId": {
+            "type": "string",
+            "default": "KeyRingId01"
+          },
+          "KeyRingName": {
+            "type": "string",
+            "default": "KeyRing01"
+          },
+          "CategoryId": {
+            "type": "integer",
+            "format": "int32",
+            "default": null,
+            "nullable": true
+          },
+          "Keys": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/KeyOutput"
+            },
+            "nullable": true
+          }
+        }
+      },
+      "AccessRightOutput": {
+        "properties": {
+          "AssignmentId": {
+            "type": "string",
+            "default": "",
+            "nullable": false
+          },
+          "DisplayName": {
+            "type": "string",
+            "default": "",
+            "nullable": false
+          },
+          "PersonId": {
+            "type": "string",
+            "default": "",
+            "nullable": false
+          },
+          "AccessRightId": {
+            "type": "string",
+            "default": "",
+            "nullable": false
+          },
+          "ValidFrom": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "ValidTo": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "AccessCategoryId": {
+            "type": "integer",
+            "format": "int32",
+            "default": null,
+            "nullable": true
+          },
+          "PeripheryCategoryId": {
+            "type": "integer",
+            "format": "int32",
+            "default": null,
+            "nullable": true
+          },
+          "AccessDomainCategoryId": {
+            "type": "integer",
+            "format": "int32",
+            "default": null,
+            "nullable": true
+          },
+          "AccessDomainId": {
+            "type": "string",
+            "default": "",
+            "nullable": false
+          },
+          "AccessDomainDisplayName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          }
+        }
+      },
+      "BadgeOutput": {
+        "properties": {
+          "BadgeIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": false
+          },
+          "CategoryId": {
+            "type": "integer",
+            "format": "int32",
+            "default": null,
+            "nullable": true
+          },
+          "MediaFk": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "BadgeName": {
+            "type": "string",
+            "default": "ApiCard1"
+          },
+          "LastChangeDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "ReleaseState": {
+            "enum": [
+              "Released",
+              "Blocked",
+              "BlockedOnlineOnly"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "CurrentRole": {
+            "enum": [
+              "UnknownRole",
+              "Invalid",
+              "Standard",
+              "Replacement",
+              "Initialized",
+              "Visitor"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "IsImported": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "IsSmartKey": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "IsMobile": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "MobileAccessNumber": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "MobileEmailAddress": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "MobileAccessStatus": {
+            "enum": [
+              "Undefined",
+              "InRegistration",
+              "RegistrationFailed",
+              "RegistrationSuccessful",
+              "Initialized"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "DigitalWalletStatus": {
+            "enum": [
+              "NotIssued",
+              "Deployed",
+              "Suspended",
+              "Blocked"
+            ],
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "BadgeOfMainTenantOutput": {
+        "properties": {
+          "BadgeIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "TenantId": {
+            "type": "integer",
+            "format": "int32",
+            "default": "",
+            "nullable": true
+          },
+          "BadgeName": {
+            "type": "string",
+            "default": ""
+          }
+        }
+      },
+      "RoleOutput": {
+        "properties": {
+          "LoginIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "RoleIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "TenantId": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "RoleName": {
+            "type": "string",
+            "default": "Supervisor",
+            "nullable": true
+          },
+          "RoleType": {
+            "$ref": "#/components/schemas/RoleType"
+          }
+        }
+      },
+      "RoleType": {
+        "enum": [
+          "Admin",
+          "Supervisor",
+          "EmployeeSelfService",
+          "System",
+          "Category"
+        ],
+        "type": "string",
+        "nullable": true
+      },
+      "DirectCallDestinationOutput": {
+        "properties": {
+          "OfficeFlowCallDestinationId": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "PersonIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "SyncApiCallDestinationId": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "Name": {
+            "type": "string",
+            "default": ""
+          },
+          "SortOrder": {
+            "type": "integer",
+            "default": 1
+          }
+        }
+      },
+      "GetEmployeeExportInput": {
+        "required": [
+          "ViewName",
+          "ColumnsString",
+          "FileName",
+          "Title"
+        ],
+        "properties": {
+          "ViewName": {
+            "type": "string"
+          },
+          "ColumnsString": {
+            "type": "string"
+          },
+          "FileName": {
+            "type": "string"
+          },
+          "Title": {
+            "type": "string"
+          }
+        }
+      },
+      "ExportItem": {
+        "required": [
+          "Identifier",
+          "Created",
+          "Status"
+        ],
+        "properties": {
+          "Identifier": {
+            "type": "string"
+          },
+          "Created": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00"
+          },
+          "Status": {
+            "type": "string",
+            "enum": [
+              "New",
+              "InProgress",
+              "Error",
+              "Ready",
+              "Downloaded"
+            ]
+          },
+          "ErrorMessage": {
+            "type": "string",
+            "nullable": true
+          },
+          "Filename": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ExportFormat": {
+        "enum": [
+          "CSV",
+          "PDF"
+        ],
+        "type": "string",
+        "default": "CSV"
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "employee",
+      "description": "<p>Operations related to employees.</p>"
+    }
+  ]
+}

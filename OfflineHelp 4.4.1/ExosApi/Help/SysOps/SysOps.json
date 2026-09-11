@@ -1,0 +1,1515 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos SysOps API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/sysops"
+    }
+  ],
+  "paths": {
+    "/v1.0/nodes": {
+      "get": {
+        "tags": [
+          "SysOps"
+        ],
+        "summary": "Get nodes",
+        "parameters": [
+          {
+            "name": "parentNodeId",
+            "in": "query",
+            "description": "id of the periphery (devicetype + internalId of the specific periphery (example: CommunicationHub with Id 1 => FS1, AMX with Id 113 => SS113))",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "componentType",
+            "in": "query",
+            "description": "type of component",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "Undefined",
+                "Online",
+                "Standalone"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/node"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "",
+        "x-errorcodes": "400212,400215,400221"
+      }
+    },
+    "/v1.0/{id}/details": {
+      "get": {
+        "tags": [
+          "SysOps"
+        ],
+        "summary": "Get details from one periphery",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the periphery (devicetype (+ substatTypeChar) + internalId of the specific periphery (example: CommunicationHub with Id 1 => FS1, AMX with Id 113 => SSI113))",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/detail"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_SYS_PeripheryData",
+        "x-errorcodes": "400212,400215,400221"
+      }
+    },
+    "/v1.0/{id}/actuatorsInformation": {
+      "get": {
+        "tags": [
+          "SysOps"
+        ],
+        "summary": "Get actuators information ",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the periphery (devicetype (+ substatTypeChar) + internalId of the specific periphery (example: CommunicationHub with Id 1 => FS1, AMX with Id 113 => SSI113))",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "Value": {
+                      "properties": {
+                        "DeviceAddress": {
+                          "type": "string"
+                        },
+                        "Actuators": {
+                          "type": "array",
+                          "items": {
+                            "properties": {
+                              "DeviceAddress": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "TimeElapsed": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_SYS_PeripheryData",
+        "x-errorcodes": "100000,300008,300004,400215,400262,999999"
+      }
+    },
+    "/v1.0/{id}/plannedProfiles": {
+      "get": {
+        "tags": [
+          "SysOps"
+        ],
+        "summary": "Get planned profiles from Access point",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the Access point",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPlannedProfilesOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "SYS_SYSDEF_OCMANAGE",
+        "x-errorcodes": "100000,300008,300004,400221,400236,999999"
+      }
+    },
+    "/v1.0/{id}/plannedProfiles/create": {
+      "post": {
+        "tags": [
+          "SysOps"
+        ],
+        "summary": "Create planned profiles for an Access point",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the Access point",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUpdatePlannedProfilesInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "SYS_SYSDEF_OCMANAGE",
+        "x-errorcodes": "100000,300008,300004,400215,400232,400233,400235,400236,400237,999999"
+      }
+    },
+    "/v1.0/{id}/plannedProfiles/{scheduleId}/update": {
+      "post": {
+        "tags": [
+          "SysOps"
+        ],
+        "summary": "Update planned profiles for an Access point",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the Access point",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "scheduleId",
+            "in": "path",
+            "description": "id of the Passageway schedule",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePlannedProfilesInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "SYS_SYSDEF_OCMANAGE",
+        "x-errorcodes": "100000,300008,300004,400215,400233,400235,400236,999999"
+      }
+    },
+    "/v1.0/{id}/plannedProfiles/{scheduleId}/delete": {
+      "post": {
+        "tags": [
+          "SysOps"
+        ],
+        "summary": "Delete planned profile from Access point",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Access point identifier (path segment)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "scheduleId",
+            "in": "path",
+            "description": "Planned profile identifier (UID)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "SYS_SYSDEF_OCMANAGE",
+        "x-errorcodes": "100000,300004,300008,400221,400236,999999"
+      }
+    },
+    "/v1.0/{id}/commands": {
+      "get": {
+        "tags": [
+          "SysOps"
+        ],
+        "summary": "get available commands for a device",
+        "description": "get available commands for a device",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the periphery (devicetype + internalId of the specific periphery (example: CommunicationHub with Id 1 => FS1, AMX with Id 113 => SS113))",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCommandsOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-errorcodes": "100000,300008,400215,400216,400221,999999"
+      }
+    },
+    "/v1.0/{id}/command/{command}": {
+      "post": {
+        "tags": [
+          "SysOps"
+        ],
+        "summary": "execute a command for a device",
+        "description": "execute a command for a device",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the periphery (devicetype + internalId of the specific periphery (example: CommunicationHub with Id 1 => FS1, AMX with Id 113 => SS113))",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "command",
+            "in": "path",
+            "description": "The command to be executed on the device",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "Block",
+                "BlockTimeLimited",
+                "AccessProfileCheck",
+                "NormalOperation",
+                "ReleaseTimeLimited",
+                "ReleasePermanently",
+                "ReleaseOnce",
+                "ReleaseSide1",
+                "ReleaseSide2",
+                "LoadParameters",
+                "LoadData",
+                "LoadAccessProfiles",
+                "LoadUserMediaAndAccessProfiles",
+                "BootRestart",
+                "PortConnect",
+                "PortDisconnect",
+                "Initialize",
+                "StartCommissioning",
+                "StopCommissioning",
+                "LeaveNetwork",
+                "SetOn",
+                "SetOff",
+                "SetDefault",
+                "LoadPrograms",
+                "UpdateState",
+                "LoadToProgrammer",
+                "StandaloneShowConfiguration",
+                "ImportFromProgrammerSyncronize",
+                "ToggleActivation",
+                "ShowPlannedProfiles",
+                "ShowAccesslog",
+                "ShowAlarmlog",
+                "ShowAuditlog",
+                "ShowDownlog",
+                "Delete",
+                "LoadToProgrammerMultiple",
+                "LoadAccessRights",
+                "BusKeyPackageGet",
+                "BusKeyPackageGetNoTls",
+                "BusKeyPackageSet",
+                "BusKeyPackageSetNoTls"
+              ]
+            }
+          },
+          {
+            "name": "time",
+            "in": "query",
+            "description": "The time the command shall be executed (in minutes)",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExecuteCommandOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_SYSOPS_ExecuteCommand",
+        "x-errorcodes": "100000,300004,300008,400213,400214,400215,400219,400220,400221,999999"
+      }
+    },
+    "/v1.0/peripheryStatusList": {
+      "get": {
+        "tags": [
+          "SysOps"
+        ],
+        "summary": "gets the devices",
+        "description": "gets the devices",
+        "parameters": [
+          {
+            "name": "componentType",
+            "in": "query",
+            "description": "type of component",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "Undefined",
+                "Online",
+                "Standalone"
+              ]
+            }
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "description": "Define at which element to start with. Default 0",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 0,
+              "nullable": true
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "description": "Define the size of items you want to get. Default 30 (restriction max 80)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 30,
+              "nullable": true
+            }
+          },
+          {
+            "name": "orderBy",
+            "in": "query",
+            "description": "Define the order",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/peripheryOrderBy"
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "search in device name or device address (Searchlogic: searchstring% -> startswith, %searchstring -> endswith, all other combinations -> contains)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "filterByDeviceType",
+            "in": "query",
+            "description": "filter the data by device type (equal)",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/deviceTypes"
+            }
+          },
+          {
+            "name": "filterDevicesWithAlarm",
+            "in": "query",
+            "description": "filter the devices with alarm (false = all devices / true = devices not running)",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/device"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "",
+          ""
+        ],
+        "x-errorcodes": ""
+      }
+    },
+    "/v1.0/standaloneComponents": {
+      "get": {
+        "tags": [
+          "SysOps"
+        ],
+        "summary": "gets the standalone devices",
+        "description": "gets the standalone devices",
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "description": "Define at which element to start with. Default 0",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 0,
+              "nullable": true
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "description": "Define the size of items you want to get. Default 30 (restriction max 80)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 30,
+              "nullable": true
+            }
+          },
+          {
+            "name": "orderBy",
+            "in": "query",
+            "description": "Define the order",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/peripheryOrderBy"
+            }
+          },
+          {
+            "name": "folderId",
+            "in": "query",
+            "description": "id of a folder",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "search in device name or device address",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "filterUpdateRequired",
+            "in": "query",
+            "description": "filter devices that require update",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "nullable": true
+            }
+          },
+          {
+            "name": "includeWhiteList",
+            "in": "query",
+            "description": "include white list devices",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "nullable": true
+            }
+          },
+          {
+            "name": "includeCardLink",
+            "in": "query",
+            "description": "include card link devices",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "nullable": true
+            }
+          },
+          {
+            "name": "includeOss",
+            "in": "query",
+            "description": "include oss devices",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/standaloneComponentsOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "",
+          ""
+        ],
+        "x-errorcodes": ""
+      }
+    },
+    "/v1.0/recalculateTreepaths": {
+      "post": {
+        "tags": [
+          "SysOps"
+        ],
+        "summary": "triggers the recalculation of flagged periphery treepaths",
+        "description": "triggers the recalculation of flagged periphery treepaths",
+        "parameters": [
+          {
+            "name": "wait",
+            "in": "query",
+            "description": "Defines whether we wait for calculation to finish",
+            "schema": {
+              "type": "boolean",
+              "nullable": true,
+              "default": false
+            }
+          },
+          {
+            "name": "forceUpdateDataStore",
+            "in": "query",
+            "description": "if true, will also force an update on the inMemory tree store (any detected changes will result in an update of the store irrespective of this param)",
+            "schema": {
+              "type": "boolean",
+              "nullable": true,
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "ActivityName.API_SYS_PeripheryData",
+          "ActivityName.SYS_SYSDEF_OCMANAGE",
+          "ActivityName.SYS_SYSDEF_SACMANAGE"
+        ],
+        "x-errorcodes": "100000,300008,999999"
+      }
+    },
+    "/v1.0/freeSysopsEventRegistrations": {
+      "post": {
+        "tags": [
+          "SysOps"
+        ],
+        "summary": "frees event registrations (SignalR-Connections) that are no longer valid ",
+        "description": "for testing purposes",
+        "parameters": [
+          {
+            "name": "force",
+            "in": "query",
+            "description": "if true, will try to remove signalR connections, if false only when last removal was some time ago",
+            "schema": {
+              "type": "boolean",
+              "nullable": true,
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "ActivityName.API_SYS_PeripheryData",
+          "ActivityName.SYS_SYSDEF_OCMANAGE",
+          "ActivityName.SYS_SYSDEF_SACMANAGE"
+        ],
+        "x-errorcodes": "100000,300008,999999"
+      }
+    },
+    "/v1.0/checkAndUpdateDataStore": {
+      "post": {
+        "tags": [
+          "SysOps"
+        ],
+        "summary": "Checks the currentness of the datastore data (sysops tree) and updates the datastore if necessary ",
+        "description": "for testing purposes",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "ActivityName.API_SYS_PeripheryData",
+          "ActivityName.SYS_SYSDEF_OCMANAGE",
+          "ActivityName.SYS_SYSDEF_SACMANAGE"
+        ],
+        "x-errorcodes": "300008,999999"
+      }
+    },
+    "/v1.0/initializeDataStore": {
+      "post": {
+        "tags": [
+          "SysOps"
+        ],
+        "summary": "initializes the periphery datastore. when parameter 'treePathOfTopNode' is set only a partial of the datastore is updated (all devices starting with the path of 'treePathOfTopNode')",
+        "description": "for testing purposes",
+        "parameters": [
+          {
+            "name": "treePathOfTopNode",
+            "in": "query",
+            "description": "path of the top node (like '/FS1' or '/FS1/129/SSI1')",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "ActivityName.API_SYS_PeripheryData",
+          "ActivityName.SYS_SYSDEF_OCMANAGE",
+          "ActivityName.SYS_SYSDEF_SACMANAGE"
+        ],
+        "x-errorcodes": "300008,999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GetCommandsOutputWithTime": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer"
+          },
+          "Value": {
+            "$ref": "#/components/schemas/GetCommandsOutput"
+          }
+        }
+      },
+      "GetCommandsOutput": {
+        "required": [
+          "Commands"
+        ],
+        "properties": {
+          "Commands": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        }
+      },
+      "ExecuteCommandOutputWithTime": {
+        "required": [
+          "TimeElapsed"
+        ],
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer"
+          },
+          "Value": {
+            "$ref": "#/components/schemas/ExecuteCommandOutput"
+          }
+        }
+      },
+      "ExecuteCommandOutput": {
+        "properties": {
+          "LogInformation": {
+            "$ref": "#/components/schemas/LogInformationOutput"
+          }
+        }
+      },
+      "LogInformationOutput": {
+        "properties": {
+          "AlarmlogDeviceAddress": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "AlarmlogDataPointType": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "AccesslogDeviceAddresses": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        }
+      },
+      "VoidResponseOutput": {
+        "required": [
+          "TimeElapsed"
+        ],
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "node": {
+        "required": [
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "properties": {
+              "Nodes": {
+                "type": "array",
+                "items": {
+                  "required": [
+                    "Id",
+                    "DeviceAddress",
+                    "DeviceType",
+                    "TreePath"
+                  ],
+                  "properties": {
+                    "Id": {
+                      "type": "string",
+                      "default": "",
+                      "nullable": false
+                    },
+                    "Name": {
+                      "type": "string",
+                      "default": "",
+                      "nullable": true
+                    },
+                    "DeviceAddress": {
+                      "type": "string",
+                      "default": "",
+                      "nullable": true
+                    },
+                    "DeviceType": {
+                      "$ref": "#/components/schemas/deviceTypes"
+                    },
+                    "SubstatType": {
+                      "$ref": "#/components/schemas/substationTypes"
+                    },
+                    "DoorType": {
+                      "$ref": "#/components/schemas/doorTypes"
+                    },
+                    "OperationalMode": {
+                      "$ref": "#/components/schemas/operationalModes"
+                    },
+                    "TreePath": {
+                      "type": "string",
+                      "default": "",
+                      "nullable": false
+                    },
+                    "TreeLevel": {
+                      "type": "integer",
+                      "format": "int16",
+                      "default": 1,
+                      "nullable": true
+                    },
+                    "State": {
+                      "type": "integer",
+                      "format": "int16",
+                      "default": 1,
+                      "nullable": true
+                    },
+                    "UnderlayingNodesInErrorState": {
+                      "type": "boolean",
+                      "default": false,
+                      "nullable": false
+                    },
+                    "Mode": {
+                      "type": "integer",
+                      "format": "int16",
+                      "default": 0,
+                      "nullable": true
+                    },
+                    "Activated": {
+                      "type": "boolean",
+                      "default": false,
+                      "nullable": true
+                    },
+                    "WirelessActuator": {
+                      "type": "boolean",
+                      "default": false,
+                      "nullable": true
+                    },
+                    "HasChilds": {
+                      "type": "boolean",
+                      "default": false,
+                      "nullable": false
+                    },
+                    "SpecialFunctionality": {
+                      "$ref": "#/components/schemas/specialFunctionalities"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "detail": {
+        "required": [
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "properties": {
+              "DeviceType": {
+                "$ref": "#/components/schemas/deviceTypes"
+              },
+              "Groups": {
+                "type": "array",
+                "items": {
+                  "required": [
+                    "Group",
+                    "Details"
+                  ],
+                  "properties": {
+                    "Group": {
+                      "type": "string",
+                      "default": "",
+                      "nullable": false
+                    },
+                    "Details": {
+                      "type": "array",
+                      "items": {
+                        "required": [
+                          "Key",
+                          "Value"
+                        ],
+                        "properties": {
+                          "Key": {
+                            "type": "string",
+                            "default": "",
+                            "nullable": false
+                          },
+                          "Value": {
+                            "type": "string",
+                            "default": "",
+                            "nullable": true
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "GetPlannedProfilesOutputWithTime": {
+        "required": [
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "properties": {
+              "PlannedProfilesList": {
+                "type": "array",
+                "items": {
+                  "required": [
+                    "ScheduleId",
+                    "ScheduledTime",
+                    "ControlProfileId",
+                    "ControlProfileName",
+                    "DoorOpenProfileMode",
+                    "GroupingPermission"
+                  ],
+                  "properties": {
+                    "ScheduleId": {
+                      "type": "string",
+                      "default": "",
+                      "nullable": false
+                    },
+                    "ScheduledTime": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2001-01-31T11:55:00",
+                      "default": "",
+                      "nullable": false
+                    },
+                    "ControlProfileId": {
+                      "type": "string",
+                      "default": "",
+                      "nullable": false
+                    },
+                    "ControlProfileName": {
+                      "type": "string",
+                      "default": "",
+                      "nullable": false
+                    },
+                    "DoorOpenProfileMode": {
+                      "$ref": "#/components/schemas/doorOpenProfileModes",
+                      "default": "",
+                      "nullable": false
+                    },
+                    "GroupingPermission": {
+                      "type": "boolean",
+                      "default": true,
+                      "nullable": false
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "CreateUpdatePlannedProfilesInput": {
+        "properties": {
+          "ScheduleId": {
+            "type": "string",
+            "default": "",
+            "nullable": false
+          },
+          "ScheduledTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "default": "",
+            "nullable": false
+          },
+          "ControlProfileId": {
+            "type": "string",
+            "default": "",
+            "nullable": false
+          },
+          "DoorOpenProfileMode": {
+            "$ref": "#/components/schemas/doorOpenProfileModes",
+            "nullable": false,
+            "example": "None"
+          }
+        }
+      },
+      "UpdatePlannedProfilesInput": {
+        "properties": {
+          "ScheduledTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "default": "",
+            "nullable": false
+          },
+          "ControlProfileId": {
+            "type": "string",
+            "default": "",
+            "nullable": false
+          },
+          "DoorOpenProfileMode": {
+            "$ref": "#/components/schemas/doorOpenProfileModes",
+            "nullable": false,
+            "example": "None"
+          }
+        }
+      },
+      "doorOpenProfileModes": {
+        "type": "string",
+        "enum": [
+          "None",
+          "All",
+          "Personal"
+        ]
+      },
+      "device": {
+        "required": [
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "properties": {
+              "Count": {
+                "type": "integer",
+                "format": "int32",
+                "default": 1,
+                "nullable": true
+              },
+              "Devices": {
+                "type": "array",
+                "items": {
+                  "required": [
+                    "Name",
+                    "DeviceAddress",
+                    "DeviceType",
+                    "TreePath"
+                  ],
+                  "properties": {
+                    "Id": {
+                      "type": "string",
+                      "default": "",
+                      "nullable": false
+                    },
+                    "DeviceId": {
+                      "type": "integer",
+                      "format": "int32",
+                      "default": 1,
+                      "nullable": true
+                    },
+                    "Name": {
+                      "type": "string",
+                      "default": "",
+                      "nullable": false
+                    },
+                    "DeviceAddress": {
+                      "type": "string",
+                      "default": "",
+                      "nullable": true
+                    },
+                    "DeviceType": {
+                      "$ref": "#/components/schemas/deviceTypes"
+                    },
+                    "DoorType": {
+                      "$ref": "#/components/schemas/doorTypes"
+                    },
+                    "LastStatusChange": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2001-01-31T11:55:00",
+                      "default": "",
+                      "nullable": true
+                    },
+                    "Activated": {
+                      "type": "boolean",
+                      "default": false,
+                      "nullable": true
+                    },
+                    "TreePath": {
+                      "type": "string",
+                      "default": "",
+                      "nullable": false
+                    },
+                    "State": {
+                      "type": "integer",
+                      "format": "int16",
+                      "default": 1,
+                      "nullable": true
+                    },
+                    "Mode": {
+                      "type": "integer",
+                      "format": "int16",
+                      "default": 0,
+                      "nullable": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "standaloneComponentsOutput": {
+        "required": [
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "properties": {
+              "Count": {
+                "type": "integer",
+                "format": "int32",
+                "default": 1,
+                "nullable": true
+              },
+              "StandaloneComponents": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "NodeId": {
+                      "type": "string",
+                      "default": "",
+                      "nullable": false
+                    },
+                    "Name": {
+                      "type": "string",
+                      "default": "",
+                      "nullable": false
+                    },
+                    "State": {
+                      "type": "integer",
+                      "format": "int16",
+                      "default": 1,
+                      "nullable": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "deviceTypes": {
+        "type": "string",
+        "enum": [
+          "UndefinedDeviceType",
+          "System",
+          "Frontserver",
+          "Port",
+          "Substation",
+          "SubDevice",
+          "RegistrationUnit",
+          "BinaryInput",
+          "BinaryOutput",
+          "Passageway",
+          "User",
+          "StandAlone",
+          "Mechanical",
+          "IdConnectInterface",
+          "Kops",
+          "Folder",
+          "PwSideOutside",
+          "PwSideDoor",
+          "PwSideInside",
+          "DepotGrouping",
+          "RgDisplay",
+          "RgKeyboard",
+          "RgBiometryIdent",
+          "RgBiometryVerify",
+          "RgBiometryIdentWithCompanyCode",
+          "RgBiometryVerifyWithCompanyCode",
+          "AlarmSuppressed",
+          "PwElectricStrike",
+          "PwAutomaticDoor",
+          "PwMotorBolt",
+          "PwMotorBoltI",
+          "PwMotorBoltII",
+          "PwMotorBoltIII",
+          "PwDoorHandle",
+          "PwFrameContact",
+          "PwDoorOpenerKey",
+          "PwPassageDetector",
+          "PwVirtualPassageDetector",
+          "PwBoltMonitoring",
+          "PwBlockingContact",
+          "PwPermanentRelease",
+          "PwReleaseSwitch",
+          "PwAccessAllowed",
+          "PwAccessDenied",
+          "PwDayNightOperation",
+          "PwTwoPersonAccessControl",
+          "PwIdentificationSuccessfull",
+          "PwAlarmRelais",
+          "PwAlertRelais",
+          "PwRegistrationUnit",
+          "PwCodeLock",
+          "PwRandomRejection",
+          "PwHoldOpenMode",
+          "PwBoltPositionErrorSupressed",
+          "PwDoorOpenToLongSupressed",
+          "PwDoorOpenAlertSupressed",
+          "PwDoorClosedAgainSupressed",
+          "PwAccessAllowedOverride",
+          "PwManuallyOpened",
+          "PwVerificationDevice",
+          "PwWeighingBalance",
+          "PwPassageway",
+          "PwElevatorFloor",
+          "PwInterlockingGroup",
+          "PwDepot",
+          "PwDisablePermanentRelease",
+          "PwDebugMode",
+          "PwReleasedPermanently",
+          "PwEnforceAccessCheck",
+          "PwCardLinkUpdateRequired",
+          "PwOnlineLocker"
+        ]
+      },
+      "substationTypes": {
+        "type": "string",
+        "enum": [
+          "None",
+          "AM4X",
+          "AM8X",
+          "AMCx",
+          "AMCxE",
+          "AML",
+          "AMLON",
+          "AMM",
+          "AMSCL",
+          "AMSCM",
+          "AMSDL",
+          "AMSDM",
+          "AMEWUL",
+          "AMEWUM",
+          "ATM4X",
+          "ATM8X",
+          "BD500A",
+          "BD500N",
+          "BD9220",
+          "BD9240",
+          "BD9260",
+          "BD9320",
+          "BD9340",
+          "BD9360",
+          "BD9360SAP",
+          "BD9520",
+          "BD9540",
+          "BD9560",
+          "BDN9290",
+          "AC309200L",
+          "AC309200M",
+          "BEDANET9340",
+          "BEDANET9360",
+          "BEDANET9380",
+          "BIOC_9XXX",
+          "BN9320",
+          "BN9340",
+          "BN9360",
+          "BT920",
+          "BT930",
+          "BT950",
+          "BW9300LEA",
+          "BW9300MID",
+          "BW9600LEA",
+          "BW9600MID",
+          "BW9605LEA",
+          "BW9605MID",
+          "BW9700LEA",
+          "BW9700MID",
+          "BW9600K7MI",
+          "BW9700K7MI",
+          "BW9800K7MI",
+          "BW9600K7LE",
+          "BW9700K7LE",
+          "BW9800K7LE",
+          "LM00",
+          "LM2X",
+          "WGW9040",
+          "WGW9040K7",
+          "iDML",
+          "iDML2"
+        ]
+      },
+      "doorTypes": {
+        "type": "string",
+        "enum": [
+          "None",
+          "ButtonOnly",
+          "OneReaderOneButton",
+          "TwoReader",
+          "TwoReaderTwoButton",
+          "FourReader",
+          "TurnStile",
+          "Elevator",
+          "DepotController",
+          "ParkingArea",
+          "OnlineLocker",
+          "TerminalDoor",
+          "Wireless"
+        ]
+      },
+      "operationalModes": {
+        "type": "string",
+        "enum": [
+          "Whitelist",
+          "CardLink",
+          "Intervention",
+          "Oss"
+        ]
+      },
+      "specialFunctionalities": {
+        "type": "string",
+        "enum": [
+          "None",
+          "InterlockingGroup"
+        ]
+      },
+      "peripheryOrderBy": {
+        "type": "string",
+        "default": "DeviceAddressAscending",
+        "nullable": true,
+        "enum": [
+          "None",
+          "DeviceNameAscending",
+          "DeviceNameDescending",
+          "DeviceAddressAscending",
+          "DeviceAddressDescending"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "SysOps",
+      "description": "<p>Operations related to System management</p>"
+    }
+  ]
+}

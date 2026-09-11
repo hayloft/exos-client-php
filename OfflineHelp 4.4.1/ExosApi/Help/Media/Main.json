@@ -1,0 +1,67 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "badge",
+      "description": "<p>Operations related to badge</p>"
+    },
+    {
+      "name": "key",
+      "description": "<p>Operations related to keys / smartkeys / keyrings</p>"
+    }
+  ],
+  "paths": {
+    "/v1.0/badges": {
+      "$ref": "./Badge.json#/paths/%2Fv1.0%2Fbadges"
+    },
+    "/v1.0/badges/block": {
+      "$ref": "./Badge.json#/paths/%2Fv1.0%2Fbadges%2Fblock"
+    },
+    "/v1.0/badges/create": {
+      "$ref": "./Badge.json#/paths/%2Fv1.0%2Fbadges%2Fcreate"
+    },
+    "/v1.0/badges/delete": {
+      "$ref": "./Badge.json#/paths/%2Fv1.0%2Fbadges%2Fdelete"
+    },
+    "/v1.0/badges/unblock": {
+      "$ref": "./Badge.json#/paths/%2Fv1.0%2Fbadges%2Funblock"
+    },
+    "/v1.0/badges/nexus/update": {
+      "$ref": "./Badge.json#/paths/%2Fv1.0%2Fbadges%2Fnexus%2Fupdate"
+    },
+    "/v1.0/keyRings": {
+      "$ref": "./Key.json#/paths/%2Fv1.0%2FkeyRings"
+    },
+    "/v1.0/keys": {
+      "$ref": "./Key.json#/paths/%2Fv1.0%2Fkeys"
+    },
+    "/v1.0/mediaDefinitions": {
+      "$ref": "./Badge.json#/paths/%2Fv1.0%2FmediaDefinitions"
+    },
+    "/v1.0/mediaDefinitions/mediaApplicationDefinitions/sortOrder": {
+      "$ref": "./Badge.json#/paths/%2Fv1.0%2FmediaDefinitions%2FmediaApplicationDefinitions%2FsortOrder"
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  }
+}

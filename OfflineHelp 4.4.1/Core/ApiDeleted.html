@@ -1,0 +1,176 @@
+<!--==================================================================================================
+(c) Copyright 2024, dormakaba Schweiz AG, Muehlebuehlstrasse 23, CH-8620 Wetzikon, Switzerland
+==================================================================================================-->
+<!DOCTYPE html>
+<html lang="en" xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Deleted API endpoints</title>
+    <style>
+        .swagger-section {
+            color: #3b4151;
+            background-color: #fafafa;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .swagger-ui-wrap {
+            background: white;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .block-description {
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        #deletedFunctions {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        #deletedFunctions th {
+            background-color: #f0f0f0;
+            color: #3b4151;
+            text-align: left;
+            padding: 10px;
+            border-bottom: 2px solid #ddd;
+            font-weight: 600;
+        }
+
+        #deletedFunctions td {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        #deletedFunctions tr:hover {
+            background-color: #f8f8f8;
+        }
+
+        #deletedFunctions td:first-child {
+            font-family: monospace;
+            color: #e53935;
+        }
+    </style>
+
+<!--[if gte mso 9]><xml>
+<mso:CustomDocumentProperties>
+<mso:_dlc_DocId msdt:dt="string">7SA4M65FZ53H-1542324323-33065</mso:_dlc_DocId>
+<mso:_dlc_DocIdItemGuid msdt:dt="string">6d2aea65-d773-4f8c-a7fa-0c89efbb2d9e</mso:_dlc_DocIdItemGuid>
+<mso:_dlc_DocIdUrl msdt:dt="string">https://dorma.sharepoint.com/sites/sp-pd/products/_layouts/15/DocIdRedir.aspx?ID=7SA4M65FZ53H-1542324323-33065, 7SA4M65FZ53H-1542324323-33065</mso:_dlc_DocIdUrl>
+<mso:DLCPolicyLabelValue msdt:dt="string">0.1</mso:DLCPolicyLabelValue>
+</mso:CustomDocumentProperties>
+</xml><![endif]-->
+</head>
+<script>
+    function sortVersionTable() {
+        const table = document.getElementById("deletedFunctions");
+        const tbody = table.querySelector("tbody");
+        const rows = Array.from(tbody.querySelectorAll("tr"));
+
+        rows.sort((a, b) => {
+            const versionA = a.cells[1].textContent;
+            const versionB = b.cells[1].textContent;
+            const endpointA = a.cells[0].textContent;
+            const endpointB = b.cells[0].textContent;
+
+            const versionComparison = compareVersions(versionB, versionA);
+
+            if (versionComparison === 0) {
+                return endpointA.localeCompare(endpointB);
+            }
+
+            return versionComparison;
+        });
+
+        rows.forEach(row => tbody.appendChild(row));
+    }
+
+    function compareVersions(a, b) {
+        const partsA = a.split('.').map(Number);
+        const partsB = b.split('.').map(Number);
+
+        for (let i = 0; i < Math.max(partsA.length, partsB.length); i++) {
+            const partA = partsA[i] || 0;
+            const partB = partsB[i] || 0;
+            if (partA > partB) return 1;
+            if (partA < partB) return -1;
+        }
+
+        return 0;
+    }
+
+</script>
+<body onload="sortVersionTable()">
+<div class="swagger-section">
+    <div class="swagger-ui-wrap" id="deleteHandling">
+        <div class="block-description-wrapper">
+            <div class="block-description">
+                <div class="renderedMarkdown">
+                    <p>
+                        Deleted API endpoints, along with the respective versions in which they were removed, are listed in
+                        the table below for reference.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="table-container">
+            <table aria-label="Deleted Functions" id="deletedFunctions">
+                <thead>
+                <tr>
+                    <th>API endpoint</th>
+                    <th>Version</th>
+                    <th>Replacement</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>/api/v1.0/ossSo/timeZones/{timeZoneUid}/canBeDeleted</td>
+                    <td>4.3.2</td>
+                    <td>/api/v1.0/ossSo/timeZones/{timeZoneUid}/checkDependencies</td>
+                </tr>
+                <tr>
+                    <td>/api/v1.0/profiles/{profileUid}/canBeDeleted</td>
+                    <td>4.3.2</td>
+                    <td>/api/v1.0/profiles/{profileUid}/checkDependencies</td>
+                </tr>
+                <tr>
+                    <td>/api/v1.0/administrationareas/{uid}</td>
+                    <td>4.3.1</td>
+                    <td>/api/v1.0/administrationareas/{uid}/details</td>
+                </tr>
+                <tr>
+                    <td>/api/v1.0/administrationareas/{uid}</td>
+                    <td>4.3.1</td>
+                    <td>/api/v1.0/administrationareas/{uid}/details</td>
+                </tr>
+                <tr>
+                    <td>/api/v1.0/skyra/accessPoints/{accessPointUid}/users/{userUid}/permissions</td>
+                    <td>4.4.0</td>
+                    <td>/api/v1.0/skyra/accessPermissions/users/{skyraUserUid}/accessPointPermissions/{accessPointPermissionUid}/delete</td>
+                </tr>
+                <tr>
+                    <td>/api/v1.0/skyra/accessPoints/{accessPointUid}/users/{userUid}/permissions</td>
+                    <td>4.4.0</td>
+                    <td>/api/v1.0/skyra/accessPermissions/users/{skyraUserUid}/accessPointPermissions/create</td>
+                </tr>
+                <tr>
+                    <td>/api/v1.0/skyra/accessPoints/{accessPointUid}/users/{userUid}/permissions</td>
+                    <td>4.4.0</td>
+                    <td>/api/v1.0/skyra/accessPermissions/users/{skyraUserUid}/accessPointPermissions/{accessPointPermissionUid}/update</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

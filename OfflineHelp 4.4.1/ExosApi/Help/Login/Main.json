@@ -1,0 +1,97 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "login",
+      "description": "<p>Operations related to login. For a user login please use the dedicated login Page</p>"
+    },
+    {
+      "name": "role",
+      "description": "<p>Operations related to roles. Roles contain authorisations and can be assigned to a login.</p>"
+    }
+  ],
+  "paths": {
+    "/v1.0/logins": {
+      "$ref": "./Login.json#/paths/%2Fv1.0%2Flogins"
+    },
+    "/v1.0/logins/currentUserInfo": {
+      "$ref": "./Login.json#/paths/%2Fv1.0%2Flogins%2FcurrentUserInfo"
+    },
+    "/v1.0/logins/tenantsOfSsoLogin": {
+      "$ref": "./Login.json#/paths/%2Fv1.0%2Flogins%2FtenantsOfSsoLogin"
+    },
+    "/v1.0/logins/{loginId}/assignRole/{roleId}": {
+      "$ref": "./Login.json#/paths/%2Fv1.0%2Flogins%2F%7BloginId%7D%2FassignRole%2F%7BroleId%7D"
+    },
+    "/v1.0/logins/{loginId}/delete": {
+      "$ref": "./Login.json#/paths/%2Fv1.0%2Flogins%2F%7BloginId%7D%2Fdelete"
+    },
+    "/v1.0/logins/{loginId}/unassignRole/{roleId}": {
+      "$ref": "./Login.json#/paths/%2Fv1.0%2Flogins%2F%7BloginId%7D%2FunassignRole%2F%7BroleId%7D"
+    },
+    "/v1.0/logins/{loginId}/update": {
+      "$ref": "./Login.json#/paths/%2Fv1.0%2Flogins%2F%7BloginId%7D%2Fupdate"
+    },
+    "/v1.0/logins/create": {
+      "$ref": "./Login.json#/paths/%2Fv1.0%2Flogins%2Fcreate"
+    },
+    "/v1.0/logins/setpassword": {
+      "$ref": "./Login.json#/paths/%2Fv1.0%2Flogins%2Fsetpassword"
+    },
+    "/v1.0/logins/logoutMyself": {
+      "$ref": "./Login.json#/paths/%2Fv1.0%2Flogins%2FlogoutMyself"
+    },
+    "/v1.0/logins/keepMyLoginAlive": {
+      "$ref": "./Login.json#/paths/%2Fv1.0%2Flogins%2FkeepMyLoginAlive"
+    },
+    "/v1.0/roles": {
+      "$ref": "./Role.json#/paths/%2Fv1.0%2Froles"
+    },
+    "/v1.0/roles/{roleId}/delete": {
+      "$ref": "./Role.json#/paths/%2Fv1.0%2Froles%2F%7BroleId%7D%2Fdelete"
+    },
+    "/v1.0/roles/{roleId}/update": {
+      "$ref": "./Role.json#/paths/%2Fv1.0%2Froles%2F%7BroleId%7D%2Fupdate"
+    },
+    "/v1.0/roles/copy": {
+      "$ref": "./Role.json#/paths/%2Fv1.0%2Froles%2Fcopy"
+    },
+    "/v1.0/roles/create": {
+      "$ref": "./Role.json#/paths/%2Fv1.0%2Froles%2Fcreate"
+    },
+    "/v1.0/authorisationGroups": {
+      "$ref": "./Role.json#/paths/%2Fv1.0%2FauthorisationGroups"
+    },
+    "/v1.0/authorisationGroups/{roleId}/numberOfAuthorisedAuthorisationsPerGroup": {
+      "$ref": "./Role.json#/paths/%2Fv1.0%2FauthorisationGroups%2F%7BroleId%7D%2FnumberOfAuthorisedAuthorisationsPerGroup"
+    },
+    "/v1.0/roleAuthorisations": {
+      "$ref": "./Role.json#/paths/%2Fv1.0%2FroleAuthorisations"
+    },
+    "/v1.0/roleAuthorisations/{roleId}/update": {
+      "$ref": "./Role.json#/paths/%2Fv1.0%2FroleAuthorisations%2F%7BroleId%7D%2Fupdate"
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  }
+}

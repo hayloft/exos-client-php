@@ -1,0 +1,547 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/officeFlow_api"
+    }
+  ],
+  "paths": {
+    "/v1.0/officeFlowData/{personId}/update": {
+      "post": {
+        "tags": [
+          "officeflow"
+        ],
+        "summary": "updates the office flow person data",
+        "description": "updates the office flow person data",
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "path",
+            "description": "id of person",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateOfficeFlowInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_SDM_OfficeFlowDataUpdate, API_VM_OfficeFlowDataUpdate, API_CM_OfficeFlowDataUpdate",
+        "x-errorcodes": "100000,100001,300004,300008,300009,400001,400193,400194,400198,400199,400201,400202,999999"
+      }
+    },
+    "/v1.0/officeFlowData/{personId}/assignments": {
+      "get": {
+        "tags": [
+          "officeflow"
+        ],
+        "summary": "get office flow assigments",
+        "description": "get office flow assigments",
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "path",
+            "description": "id of person",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "visitId",
+            "in": "query",
+            "description": "id of visit (only in visitor management)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseOfAssignmentOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_SDM_OfficeFlowDataUpdate, API_VM_OfficeFlowDataUpdate, API_CM_OfficeFlowDataUpdate",
+        "x-errorcodes": "100000,300004,300008,300009,400001,400090,999999"
+      }
+    },
+    "/v1.0/officeFlowData/setAll": {
+      "post": {
+        "tags": [
+          "officeflow"
+        ],
+        "summary": "synchronizes office flow person data",
+        "description": "synchronizes office flow person data",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": true,
+        "x-rights": "API_SYS_OfficeFlowSetAll",
+        "x-errorcodes": "300004,300008,400198,400199,400201,400202,999999"
+      }
+    },
+    "/v1.0/officeFlowData/getCommissioningInformation": {
+      "get": {
+        "tags": [
+          "officeflow"
+        ],
+        "summary": "get office flow commissioning information",
+        "description": "get office flow commissioning information",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OfficeFlowCommissioningInformationDtoOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_KONE_OfficeFlowCommissioning",
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/officeFlowData/setCommissioningInformation": {
+      "post": {
+        "tags": [
+          "officeflow"
+        ],
+        "summary": "update office flow commissioning information",
+        "description": "update office flow commissioning information",
+        "requestBody": {
+          "description": "Fields",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OfficeFlowCommissioningInformationDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_KONE_OfficeFlowCommissioning",
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/officeFlowData/fetchCACertificates": {
+      "get": {
+        "tags": [
+          "officeflow"
+        ],
+        "summary": "fetch CA certificates and return CA fingerprint",
+        "description": "fetch CA certificates and return CA fingerprint",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_KONE_OfficeFlowCommissioning",
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/officeFlowData/handleCACertificate": {
+      "post": {
+        "tags": [
+          "officeflow"
+        ],
+        "summary": "save CA certificates if fingerprint matched otherwise remove temporary data",
+        "description": "save CA certificates if fingerprint matched otherwise remove temporary data",
+        "parameters": [
+          {
+            "name": "matched",
+            "in": "query",
+            "description": "indicates whether fingerprint matched or not",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_KONE_OfficeFlowCommissioning",
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/officeFlowData/fetchClientCertificate": {
+      "post": {
+        "tags": [
+          "officeflow"
+        ],
+        "summary": "fetch client certificate",
+        "description": "fetch client certificate",
+        "parameters": [
+          {
+            "name": "authorizationCode",
+            "in": "query",
+            "description": "AuthorizationCode",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_KONE_OfficeFlowCommissioning",
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/officeFlowData/refetchCACertificates": {
+      "post": {
+        "tags": [
+          "officeflow"
+        ],
+        "summary": "refetch CA certificate",
+        "description": "refetch CA certificate",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_KONE_OfficeFlowCommissioning",
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/officeFlowData/renewClientCertificate": {
+      "post": {
+        "tags": [
+          "officeflow"
+        ],
+        "summary": "renew client certificate",
+        "description": "renew client certificate",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_KONE_OfficeFlowCommissioning",
+        "x-errorcodes": "300004,300008,999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "OfficeFlowCommissioningInformationDto": {
+        "required": [
+          "OfficeFlowCertificateBaseHost",
+          "OfficeFlowCertificateBasePort",
+          "OfficeFlowSyncApiBaseHost",
+          "OfficeFlowSyncApiBasePort"
+        ],
+        "properties": {
+          "OfficeFlowCertificateBaseHost": {
+            "type": "string",
+            "nullable": true
+          },
+          "OfficeFlowCertificateBasePort": {
+            "type": "string",
+            "nullable": true
+          },
+          "OfficeFlowSyncApiBaseHost": {
+            "type": "string",
+            "nullable": true
+          },
+          "OfficeFlowSyncApiBasePort": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "OfficeFlowCommissioningInformationDtoOutput": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/OfficeFlowCommissioningInformationDto"
+          },
+          {
+            "required": [
+              "ConnectionDataPresent"
+            ],
+            "properties": {
+              "ConnectionDataPresent": {
+                "type": "boolean",
+                "nullable": false
+              }
+            }
+          }
+        ]
+      },
+      "UpdateOfficeFlowInput": {
+        "required": [
+          "OfficeFlowProfiles",
+          "DirectCallDestinations"
+        ],
+        "properties": {
+          "MobilexEnabled": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "Language": {
+            "type": "string",
+            "nullable": true
+          },
+          "VisitId": {
+            "type": "string",
+            "nullable": true
+          },
+          "OfficeFlowProfiles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OfficeFlowProfileInput"
+            }
+          },
+          "DirectCallDestinations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OfficeFlowDirectCallDestinationInput"
+            }
+          },
+          "IgnoreBlacklist": {
+            "type": "boolean",
+            "nullable": false,
+            "default": false
+          }
+        }
+      },
+      "OfficeFlowProfileInput": {
+        "required": [
+          "Id",
+          "SortOrder"
+        ],
+        "properties": {
+          "Id": {
+            "type": "string",
+            "nullable": true
+          },
+          "SortOrder": {
+            "type": "integer"
+          }
+        }
+      },
+      "OfficeFlowDirectCallDestinationInput": {
+        "required": [
+          "SyncApiCallDestinationId",
+          "Name",
+          "SortOrder"
+        ],
+        "properties": {
+          "SyncApiCallDestinationId": {
+            "type": "integer"
+          },
+          "Name": {
+            "type": "string"
+          },
+          "SortOrder": {
+            "type": "integer"
+          }
+        }
+      },
+      "VoidResponseOutput": {
+        "required": [
+          "TimeElapsed"
+        ],
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "ResponseBase": {
+        "type": "object",
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "GenericResponseOfAssignmentOutput": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ResponseBase"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "Value": {
+                "$ref": "#/components/schemas/OfficeFlowAssignmentsOutput"
+              }
+            }
+          }
+        ]
+      },
+      "OfficeFlowAssignmentsOutput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "Profiles": {
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "$ref": "#/components/schemas/ProfileAssignment"
+            }
+          },
+          "CallDestinations": {
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "$ref": "#/components/schemas/CallDestinationAssignment"
+            }
+          }
+        }
+      },
+      "ProfileAssignment": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "Id": {
+            "type": "string",
+            "nullable": false
+          },
+          "Name": {
+            "type": "string",
+            "nullable": false
+          },
+          "IsEditable": {
+            "type": "boolean",
+            "nullable": false
+          },
+          "SortOrder": {
+            "type": "number",
+            "nullable": false
+          }
+        }
+      },
+      "CallDestinationAssignment": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "SyncApiCallDestinationId": {
+            "type": "integer",
+            "nullable": false
+          },
+          "Name": {
+            "type": "string",
+            "nullable": false
+          },
+          "SortOrder": {
+            "type": "number",
+            "nullable": false
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "officeflow",
+      "description": ""
+    }
+  ]
+}

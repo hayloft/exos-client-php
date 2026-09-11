@@ -1,0 +1,1166 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos online locker API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/onlineLocker_api"
+    }
+  ],
+  "paths": {
+    "/v1.0/onlineLockerGroups": {
+      "get": {
+        "tags": [
+          "online locker group"
+        ],
+        "summary": "Get all locker group entries in the system",
+        "description": "Get all locker group entries in the system.",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetLockerGroupsOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_LOCK_LockerGroupsRead"
+        ],
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/onlineLockerGroups/{onlineLockerGroupId}/update": {
+      "post": {
+        "tags": [
+          "online locker group"
+        ],
+        "summary": "Updates a specific locker group.",
+        "description": "Update a specific locker group.",
+        "parameters": [
+          {
+            "name": "onlineLockerGroupId",
+            "in": "path",
+            "description": "id of locker group",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLockerGroupInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateLockerGroupOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_LOCK_LockerGroupUpdate"
+        ],
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100009,300004,300008,400001,400173,400189,999999"
+      }
+    },
+    "/v1.0/onlineLockerGroups/{onlineLockerGroupId}/lockerProposal/{personId}": {
+      "get": {
+        "tags": [
+          "online locker group"
+        ],
+        "summary": "Get a proposal for a locker which can be assigned to the specific person.",
+        "description": "Get a proposal for a locker which can be assigned to the specific person.",
+        "parameters": [
+          {
+            "name": "onlineLockerGroupId",
+            "in": "path",
+            "description": "id of a lockergroup",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "personId",
+            "in": "path",
+            "description": "id of person",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetLockerProposalOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_LOCK_GetMyLockerProposal"
+        ],
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100009,300004,300008,400001,999999"
+      }
+    },
+    "/v1.0/onlineLockers": {
+      "get": {
+        "tags": [
+          "online locker"
+        ],
+        "summary": "Get all locker entries in the system",
+        "description": "Get all locker entries in the system.",
+        "parameters": [
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select and $expand.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$skip",
+            "in": "query",
+            "description": "skips the first x entries of the response(paging)",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$top",
+            "in": "query",
+            "description": "limits the number of returned records.",
+            "schema": {
+              "type": "integer",
+              "default": 1000,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetLockersOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_LOCK_LockersRead"
+        ],
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/onlineLockers/{onlineLockerId}/assign": {
+      "post": {
+        "tags": [
+          "online locker"
+        ],
+        "summary": "Assign a person to a specific locker.",
+        "description": "Assign a person to a specific locker.",
+        "parameters": [
+          {
+            "name": "onlineLockerId",
+            "in": "path",
+            "description": "id of locker",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignLockerInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_LOCK_LockerAssign"
+        ],
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100009,300004,300008,400001,400172,400181,999999"
+      }
+    },
+    "/v1.0/onlineLockers/{onlineLockerId}/block": {
+      "post": {
+        "tags": [
+          "online locker"
+        ],
+        "summary": "Block a specific locker.",
+        "description": "Block a specific locker.",
+        "parameters": [
+          {
+            "name": "onlineLockerId",
+            "in": "path",
+            "description": "id of locker",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BlockLockerInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_LOCK_LockerBlock"
+        ],
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100009,300004,300008,400172,400181,999999"
+      }
+    },
+    "/v1.0/onlineLockers/{onlineLockerId}/disable": {
+      "post": {
+        "tags": [
+          "online locker"
+        ],
+        "summary": "Disable a specific locker.",
+        "description": "Disable a specific locker.",
+        "parameters": [
+          {
+            "name": "onlineLockerId",
+            "in": "path",
+            "description": "id of locker",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DisableLockerInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_LOCK_LockerDisable"
+        ],
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100009,300004,300008,400172,400181,999999"
+      }
+    },
+    "/v1.0/onlineLockers/{onlineLockerId}/enable": {
+      "post": {
+        "tags": [
+          "online locker"
+        ],
+        "summary": "Enable a specific locker.",
+        "description": "Enable a specific locker.",
+        "parameters": [
+          {
+            "name": "onlineLockerId",
+            "in": "path",
+            "description": "id of locker",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_LOCK_LockerEnable"
+        ],
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100009,300004,300008,400172,400181,999999"
+      }
+    },
+    "/v1.0/onlineLockers/{onlineLockerId}/open": {
+      "post": {
+        "tags": [
+          "online locker"
+        ],
+        "summary": "Open a specific locker.",
+        "description": "Open a specific locker.",
+        "parameters": [
+          {
+            "name": "onlineLockerId",
+            "in": "path",
+            "description": "id of locker",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OpenLockerInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_LOCK_LockerOpen"
+        ],
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100009,300004,300008,400172,400181,999999"
+      }
+    },
+    "/v1.0/onlineLockers/{onlineLockerId}/unassign": {
+      "post": {
+        "tags": [
+          "online locker"
+        ],
+        "summary": "Unassign a person from a specific locker.",
+        "description": "Unassign a person from a specific locker.",
+        "parameters": [
+          {
+            "name": "onlineLockerId",
+            "in": "path",
+            "description": "id of locker",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UnassignLockerInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_LOCK_LockerUnassign"
+        ],
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100009,300004,300008,400172,400181,999999"
+      }
+    },
+    "/v1.0/onlineLockers/{onlineLockerId}/unblock": {
+      "post": {
+        "tags": [
+          "online locker"
+        ],
+        "summary": "Unblock a specific locker.",
+        "description": "Unblock a specific locker.",
+        "parameters": [
+          {
+            "name": "onlineLockerId",
+            "in": "path",
+            "description": "id of locker",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UnblockLockerInput"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_LOCK_LockerUnblock"
+        ],
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100009,300004,300008,400172,400181,999999"
+      }
+    },
+    "/v1.0/onlineLockers/{onlineLockerId}/update": {
+      "post": {
+        "tags": [
+          "online locker"
+        ],
+        "summary": "updates the data of a specific locker.",
+        "description": "updates the data of a specific locker.",
+        "parameters": [
+          {
+            "name": "onlineLockerId",
+            "in": "path",
+            "description": "id of locker",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLockerInput"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateLockerOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_LOCK_LockerUpdate"
+        ],
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100009,300004,300008,400172,999999"
+      }
+    },
+    "/v1.0/onlineLockers/panel": {
+      "get": {
+        "tags": [
+          "online locker"
+        ],
+        "summary": "Gets the lockers of a lockergroup optimized for the panel view.",
+        "description": "Gets the lockers of a lockergroup optimized for the panel view.",
+        "parameters": [
+          {
+            "name": "onlineLockerGroupId",
+            "in": "query",
+            "description": "id of a lockergroup",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "personId",
+            "in": "query",
+            "description": "id of a person",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPanelViewOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_LOCK_LockersRead"
+        ],
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100009,300004,300008,400001,400173,999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CallContext": {
+        "properties": {
+          "BookingPersonId": {
+            "type": "string",
+            "default": "PersonId01"
+          },
+          "OperatorLoginId": {
+            "type": "string",
+            "default": "LoginId01"
+          }
+        }
+      },
+      "GetLockerProposalOutputWithTime": {
+        "required": [
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/GetLockerProposalOutput"
+          },
+          "TimeElapsed": {
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      "GetLockerProposalOutput": {
+        "required": [
+          "OnlineLockerId"
+        ],
+        "properties": {
+          "OnlineLockerId": {
+            "type": "string"
+          }
+        }
+      },
+      "GetLockersOutput": {
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "@odata.count": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetLockerOutput"
+            }
+          }
+        }
+      },
+      "GetPanelViewOutputWithTime": {
+        "required": [
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/GetPanelViewOutput"
+          },
+          "TimeElapsed": {
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      "GetLockerGroupsOutputWithTime": {
+        "required": [
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "properties": {
+              "OnlineLockerGroups": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/OnlineLockerGroup"
+                },
+                "nullable": true
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      "UpdateLockerGroupInput": {
+        "properties": {
+          "OnlineLockerGroupId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Description": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "NumberOfLockersHorizontally": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "TimeOutInSeconds": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "MaxReservationTimeInHours": {
+            "type": "integer",
+            "format": "int32",
+            "default": 24,
+            "nullable": true
+          },
+          "FreeSelectionModeActive": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "IsActivated": {
+            "type": "boolean",
+            "default": true,
+            "nullable": true
+          },
+          "SendMailIfLockerIsExpired": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Operators": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LockerGroupsOperator"
+            },
+            "nullable": true
+          }
+        }
+      },
+      "UpdateLockerGroupOutput": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "required": [
+              "OnlineLockerGroupId"
+            ],
+            "properties": {
+              "OnlineLockerGroupId": {
+                "type": "string",
+                "default": "OnlineLockerGroup01"
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "LockerGroupsOperator": {
+        "required": [
+          "LoginId"
+        ],
+        "properties": {
+          "LoginId": {
+            "type": "string",
+            "default": "LoginId01"
+          }
+        }
+      },
+      "UpdateLockerInput": {
+        "properties": {
+          "OnlineLockerId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "OnlineLockerName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "OnlineLockerDescription": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          }
+        }
+      },
+      "UpdateLockerOutput": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "required": [
+              "OnlineLockerId"
+            ],
+            "properties": {
+              "OnlineLockerId": {
+                "type": "string",
+                "default": "OnlineLocker01"
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "AssignLockerInput": {
+        "required": [
+          "PersonId"
+        ],
+        "properties": {
+          "PersonId": {
+            "type": "string",
+            "default": "PersonId01"
+          },
+          "EndTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Description": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "CallContext": {
+            "$ref": "#/components/schemas/CallContext"
+          }
+        }
+      },
+      "UnassignLockerInput": {
+        "properties": {
+          "CallContext": {
+            "$ref": "#/components/schemas/CallContext"
+          }
+        }
+      },
+      "OpenLockerInput": {
+        "properties": {
+          "CallContext": {
+            "$ref": "#/components/schemas/CallContext"
+          }
+        }
+      },
+      "GetLockerOutput": {
+        "required": [
+          "OnlineLockerId",
+          "State"
+        ],
+        "properties": {
+          "OnlineLockerIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "OnlineLockerId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "OnlineLockerName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "OnlineLockerState": {
+            "enum": [
+              "Disabled",
+              "Free",
+              "Occupied",
+              "Blocked",
+              "Expired"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "OnlineLockerStateComment": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "OnlineLockerDescription": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "OnlineLockerGroupId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "OnlineLockerGroupName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "PersonId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "FullName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "PersonalNumber": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "AssignmentStartDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "AssignmentEndDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          }
+        }
+      },
+      "GetPanelViewOutput": {
+        "required": [
+          "OnlineLockers"
+        ],
+        "properties": {
+          "NumberOfOnlineLockers": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "NumberOfOnlineLockersHorizontally": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "OnlineLockers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetPanelLockerOutput"
+            },
+            "nullable": true
+          },
+          "LastOccupiedOnlineLockerByPerson": {
+            "$ref": "#/components/schemas/GetPanelLockerOutput"
+          }
+        }
+      },
+      "GetPanelLockerOutput": {
+        "required": [
+          "OnlineLockerId"
+        ],
+        "properties": {
+          "OnlineLockerIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "OnlineLockerId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "OnlineLockerName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "OnlineLockerGroupId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "OnlineLockerGroupName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "OnlineLockerState": {
+            "enum": [
+              "Disabled",
+              "Free",
+              "Occupied",
+              "Blocked",
+              "Expired"
+            ],
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "OnlineLockerGroup": {
+        "required": [
+          "OnlineLockerGroupId",
+          "NumberOfOnlineLockers",
+          "NumberOfLockersHorizontally"
+        ],
+        "properties": {
+          "OnlineLockerGroupId": {
+            "type": "string",
+            "default": ""
+          },
+          "NumberOfOnlineLockers": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "NumberOfLockersHorizontally": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "IsActivated": {
+            "type": "boolean",
+            "default": false
+          },
+          "Name": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Description": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "MaxReservationTimeInHours": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "FreeSelectionModeActive": {
+            "type": "boolean",
+            "default": false
+          },
+          "TimeOutInSeconds": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "SendMailIfLockerIsExpired": {
+            "type": "boolean",
+            "default": false
+          },
+          "Operators": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LockerGroupsOperator"
+            },
+            "nullable": true
+          }
+        }
+      },
+      "BlockLockerInput": {
+        "required": [
+          "Reason"
+        ],
+        "properties": {
+          "Reason": {
+            "type": "string",
+            "default": ""
+          },
+          "CallContext": {
+            "$ref": "#/components/schemas/CallContext"
+          }
+        }
+      },
+      "UnblockLockerInput": {
+        "properties": {
+          "CallContext": {
+            "$ref": "#/components/schemas/CallContext"
+          }
+        }
+      },
+      "DisableLockerInput": {
+        "required": [
+          "Reason"
+        ],
+        "properties": {
+          "Reason": {
+            "type": "string",
+            "default": ""
+          }
+        }
+      },
+      "VoidResponseOutput": {
+        "required": [
+          "TimeElapsed"
+        ],
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "online locker",
+      "description": "Operations related to a online locker"
+    },
+    {
+      "name": "online locker group",
+      "description": "Operations related to a online locker group"
+    }
+  ]
+}

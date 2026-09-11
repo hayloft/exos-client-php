@@ -1,0 +1,17 @@
+
+-------------------------------------------------------------------------------
+   ROBOCOPY     ::     Robust File Copy for Windows                              
+-------------------------------------------------------------------------------
+
+  Started : Freitag, 19. Dezember 2025 12:51:18
+   Source : C:\Builds\Agent\_work\31\s\System\Addons\OfflineHelp\
+     Dest : \\chrmasdata01.ddc.mydorma.com\PDBuild\Releases\Out\Exos9300\4.4.01\Addons\OfflineHelp\
+
+    Files : *.*
+	    
+  Options : *.* /S /DCOPY:DA /COPY:DAT /PURGE /R:1000000 /W:30 
+
+------------------------------------------------------------------------------
+
+	                   1	C:\Builds\Agent\_work\31\s\System\Addons\OfflineHelp\
+	    Newer     		     639	robocopy_OfflineHelp.log

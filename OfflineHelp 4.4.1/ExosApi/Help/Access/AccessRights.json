@@ -1,0 +1,1369 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "paths": {
+    "/v1.0/accessDomains": {
+      "get": {
+        "tags": [
+          "access right"
+        ],
+        "summary": "get a list of access domains (administration areas)",
+        "description": "Be aware that a query made here can return up to 10000 records. If you need more, please use the built in paging functionality with $top and $skip.\nhttp://www.asp.net/web-api/overview/odata-support-in-aspnet-web-api/supporting-odata-query-options. ",
+        "parameters": [
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select and $expand.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$skip",
+            "in": "query",
+            "description": "skips the first x entries of the response(paging)",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$top",
+            "in": "query",
+            "description": "limits the number of returned records.",
+            "schema": {
+              "type": "integer",
+              "default": 1000,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAccessDomainsOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_AC_AccessDomainsRead",
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/accessRightAssignments": {
+      "get": {
+        "tags": [
+          "access right"
+        ],
+        "summary": "get a list of access rights assigned to a specific person in addition to all unassigned access rights",
+        "description": "Be aware that a query made here can return up to 10000 records. If you need more, please use the built in paging functionality with $top and $skip.\nhttp://www.asp.net/web-api/overview/odata-support-in-aspnet-web-api/supporting-odata-query-options. ",
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "query",
+            "description": "specific person",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select and $expand.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$skip",
+            "in": "query",
+            "description": "skips the first x entries of the response(paging)",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$top",
+            "in": "query",
+            "description": "limits the number of returned records.",
+            "schema": {
+              "type": "integer",
+              "default": 1000,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAccessRightAssignemntsOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_SDM_AccessRightAssignmentsRead",
+          "API_VM_AccessRightAssignmentsRead",
+          "API_CM_AccessRightAssignmentsRead"
+        ],
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/accessRights/minimised": {
+      "get": {
+        "tags": [
+          "access right"
+        ],
+        "summary": "Not officially supported, can change without notice. Get a list of minimised access rights for a given administration area, access right type, and time zone.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "accessDomainId",
+            "in": "query",
+            "description": "The id of the administration area.",
+            "schema": {
+              "type": "string",
+              "nullable": false
+            }
+          },
+          {
+            "name": "accessRightType",
+            "in": "query",
+            "description": "The access right type. Only AllAccessGridTypes, DoorGroup, ComponentStandalone are supported.",
+            "schema": {
+              "$ref": "#/components/schemas/AccessRightType",
+              "nullable": false
+            }
+          },
+          {
+            "name": "personType",
+            "in": "query",
+            "description": "The person type.",
+            "schema": {
+              "$ref": "#/components/schemas/AccessRightPersonType",
+              "nullable": false
+            }
+          },
+          {
+            "name": "timeZoneId",
+            "in": "query",
+            "description": "The id of the time zone.",
+            "schema": {
+              "type": "string",
+              "nullable": false
+            }
+          },
+          {
+            "name": "top",
+            "in": "query",
+            "description": "Limits the number of returned entries to x.",
+            "schema": {
+              "type": "number",
+              "nullable": false
+            }
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "description": "Skips the first x entries (pagination).",
+            "schema": {
+              "type": "number",
+              "default": 0,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAccessRightsMinimised"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_AC_AccessRightsRead",
+        "x-errorcodes": "100009,300004,300008,999999"
+      }
+    },
+    "/v1.0/accessRights": {
+      "get": {
+        "tags": [
+          "access right"
+        ],
+        "summary": "get a list of access rights",
+        "description": "Be aware that a query made here can return up to 10000 records. If you need more, please use the built in paging functionality with $top and $skip.\nhttp://www.asp.net/web-api/overview/odata-support-in-aspnet-web-api/supporting-odata-query-options. ",
+        "parameters": [
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select and $expand.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$skip",
+            "in": "query",
+            "description": "skips the first x entries of the response(paging)",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$top",
+            "in": "query",
+            "description": "limits the number of returned records.",
+            "schema": {
+              "type": "integer",
+              "default": 1000,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAccessRightsOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_AC_AccessRightsRead",
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/accessRights/accessCheck": {
+      "get": {
+        "tags": [
+          "access right"
+        ],
+        "summary": "checks if a specific access right is valid at a specific time for a person",
+        "description": "Checks if a specific access right is valid at a specific time for a person. Returns access decision information and a reason why access was denied. You must be able to see the person and the access right to perform a check. ",
+        "parameters": [
+          {
+            "name": "PersonId",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "AccessRightId",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "DateTimeToCheckAccess",
+            "in": "query",
+            "description": "takes current time if empty",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2001-01-31T11:55:00",
+              "nullable": true
+            }
+          },
+          {
+            "name": "IncludeAccessDecisionTree",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "boolean",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessCheckOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_SDM_AccessRightsAccessCheckRead",
+          "API_VM_AccessRightsAccessCheckRead",
+          "API_CM_AccessRightsAccessCheckRead"
+        ],
+        "x-errorcodes": "100000,100001,100003,100005,100006,300008,400001,400010,999999"
+      }
+    },
+    "/v1.0/accessRights/accessRightDetails/{accessRightId}": {
+      "get": {
+        "tags": [
+          "access right"
+        ],
+        "summary": "get access right details / child access rights",
+        "description": "get access right details / child access rights.",
+        "parameters": [
+          {
+            "name": "accessRightId",
+            "in": "path",
+            "description": "id of accessright",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAccessRightDetailsOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_AC_AccessRightsAccessRightDetailsRead",
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100009,300004,300008,400010,999999"
+      }
+    },
+    "/v1.0/accessRights/alarmZoneSwitches/{personId}": {
+      "get": {
+        "tags": [
+          "access right"
+        ],
+        "summary": "get alarm zone switches for accessdomains",
+        "description": "<p>get alarm zone switches for accessdomains (at least one registration unit in accessdomain must be activated for alarmzones), which the person has accessright.</p>",
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "path",
+            "description": "id of person",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAlarmZoneSwitchOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_SDM_AccessRightsAlarmZoneSwitchesRead",
+          "API_VM_AccessRightsAlarmZoneSwitchesRead",
+          "API_CM_AccessRightsAlarmZoneSwitchesRead"
+        ],
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100009,300004,300008,400001,999999"
+      }
+    },
+    "/v1.0/accessRights/alarmZoneSwitches/{personId}/update": {
+      "post": {
+        "tags": [
+          "access right"
+        ],
+        "summary": "set alarm zone switches for a specific accessdomain of a person",
+        "description": "set alarm zone switches for a specific accessdomain of a person.",
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "path",
+            "description": "id of person",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ignoreBlacklist",
+            "in": "query",
+            "description": "Ignore blacklist check",
+            "schema": {
+              "type": "boolean",
+              "nullable": true
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetAlarmZoneSwitchInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_SDM_AccessRightsAlarmZoneSwitchesUpdate",
+          "API_VM_AccessRightsAlarmZoneSwitchesUpdate",
+          "API_CM_AccessRightsAlarmZoneSwitchesUpdate"
+        ],
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100009,300004,300008,400001,400072,400090,999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GetAccessDomainsOutputWithTime": {
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "@odata.count": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessDomainOutput"
+            }
+          }
+        }
+      },
+      "GetAccessRightAssignemntsOutputWithTime": {
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "@odata.count": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetAccessRightAssignemntsOutput"
+            }
+          }
+        }
+      },
+      "GetAccessRightsOutputWithTime": {
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "@odata.count": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetAccessRightOutput"
+            }
+          }
+        }
+      },
+      "AccessCheckOutputWithTime": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessCheckOutput"
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "GetAccessRightDetailsOutput": {
+        "required": [
+          "Value",
+          "TimeElapsed"
+        ],
+        "properties": {
+          "Value": {
+            "required": [
+              "AccessRightDetail"
+            ],
+            "properties": {
+              "AccessRightDetail": {
+                "$ref": "#/components/schemas/AccessRightDetail"
+              },
+              "ChildAccessRights": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/AccessRightDetail"
+                },
+                "nullable": true
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "GetAlarmZoneSwitchOutput": {
+        "required": [
+          "Value",
+          "TimeElapsed"
+        ],
+        "properties": {
+          "Value": {
+            "required": [
+              "AlarmZoneAccessDomains"
+            ],
+            "properties": {
+              "AlarmZoneAccessDomains": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/AlarmZoneAccessDomains"
+                }
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "VoidResponseOutput": {
+        "required": [
+          "TimeElapsed"
+        ],
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "SetAlarmZoneSwitchInput": {
+        "required": [
+          "AccessDomainId",
+          "SwitchAlarmZone"
+        ],
+        "properties": {
+          "AccessDomainId": {
+            "type": "string",
+            "default": "AccessDomain01"
+          },
+          "SwitchAlarmZone": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "TenantOutput": {
+        "required": [
+          "TenantIdInternal",
+          "TenantId",
+          "DisplayName"
+        ],
+        "properties": {
+          "TenantIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "TenantId": {
+            "type": "string",
+            "default": "Tenant 1"
+          },
+          "DisplayName": {
+            "type": "string",
+            "default": "Tenant 1"
+          }
+        },
+        "nullable": true
+      },
+      "PersonCategoryOutput": {
+        "required": [
+          "CategoryId"
+        ],
+        "properties": {
+          "CategoryId": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "DisplayName": {
+            "type": "string",
+            "default": "Category 1",
+            "nullable": true
+          },
+          "TenantId": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "GetAccessRightOutput": {
+        "required": [
+          "AccessRightId"
+        ],
+        "properties": {
+          "AccessRightId": {
+            "type": "string",
+            "default": "AccessRightId1"
+          },
+          "DisplayName": {
+            "type": "string",
+            "default": "Profile 1",
+            "nullable": true
+          },
+          "AccessRightType": {
+            "$ref": "#/components/schemas/AccessRightType"
+          },
+          "Comment": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "IsAssignableToVisitor": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "IsAssignableToContractor": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "IsAssignableToEmployee": {
+            "type": "boolean",
+            "default": true,
+            "nullable": true
+          },
+          "RequiredSecurityLevel": {
+            "maximum": 9,
+            "minimum": 0,
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "ValidFrom": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "ValidTo": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Tenant": {
+            "$ref": "#/components/schemas/TenantOutput"
+          },
+          "Category": {
+            "$ref": "#/components/schemas/PersonCategoryOutput"
+          },
+          "AccessDomain": {
+            "$ref": "#/components/schemas/AccessDomainOutput"
+          }
+        },
+        "nullable": true
+      },
+      "GetAccessRightAssignemntsOutput": {
+        "properties": {
+          "AssignmentId": {
+            "type": "string",
+            "default": "Assignment01",
+            "nullable": true
+          },
+          "AccessRightId": {
+            "type": "string",
+            "default": "AccessRight01",
+            "nullable": true
+          },
+          "AccessRightName": {
+            "type": "string",
+            "default": "AccessRight01",
+            "nullable": true
+          },
+          "AccessRightType": {
+            "$ref": "#/components/schemas/AccessRightType"
+          },
+          "AccessDomainId": {
+            "type": "string",
+            "default": "AccessDomain01",
+            "nullable": true
+          },
+          "AccessDomainName": {
+            "type": "string",
+            "default": "AccessDomainName01",
+            "nullable": true
+          },
+          "ValidFrom": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "ValidTo": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "SecurityLevel": {
+            "type": "integer",
+            "default": 0,
+            "nullable": true
+          },
+          "TimeZoneId": {
+            "type": "string",
+            "default": "TimeZone01",
+            "nullable": true
+          },
+          "TimeZoneName": {
+            "type": "string",
+            "default": "TimeZone01",
+            "nullable": true
+          },
+          "IsOfficeModeEnabled": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "PersonId": {
+            "type": "string",
+            "default": "Person01",
+            "nullable": true
+          },
+          "Commentary": {
+            "type": "string",
+            "default": "Comment01",
+            "nullable": true
+          },
+          "IsAssignableToEmployee": {
+            "type": "boolean",
+            "default": true,
+            "nullable": true
+          },
+          "IsAssignableToVisitor": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "IsAssignableToContractor": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "VisitId": {
+            "type": "string",
+            "default": "Visit01",
+            "nullable": true
+          },
+          "IsOss": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "ExtendedLatchTimeActive": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "IsUnassignedSortKey": {
+            "type": "integer",
+            "default": 0,
+            "nullable": true
+          }
+        }
+      },
+      "GetAccessRightsMinimised": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/MinimisedAccessRightOutput"
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "MinimisedAccessRightOutput": {
+        "required": [
+          "Value",
+          "TotalCount"
+        ],
+        "properties": {
+          "Value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MinimisedAccessRight"
+            }
+          },
+          "TotalCount": {
+            "type": "integer",
+            "default": "0",
+            "nullable": true
+          }
+        }
+      },
+      "MinimisedAccessRight": {
+        "properties": {
+          "AccessRightId": {
+            "type": "string",
+            "default": ""
+          },
+          "AccessRightName": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "nullable": true
+      },
+      "AccessDomainOutput": {
+        "required": [
+          "AccessDomainId",
+          "AccessDomainIdInternal"
+        ],
+        "properties": {
+          "AccessDomainIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "AccessDomainId": {
+            "type": "string",
+            "default": ""
+          },
+          "AccessDomainNr": {
+            "type": "integer",
+            "format": "int16",
+            "default": 1,
+            "nullable": true
+          },
+          "DisplayName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Description": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "CategoryId": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "ValidationDateToDefault": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "SpecificUpdatePeriodChangeable": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "VirtualNetworkActive": {
+            "deprecated": true,
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "SegData": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "ActuatorVersion": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "ActuatorTechnology": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "AssignedToGroupController": {
+            "deprecated": true,
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "ValidFrom": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "ValidTo": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "MultiprofileEnabled": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "TimeZoneBehaviour": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "DepotControlId": {
+            "type": "integer",
+            "format": "int32",
+            "default": null,
+            "nullable": true
+          },
+          "AccessDomainType": {
+            "$ref": "#/components/schemas/AccessDomainType",
+            "nullable": true
+          },
+          "OssNumberOfTimeProfilesOnUserMedium": {
+            "type": "string",
+            "format": "byte",
+            "default": null,
+            "nullable": true
+          },
+          "OssNumberOfIndividualRightsOnUserMedium": {
+            "type": "integer",
+            "format": "byte",
+            "default": null,
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "AccessCheckOutput": {
+        "required": [
+          "AccessDecision",
+          "AccessDenyReason",
+          "AccessAllowedCondition",
+          "CheckedAccessRightId",
+          "CheckedPersonId",
+          "CheckedDateTime"
+        ],
+        "properties": {
+          "AccessDecision": {
+            "enum": [
+              "Unknown",
+              "AccessAllowed",
+              "AccessDenied"
+            ],
+            "type": "string",
+            "default": "Unknown"
+          },
+          "AccessDenyReason": {
+            "enum": [
+              "Unknown",
+              "PersonBlocked",
+              "PersonAccessExitDateInPast",
+              "AccessRightNotActive",
+              "InsuficientSecurityLevel",
+              "AccessRightValidFromInFuture",
+              "AssignmentValidFromInFuture",
+              "AccessRightValidToInPast",
+              "AssignmentValidToInPast",
+              "TimeZoneNotValid",
+              "NoValidAccessRightAssignmentFound",
+              "NotTheRequestedAccessRight"
+            ],
+            "type": "string",
+            "default": "Unknown"
+          },
+          "AccessAllowedCondition": {
+            "enum": [
+              "None",
+              "PinRequired",
+              "BioRequired"
+            ],
+            "type": "string",
+            "default": "None"
+          },
+          "CheckedAccessRightId": {
+            "type": "string",
+            "default": "AccessRight1"
+          },
+          "CheckedPersonId": {
+            "type": "string",
+            "default": "Person1"
+          },
+          "CheckedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00"
+          },
+          "AccessDecisionTree": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessDecisionTreeNode"
+            },
+            "nullable": true
+          }
+        }
+      },
+      "AccessDecisionTreeNode": {},
+      "AccessRightDetail": {
+        "required": [
+          "AccessRightId",
+          "AccessRightType",
+          "DisplayName"
+        ],
+        "properties": {
+          "AccessRightId": {
+            "type": "string",
+            "default": "AccessRight01"
+          },
+          "AccessRightType": {
+            "$ref": "#/components/schemas/AccessRightType"
+          },
+          "DisplayName": {
+            "type": "string",
+            "default": "AccessRight01"
+          },
+          "Comment": {
+            "type": "string",
+            "default": "Comment",
+            "nullable": true
+          },
+          "Comment2": {
+            "type": "string",
+            "default": "Comment2",
+            "nullable": true
+          },
+          "AccessDomainId": {
+            "type": "string",
+            "default": "AccessDomain01",
+            "nullable": true
+          },
+          "AccessDomainName": {
+            "type": "string",
+            "default": "AccessDomain01",
+            "nullable": true
+          },
+          "ValidFrom": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "ValidTo": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "TimeZoneId": {
+            "type": "string",
+            "default": "Timezone01",
+            "nullable": true
+          },
+          "TimeZoneName": {
+            "type": "string",
+            "default": "Timezone01",
+            "nullable": true
+          },
+          "IsOfficeModeEnabled": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          }
+        }
+      },
+      "AlarmZoneAccessDomains": {
+        "required": [
+          "AccessDomainId",
+          "AccessDomainName",
+          "AlarmZoneSwitch"
+        ],
+        "properties": {
+          "AccessDomainId": {
+            "type": "string",
+            "default": "AccessDomain01"
+          },
+          "AccessDomainName": {
+            "type": "string",
+            "default": "AccessDomain01"
+          },
+          "AlarmZoneSwitch": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "AccessRightType": {
+        "enum": [
+          "Profile",
+          "ProfileCollection",
+          "ProfileSuperCollection",
+          "ProfilePrivate",
+          "DoorGroup",
+          "AccessGrid",
+          "AccessGridDepot",
+          "AccessGridParking",
+          "ComponentStandalone",
+          "ComponentWireless",
+          "ComponentStandaloneWhite",
+          "AccessGridDepotControl",
+          "AllComponentTypes",
+          "AllProfileTypes",
+          "AllAccessGridTypes"
+        ],
+        "type": "string",
+        "nullable": true
+      },
+      "AccessRightPersonType": {
+        "enum": [
+          "Employee",
+          "Visitor",
+          "Contractor"
+        ],
+        "type": "string",
+        "nullable": false
+      },
+      "AccessDomainType": {
+        "enum": [
+          "StandardAccessDomain",
+          "KoneGroupController",
+          "Oss",
+          "LoxTop",
+          "CardLink",
+          "KoneAccess"
+        ],
+        "type": "string",
+        "nullable": false
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "access right",
+      "description": "<p>Operations related to access rights</p><p>A Profile is a set of defined access rights, which defines where and when a person has access. A profile can contain other profiles, access grids, door groups or cardlink components.</p>"
+    }
+  ]
+}

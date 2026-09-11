@@ -1,0 +1,418 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "paths": {
+    "/v1.0/personReports": {
+      "get": {
+        "tags": [
+          "person report"
+        ],
+        "summary": "get a list of person reports for a specific person",
+        "description": "Be aware that a query made here can return up to 10000 records. If you need more, please use the built in paging functionality with $top and $skip.\nhttp://www.asp.net/web-api/overview/odata-support-in-aspnet-web-api/supporting-odata-query-options. ",
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "query",
+            "description": "id of person",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select and $expand.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$skip",
+            "in": "query",
+            "description": "skips the first x entries of the response(paging)",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$top",
+            "in": "query",
+            "description": "limits the number of returned records.",
+            "schema": {
+              "type": "integer",
+              "default": 1000,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPersonReportsOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_SDM_EmployeeReportRead",
+          "API_VM_VisitorReportRead",
+          "API_CM_ContractorReportRead"
+        ],
+        "x-errorcodes": "100000,300004,300008,400001,999999"
+      }
+    },
+    "/v1.0/personReports/{personReportId}/delete": {
+      "post": {
+        "tags": [
+          "person report"
+        ],
+        "summary": "Delete a specific person report.",
+        "description": "Deletes a specific person report.",
+        "parameters": [
+          {
+            "name": "personReportId",
+            "in": "path",
+            "description": "id of person report",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_SDM_EmployeeReportDelete",
+          "API_VM_VisitorReportDelete",
+          "API_CM_ContractorReportDelete"
+        ],
+        "x-errorcodes": "100000,100001,100002,300004,300008,400047,400139,999999"
+      }
+    },
+    "/v1.0/personReports/create": {
+      "post": {
+        "tags": [
+          "person report"
+        ],
+        "summary": "Save a report for a specific person.",
+        "description": "Saves a (signed) report for a specific person.<br />The report must be passed as base64 encoded string.<br />The report size is limited to 8MB per default and can be controlled with the Parameter SYS/MAXPERSONREPORTSIZEINBYTE.<br />.",
+        "requestBody": {
+          "description": "Report",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePersonReportInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatePersonReportOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_SDM_EmployeeReportCreate",
+          "API_VM_VisitorReportCreate",
+          "API_CM_ContractorReportCreate"
+        ],
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400001,400139,999999"
+      }
+    },
+    "/v1.0/personReports/settings/MaximumReportSize": {
+      "post": {
+        "tags": [
+          "person report"
+        ],
+        "summary": "expression that defines the MaximumReportSizeInBytes parameter",
+        "description": "Default 8388608, valid length: 0-2147483647. ",
+        "requestBody": {
+          "description": "set parameter value",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetMaximumReportSizeInBytesInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_SYS_PersonReportsSettingsMaximumReportSize",
+        "x-errorcodes": "100000,100002,100004,100005,100006,214748,300004,300008,838860,999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GetPersonReportsOutputWithTime": {
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "@odata.count": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetPersonReportsOutput"
+            }
+          }
+        }
+      },
+      "CreatePersonReportOutputWithTime": {
+        "required": [
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/CreatePersonReportOutput"
+          },
+          "TimeElapsed": {
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      "CreatePersonReportInput": {
+        "required": [
+          "PersonId",
+          "ReportTitle",
+          "ReportFormat",
+          "Report"
+        ],
+        "properties": {
+          "PersonId": {
+            "type": "string",
+            "default": "PersonId1"
+          },
+          "ReportTitle": {
+            "type": "string",
+            "default": "Report1"
+          },
+          "ReportType": {
+            "type": "string",
+            "default": "MediaHandoutReport",
+            "nullable": true
+          },
+          "ReportFormat": {
+            "enum": [
+              "PDF",
+              "Excel",
+              "Word"
+            ],
+            "type": "string",
+            "default": "PDF"
+          },
+          "Report": {
+            "type": "string",
+            "format": "byte",
+            "default": "UG9seWZvbiB6d2l0c2NoZXJuZCBhw59lbiBNw6R4Y2hlbnMgVsO2Z2VsIFLDvGJlbiwgSm9naHVydCB1bmQgUXVhcms="
+          }
+        }
+      },
+      "VoidResponseOutput": {
+        "required": [
+          "TimeElapsed"
+        ],
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "SetMaximumReportSizeInBytesInput": {
+        "required": [
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "type": "integer",
+            "format": "int32",
+            "default": 8388608
+          }
+        }
+      },
+      "GetPersonReportsOutput": {
+        "properties": {
+          "PersonReportIdInternal": {
+            "type": "integer",
+            "default": 1,
+            "nullable": true
+          },
+          "PersonReportId": {
+            "type": "string",
+            "default": "PersonReportId1",
+            "nullable": true
+          },
+          "PersonId": {
+            "type": "integer",
+            "default": 2,
+            "nullable": true
+          },
+          "OperatingLoginId": {
+            "type": "integer",
+            "default": 1,
+            "nullable": true
+          },
+          "TenantId": {
+            "type": "integer",
+            "default": 1,
+            "nullable": true
+          },
+          "ReportDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "ReportTitle": {
+            "type": "string",
+            "default": "Report1",
+            "nullable": true
+          },
+          "ReportType": {
+            "type": "string",
+            "default": "MediaHandoutReport",
+            "nullable": true
+          },
+          "ReportFormat": {
+            "enum": [
+              "PDF",
+              "Excel",
+              "Word"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "Report": {
+            "type": "string",
+            "format": "byte",
+            "default": "",
+            "nullable": true
+          }
+        }
+      },
+      "CreatePersonReportOutput": {
+        "required": [
+          "PersonReportId"
+        ],
+        "properties": {
+          "PersonReportId": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "person report",
+      "description": ""
+    }
+  ]
+}

@@ -1,0 +1,299 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "paths": {
+    "/v1.0/qrCode/visitorSettings": {
+      "get": {
+        "tags": [
+          "qrcode"
+        ],
+        "summary": "gets the qr code settings for visitor management",
+        "description": "gets the qr code settings for visitor management",
+        "parameters": [
+          {
+            "name": "workstation",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetQrCodeVisitorSettingsOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_VM_QrCodeSettingsRead",
+        "x-errorcodes": "100000,100001,300004,300008,400107,999999"
+      },
+      "post": {
+        "tags": [
+          "qrcode"
+        ],
+        "summary": "sets the qr code settings for visitor management",
+        "description": "sets the qr code settings for visitor management",
+        "parameters": [
+          {
+            "name": "workstation",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "setting values",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetQrCodeVisitorSettingsInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_VM_QrCodeSettingsUpdate",
+        "x-errorcodes": "100000,100001,100004,300004,300008,400010,400017,400107,400179,400180,999999"
+      }
+    },
+    "/v1.0/qrCode/cleanQrCodes": {
+      "post": {
+        "tags": [
+          "qrcode"
+        ],
+        "summary": "clean up job for qr codes",
+        "description": "removes passed qr codes from the system",
+        "requestBody": {
+          "description": "setting values",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CleanQrCodeInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "TO be defined (same as error codes)",
+        "x-errorcodes": "100000,100001,300004,300008,999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GetQrCodeVisitorSettingsOutputWithTime": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/GetQrCodeVisitorSettingsOutput"
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "GetQrCodeVisitorSettingsOutput": {
+        "required": [
+          "SendingQrCodeEnabled",
+          "InitialValue",
+          "ValidityBefore",
+          "ValidityAfter"
+        ],
+        "properties": {
+          "SendingQrCodeEnabled": {
+            "type": "boolean"
+          },
+          "InitialValue": {
+            "type": "boolean"
+          },
+          "MailSubject": {
+            "type": "string",
+            "nullable": true
+          },
+          "MailTemplate": {
+            "type": "string",
+            "nullable": true
+          },
+          "ValidityBefore": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ValidityAfter": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "MediaDefinitionId": {
+            "type": "string",
+            "nullable": true
+          },
+          "ProfileQrReaders": {
+            "type": "string",
+            "nullable": true
+          },
+          "SendEmailToHost": {
+            "type": "boolean"
+          },
+          "SendEmailToDeputy": {
+            "type": "boolean"
+          },
+          "SendEmailToVisitor": {
+            "type": "boolean"
+          },
+          "SendAdditionalMail": {
+            "type": "boolean"
+          },
+          "FromMail": {
+            "type": "string",
+            "nullable": true
+          },
+          "ToMail": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "SetQrCodeVisitorSettingsInput": {
+        "required": [
+          "SendingQrCodeEnabled",
+          "InitialValue",
+          "ValidityBefore",
+          "ValidityAfter"
+        ],
+        "properties": {
+          "SendingQrCodeEnabled": {
+            "type": "boolean"
+          },
+          "InitialValue": {
+            "type": "boolean"
+          },
+          "MailSubject": {
+            "type": "string"
+          },
+          "MailTemplate": {
+            "type": "string",
+            "nullable": true
+          },
+          "ValidityBefore": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ValidityAfter": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "MediaDefinitionId": {
+            "type": "string"
+          },
+          "ProfileQrReaders": {
+            "type": "string"
+          },
+          "SendEmailToHost": {
+            "type": "boolean"
+          },
+          "SendEmailToDeputy": {
+            "type": "boolean"
+          },
+          "SendEmailToVisitor": {
+            "type": "boolean"
+          },
+          "SendAdditionalMail": {
+            "type": "boolean"
+          },
+          "FromMail": {
+            "type": "string",
+            "nullable": true
+          },
+          "ToMail": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "CleanQrCodeInput": {
+        "properties": {
+          "CheckFromVisitEndDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "VisitId": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "VoidResponseOutput": {
+        "required": [
+          "TimeElapsed"
+        ],
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "qrcode",
+      "description": ""
+    }
+  ]
+}

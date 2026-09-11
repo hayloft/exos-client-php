@@ -1,0 +1,622 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "paths": {
+    "/v1.0/safetyCheck/{personId}/pass": {
+      "post": {
+        "tags": [
+          "safety check"
+        ],
+        "summary": "Set the expiration date for safety check",
+        "description": "Set the expiration date for safety check.",
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "path",
+            "description": "id of person",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "the date the saftey check will expire",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SafetyCheckExpirationDate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_SDM_SafetyCheckPass",
+          "API_CM_SafetyCheckPass",
+          "API_VM_SafetyCheckPass"
+        ],
+        "x-errorcodes": "100000,100002,100003,100004,100006,300001,300004,300008,300009,400001,400014,400081,400082,400083,400146,400174,500000,999999"
+      }
+    },
+    "/v1.0/safetyCheck/settings/ContractorSafetyCheckNotificationInDays": {
+      "get": {
+        "tags": [
+          "safety check"
+        ],
+        "summary": "returns the number of days when a notification will be send before the safety check will expire (Contractors)",
+        "description": "Default false. ",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetIntParameterOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": true,
+        "x-rights": "",
+        "x-errorcodes": "100001,100007,300004,300008,999999"
+      },
+      "post": {
+        "tags": [
+          "safety check"
+        ],
+        "summary": "sets the number of days when a notification should be send before the safety check will expire (Contractors)",
+        "description": "Default false. ",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetSafetyCheckNotificationInDays"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_CM_SafetyCheckSettingsContractorSafetyCheckNotificationInDays",
+        "x-errorcodes": "100000,300004,300008,400078,400079,400171,999999"
+      }
+    },
+    "/v1.0/safetyCheck/settings/ContractorSafetyCheckValidityInDays": {
+      "get": {
+        "tags": [
+          "safety check"
+        ],
+        "summary": "returns the number of days the safety check is valid for Contractors",
+        "description": "Default false. ",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetIntParameterOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": true,
+        "x-rights": "",
+        "x-errorcodes": "300004,300008,999999"
+      },
+      "post": {
+        "tags": [
+          "safety check"
+        ],
+        "summary": "sets the number of days the safety check is valid",
+        "description": "Default false. ",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetPersonSafetyCheckValidityInDaysInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_CM_SafetyCheckSettingsContractorSafetyCheckValidityInDays",
+        "x-errorcodes": "100000,100007,300004,300008,400078,999999"
+      }
+    },
+    "/v1.0/safetyCheck/settings/EmployeeSafetyCheckNotificationInDays": {
+      "get": {
+        "tags": [
+          "safety check"
+        ],
+        "summary": "returns the number of days when a notification will be send before the safety check will expire (employees)",
+        "description": "Default false. ",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetIntParameterOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": true,
+        "x-rights": "",
+        "x-errorcodes": "100001,100007,300004,300008,999999"
+      },
+      "post": {
+        "tags": [
+          "safety check"
+        ],
+        "summary": "sets the number of days when a notification should be send before the safety check will expire (employees)",
+        "description": "Default false. ",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetSafetyCheckNotificationInDays"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_SDM_SafetyCheckSettingsEmployeeSafetyCheckNotificationInDays",
+        "x-errorcodes": "100000,300004,300008,400078,400079,400171,999999"
+      }
+    },
+    "/v1.0/safetyCheck/settings/EmployeeSafetyCheckValidityInDays": {
+      "get": {
+        "tags": [
+          "safety check"
+        ],
+        "summary": "returns the number of days the safety check is valid for employees",
+        "description": "Default false. ",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetIntParameterOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": true,
+        "x-rights": "",
+        "x-errorcodes": "300004,300008,999999"
+      },
+      "post": {
+        "tags": [
+          "safety check"
+        ],
+        "summary": "sets the number of days the safety check is valid",
+        "description": "Default false. ",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetPersonSafetyCheckValidityInDaysInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_SDM_SafetyCheckSettingsEmployeeSafetyCheckValidityInDays",
+        "x-errorcodes": "100000,100007,300004,300008,400078,999999"
+      }
+    },
+    "/v1.0/safetyCheck/settings/EnableContractorSafetyCheck": {
+      "get": {
+        "tags": [
+          "safety check"
+        ],
+        "summary": "check if safety check for Contractors is enabled",
+        "description": "Default false. ",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetBoolParameterOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": true,
+        "x-rights": "",
+        "x-errorcodes": "300004,300008,999999"
+      },
+      "post": {
+        "tags": [
+          "safety check"
+        ],
+        "summary": "enables/disables safety check for Contractors",
+        "description": "Default false. ",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetBoolParameterInputWithDefaultFalse"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_CM_SafetyCheckSettingsEnableContractorSafetyCheck",
+        "x-errorcodes": "100000,300004,300008,999999"
+      }
+    },
+    "/v1.0/safetyCheck/settings/EnableContractorSafetyCheckNotification": {
+      "get": {
+        "tags": [
+          "safety check"
+        ],
+        "summary": "checks if safety check notification is enabled for Contractors",
+        "description": "Default false. ",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetBoolParameterOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": true,
+        "x-rights": "",
+        "x-errorcodes": "300004,300008,999999"
+      },
+      "post": {
+        "tags": [
+          "safety check"
+        ],
+        "summary": "enables/disables safety check notification for Contractors",
+        "description": "Default false. ",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetBoolParameterInputWithDefaultFalse"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_CM_SafetyCheckSettingsEnableContractorSafetyCheckNotification",
+        "x-errorcodes": "100000,300004,300008,400078,999999"
+      }
+    },
+    "/v1.0/safetyCheck/settings/EnableEmployeeSafetyCheck": {
+      "get": {
+        "tags": [
+          "safety check"
+        ],
+        "summary": "check if safety check for employees is enabled",
+        "description": "Default false. ",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetBoolParameterOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": true,
+        "x-rights": "",
+        "x-errorcodes": "300004,300008,999999"
+      },
+      "post": {
+        "tags": [
+          "safety check"
+        ],
+        "summary": "enables/disables safety check for employees",
+        "description": "Default false. ",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetBoolParameterInputWithDefaultFalse"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_SDM_SafetyCheckSettingsEnableEmployeeSafetyCheck",
+        "x-errorcodes": "100000,300004,300008,999999"
+      }
+    },
+    "/v1.0/safetyCheck/settings/EnableEmployeeSafetyCheckNotification": {
+      "get": {
+        "tags": [
+          "safety check"
+        ],
+        "summary": "checks if safety check notification is enabled for employees",
+        "description": "Default false. ",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetBoolParameterOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": true,
+        "x-rights": "",
+        "x-errorcodes": "300004,300008,999999"
+      },
+      "post": {
+        "tags": [
+          "safety check"
+        ],
+        "summary": "enables/disables safety check notification for employees",
+        "description": "Default false. ",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetBoolParameterInputWithDefaultFalse"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_SDM_SafetyCheckSettingsEnableEmployeeSafetyCheckNotification",
+        "x-errorcodes": "100000,300004,300008,400078,999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "VoidResponseOutput": {
+        "required": [
+          "TimeElapsed"
+        ],
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "SafetyCheckExpirationDate": {
+        "required": [
+          "ExpirationDate"
+        ],
+        "properties": {
+          "ExpirationDate": {
+            "type": "string",
+            "format": "date",
+            "example": "2001-01-31"
+          }
+        }
+      },
+      "GetBoolParameterOutputWithTime": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "required": [
+              "Value"
+            ],
+            "properties": {
+              "Value": {
+                "type": "boolean"
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "GetIntParameterOutputWithTime": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "required": [
+              "Value"
+            ],
+            "properties": {
+              "Value": {
+                "type": "integer"
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "SetBoolParameterInputWithDefaultFalse": {
+        "required": [
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "SetPersonSafetyCheckValidityInDaysInput": {
+        "required": [
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "type": "integer",
+            "format": "int32",
+            "default": 365
+          }
+        }
+      },
+      "SetSafetyCheckNotificationInDays": {
+        "required": [
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "type": "integer",
+            "format": "int32",
+            "default": 44
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "safety check",
+      "description": "<p>Operations related to safety check.</p>"
+    }
+  ]
+}

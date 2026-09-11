@@ -1,0 +1,1021 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "paths": {
+    "/v1.0/setting/{SettingName}": {
+      "get": {
+        "tags": [
+          "setting"
+        ],
+        "summary": "get a specific setting ( not in a group )",
+        "description": "Gets a setting by the name of a setting. It will return an ungrouped setting value. This should be used for settings which are stored without a SettingGroupName.",
+        "parameters": [
+          {
+            "name": "SettingName",
+            "in": "path",
+            "description": "Setting Name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Application",
+            "in": "query",
+            "description": "Application name",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "View",
+            "in": "query",
+            "description": "View name",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "LoginId",
+            "in": "query",
+            "description": "Login Id (Permission 'API_SYS_SettingPassLogin' needed)",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            }
+          },
+          {
+            "name": "Location",
+            "in": "query",
+            "description": "Location value/Id",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "Workstation",
+            "in": "query",
+            "description": "Workstation value/Id",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "PersonalSetting",
+            "in": "query",
+            "description": "set to false to get/set for a different user",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetSettingOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_SYS_SettingPassLogin",
+        "x-errorcodes": ""
+      },
+      "post": {
+        "tags": [
+          "setting"
+        ],
+        "summary": "saves a specific setting ( not in a group )",
+        "description": "Set a setting value. Make sure to enclose the setting value with single or double quotes (' or \").",
+        "parameters": [
+          {
+            "name": "SettingName",
+            "in": "path",
+            "description": "Setting Name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Application",
+            "in": "query",
+            "description": "Application name",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "View",
+            "in": "query",
+            "description": "View name",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "LoginId",
+            "in": "query",
+            "description": "Login Id (Permission 'API_SYS_SettingPassLogin' needed)",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            }
+          },
+          {
+            "name": "Location",
+            "in": "query",
+            "description": "Location value/Id",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "Workstation",
+            "in": "query",
+            "description": "Workstation value/Id",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "PersonalSetting",
+            "in": "query",
+            "description": "set to false to get/set for a different user",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SettingValueInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "success"
+          }
+        },
+        "x-rights": "API_SYS_SettingSave",
+        "x-errorcodes": ""
+      },
+      "delete": {
+        "tags": [
+          "setting"
+        ],
+        "summary": "delete a specific setting ( not in a group )",
+        "description": "Remove a setting value ",
+        "parameters": [
+          {
+            "name": "SettingName",
+            "in": "path",
+            "description": "Setting Name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Application",
+            "in": "query",
+            "description": "Application name",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "View",
+            "in": "query",
+            "description": "View name",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "LoginId",
+            "in": "query",
+            "description": "Login Id (Permission 'API_SYS_SettingPassLogin' needed)",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            }
+          },
+          {
+            "name": "Location",
+            "in": "query",
+            "description": "Location value/Id",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "Workstation",
+            "in": "query",
+            "description": "Workstation value/Id",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "PersonalSetting",
+            "in": "query",
+            "description": "set to false to get/set for a different user",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "success"
+          }
+        },
+        "x-rights": "API_SYS_SettingDelete",
+        "x-errorcodes": ""
+      }
+    },
+    "/v1.0/settings": {
+      "get": {
+        "tags": [
+          "setting"
+        ],
+        "summary": "get all available settings",
+        "operationId": "SettingsAllGET",
+        "description": "Gets a list of all settings. All returned settings will consist of a list of key/value pairs. Grouped settings will be under the specific group name. Ungrouped settings will be under the setting name and contain a key value pair with the key \"0\" ",
+        "parameters": [
+          {
+            "name": "Application",
+            "in": "query",
+            "description": "Application name",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "View",
+            "in": "query",
+            "description": "View name",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "LoginId",
+            "in": "query",
+            "description": "Login Id (Permission 'API_SYS_SettingPassLogin' needed)",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            }
+          },
+          {
+            "name": "Location",
+            "in": "query",
+            "description": "Location value/Id",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "Workstation",
+            "in": "query",
+            "description": "Workstation value/Id",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "PersonalSetting",
+            "in": "query",
+            "description": "set to false to get/set for a different user",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetSettingsOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "",
+        "x-errorcodes": "300004"
+      }
+    },
+    "/v1.0/settings/{SettingGroupName}": {
+      "get": {
+        "tags": [
+          "setting"
+        ],
+        "summary": "get a specific group of settings",
+        "operationId": "SettingsUngroupedGET",
+        "description": "Gets all settings of a settingGroup. It will return all settings under this group with a key/value pair.",
+        "parameters": [
+          {
+            "name": "SettingGroupName",
+            "in": "path",
+            "description": "Setting Name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Application",
+            "in": "query",
+            "description": "Application name",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "View",
+            "in": "query",
+            "description": "View name",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "LoginId",
+            "in": "query",
+            "description": "Login Id (Permission 'API_SYS_SettingPassLogin' needed)",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            }
+          },
+          {
+            "name": "Location",
+            "in": "query",
+            "description": "Location value/Id",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Workstation",
+            "in": "query",
+            "description": "Workstation value/Id",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "PersonalSetting",
+            "in": "query",
+            "description": "set to false to get/set for a different user",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetSettingGroupOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "",
+        "x-errorcodes": ""
+      },
+      "post": {
+        "tags": [
+          "setting"
+        ],
+        "summary": "saves a group of settings",
+        "operationId": "SettingsUngroupedPOST",
+        "description": "Set multiple setting values for a group.",
+        "parameters": [
+          {
+            "name": "SettingGroupName",
+            "in": "path",
+            "description": "Setting Name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Application",
+            "in": "query",
+            "description": "Application name",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "View",
+            "in": "query",
+            "description": "View name",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "LoginId",
+            "in": "query",
+            "description": "Login Id (Permission 'API_SYS_SettingPassLogin' needed)",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            }
+          },
+          {
+            "name": "Location",
+            "in": "query",
+            "description": "Location value/Id",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "Workstation",
+            "in": "query",
+            "description": "Workstation value/Id",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "PersonalSetting",
+            "in": "query",
+            "description": "set to false to get/set for a different user",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "new setting value",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SettingValues"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "success"
+          }
+        },
+        "x-rights": "API_SYS_SettingSave",
+        "x-errorcodes": ""
+      },
+      "delete": {
+        "tags": [
+          "setting"
+        ],
+        "summary": "deletes a group of settings",
+        "operationId": "SettingsUngroupedDELETE",
+        "description": "Remove all setting values under the specified context for a specific group.",
+        "parameters": [
+          {
+            "name": "SettingGroupName",
+            "in": "path",
+            "description": "Setting Name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Application",
+            "in": "query",
+            "description": "Application name",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "View",
+            "in": "query",
+            "description": "View name",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "LoginId",
+            "in": "query",
+            "description": "Login Id (Permission 'API_SYS_SettingPassLogin' needed)",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            }
+          },
+          {
+            "name": "Location",
+            "in": "query",
+            "description": "Location value/Id",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "Workstation",
+            "in": "query",
+            "description": "Workstation value/Id",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "PersonalSetting",
+            "in": "query",
+            "description": "set to false to get/set for a different user",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "success"
+          }
+        },
+        "x-rights": "API_SYS_SettingDelete",
+        "x-errorcodes": ""
+      }
+    },
+    "/v1.0/settings/{SettingGroupName}/{SettingName}": {
+      "get": {
+        "tags": [
+          "setting"
+        ],
+        "summary": "get a specific setting of a specific group",
+        "description": "Gets a setting by the name of the settingGroup and the SettingName. Returns a single value which represents of the setting value.",
+        "parameters": [
+          {
+            "name": "SettingGroupName",
+            "in": "path",
+            "description": "Setting Name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "SettingName",
+            "in": "path",
+            "description": "Setting SubName",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Application",
+            "in": "query",
+            "description": "Application name",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "View",
+            "in": "query",
+            "description": "View name",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "LoginId",
+            "in": "query",
+            "description": "Login Id (Permission 'API_SYS_SettingPassLogin' needed)",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            }
+          },
+          {
+            "name": "Location",
+            "in": "query",
+            "description": "Location value/Id",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "Workstation",
+            "in": "query",
+            "description": "Workstation value/Id",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "PersonalSetting",
+            "in": "query",
+            "description": "set to false to get/set for a different user",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetSettingOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "",
+        "x-errorcodes": ""
+      },
+      "post": {
+        "tags": [
+          "setting"
+        ],
+        "summary": "saves a specific setting of a group",
+        "description": "Set a setting value for a specific setting by SettingGroupName and SettingName. Make sure that the SettingValue is enclosed within single or double quotes \" or ' ",
+        "parameters": [
+          {
+            "name": "SettingGroupName",
+            "in": "path",
+            "description": "Setting Name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "SettingName",
+            "in": "path",
+            "description": "Setting SubName",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Application",
+            "in": "query",
+            "description": "Application name",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "View",
+            "in": "query",
+            "description": "View name",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "LoginId",
+            "in": "query",
+            "description": "Login Id (Permission 'API_SYS_SettingPassLogin' needed)",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            }
+          },
+          {
+            "name": "Location",
+            "in": "query",
+            "description": "Location value/Id",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "Workstation",
+            "in": "query",
+            "description": "Workstation value/Id",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "PersonalSetting",
+            "in": "query",
+            "description": "set to false to get/set for a different user",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SettingValueInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "success"
+          }
+        },
+        "x-rights": "API_SYS_SettingSave",
+        "x-errorcodes": ""
+      },
+      "delete": {
+        "tags": [
+          "setting"
+        ],
+        "summary": "deletes a specific setting of a specific group",
+        "description": "Remove a specific setting value within a group from a given context.",
+        "parameters": [
+          {
+            "name": "SettingGroupName",
+            "in": "path",
+            "description": "Setting Name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "SettingName",
+            "in": "path",
+            "description": "Setting SubName",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Application",
+            "in": "query",
+            "description": "Application name",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "View",
+            "in": "query",
+            "description": "View name",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "LoginId",
+            "in": "query",
+            "description": "Login Id (Permission 'API_SYS_SettingPassLogin' needed)",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            }
+          },
+          {
+            "name": "Location",
+            "in": "query",
+            "description": "Location value/Id",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "Workstation",
+            "in": "query",
+            "description": "Workstation value/Id",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "PersonalSetting",
+            "in": "query",
+            "description": "set to false to get/set for a different user",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "success"
+          }
+        },
+        "x-rights": "API_SYS_SettingDelete",
+        "x-errorcodes": ""
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GetSettingsOutputWithTime": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetSettingOutput"
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "GetSettingGroupOutputWithTime": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/SettingValues"
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "SettingValues": {
+        "properties": {
+          "SettingName1": {
+            "type": "string",
+            "default": "value1"
+          },
+          "SettingName2": {
+            "type": "string",
+            "default": "value2"
+          },
+          "SettingNamex": {
+            "type": "string",
+            "default": "value3"
+          }
+        }
+      },
+      "GetSettingOutputWithTime": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/SettingValue"
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "GetSettingOutput": {
+        "required": [
+          "SettingName"
+        ],
+        "properties": {
+          "Values": {
+            "$ref": "#/components/schemas/SettingValues"
+          },
+          "SettingName": {
+            "type": "string",
+            "default": "SettingName 1"
+          }
+        }
+      },
+      "SettingValue": {
+        "type": "string"
+      },
+      "SettingValueInput": {
+        "required": [
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "setting",
+      "description": "<p>Settings can be stored and received here.</p><p>In general, setting has group name (Name) and subgroup name called (SubName). The setting group name or simple name defines a group of settings that belong together, e.g. the settings of a grid whose columns, sorting and filtering can be configured. The setting name denominates a setting within a setting group with certain setting contexts (see chapter “Setting Contexts” below)</p><p>To retrieval the setting the following logic is implemented: </p><p>The consumer calls the search method passing one mandatory parameter “Name” and some optional parameters as list of the search contexts. If the group with given name, has few subgroups only one setting (row) can be returned. If there are full matches found based on the context search params – it will be returned, if there is no full matched found - defaults is returned. If matched found, then retrieval based one the priority.</p><p>When storing a setting, the context information is always stored together with the setting and will only be retrieved if at least the same context is passed while trying to get the setting.</p><p>When the same setting has been stored under a different context, the priority of the context will decide which setting to return.<p>The setting 'Language' has been stored with the value 'GER' without any context information and <b>PersonalSetting</b> set to false. If there is also a setting for a specific user, the user will always receive the specific setting. If there is no such setting for a user, it will use the default.</p></p><p>Currently possible context: <table> <thead> <tr> <th>Context</th> <th>Priority</th> <th>Settable</th> <th>Description</th> </tr> </thead> <tbody> <tr> <td>Default</td> <td>1</td> <td>No</td> <td>Global default value from the installation.</td> </tr> <tr> <td>Tenant</td> <td>2</td> <td>Yes</td> <td>The tenant's default value is set if no context is provided and the <b>PersonalSetting</b> is set to false.</td> </tr> <tr> <td>Application</td> <td>3</td> <td>Yes</td> <td>Sets the default for an application. Depends on the setting if it is used or not.</td> </tr> <tr> <td>View</td> <td>3</td> <td>Yes</td> <td>Sets the default for a specific view within an application. Depends on the setting if it is used or not.</td> </tr> <tr> <td>Location</td> <td>4</td> <td>Yes</td> <td>Sets the default for a specific location. Depends on the setting if it is used or not.</td> </tr> <tr> <td>LoginId</td> <td>5</td> <td>Yes</td> <td>Sets the default for a specific user. If <b>PersonalSetting</b> is true or not set at all, this value will be ignored and filled on the server side with the current users LoginId. If it is set manually, the <b>PersonalSetting</b> flag has to be set to false.</td> </tr> <tr> <td>Workstation</td> <td>6</td> <td>Yes</td> <td>Sets the default for a specific workstation. Depends on the setting if it is used or not.</td> </tr> </tbody> </table></p>"
+    }
+  ]
+}

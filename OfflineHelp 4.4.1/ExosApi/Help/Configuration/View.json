@@ -1,0 +1,400 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "paths": {
+    "/v1.0/views": {
+      "get": {
+        "tags": [
+          "view"
+        ],
+        "summary": "get all authorised views of the logged in user",
+        "description": "get all authorised views of the logged in user",
+        "parameters": [
+          {
+            "name": "application",
+            "in": "query",
+            "description": "Application",
+            "required": true,
+            "schema": {
+              "enum": [
+                "SM",
+                "CM"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "Type",
+            "required": true,
+            "schema": {
+              "enum": [
+                "Person",
+                "ChangePerson",
+                "RollCall"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAuthorisedViewsWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "",
+        "x-errorcodes": "100000,300004,300008,999999"
+      }
+    },
+    "/v1.0/views/{viewId}/delete": {
+      "post": {
+        "tags": [
+          "view"
+        ],
+        "summary": "delete an existing view",
+        "description": "delete an existing view",
+        "parameters": [
+          {
+            "name": "viewId",
+            "in": "path",
+            "description": "id of view",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_SDM_ViewsDelete",
+          "API_CM_ViewsDelete"
+        ],
+        "x-errorcodes": "100000,100014,300004,300008,400138,400146,999999"
+      }
+    },
+    "/v1.0/views/{viewId}/update": {
+      "post": {
+        "tags": [
+          "view"
+        ],
+        "summary": "update an existing view",
+        "description": "update an existing view",
+        "parameters": [
+          {
+            "name": "viewId",
+            "in": "path",
+            "description": "id of view",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "View",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateViewInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateViewOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_SDM_ViewsUpdate",
+          "API_CM_ViewsUpdate"
+        ],
+        "x-errorcodes": "100000,100014,300004,300008,400044,400137,400138,400146,999999"
+      }
+    },
+    "/v1.0/views/create": {
+      "post": {
+        "tags": [
+          "view"
+        ],
+        "summary": "creates a new view",
+        "description": "creates a new view",
+        "requestBody": {
+          "description": "View",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateViewInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateViewOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_SDM_ViewsCreate",
+          "API_CM_ViewsCreate"
+        ],
+        "x-errorcodes": "100000,300004,300008,400044,400136,400137,400146,999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GetAuthorisedViewsWithTime": {
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/GetAuthorisedViewsOutput"
+          },
+          "TimeElapsed": {
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      "CreateViewOutputWithTime": {
+        "required": [
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/CreateViewOutput"
+          },
+          "TimeElapsed": {
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      "CreateViewInput": {
+        "required": [
+          "Application",
+          "Type",
+          "Recources"
+        ],
+        "properties": {
+          "Application": {
+            "$ref": "#/components/schemas/ApplicationType"
+          },
+          "Type": {
+            "$ref": "#/components/schemas/ViewType"
+          },
+          "Resources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateViewResource"
+            },
+            "nullable": true
+          }
+        }
+      },
+      "UpdateViewInput": {
+        "required": [
+          "Recources"
+        ],
+        "properties": {
+          "Resources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateViewResource"
+            },
+            "nullable": true
+          }
+        }
+      },
+      "VoidResponseOutput": {
+        "required": [
+          "TimeElapsed"
+        ],
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "GetAuthorisedViewsOutput": {
+        "properties": {
+          "Views": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetAuthorisedViews"
+            },
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "CreateViewOutput": {
+        "required": [
+          "ViewId"
+        ],
+        "properties": {
+          "ViewId": {
+            "type": "string",
+            "default": "SDM_VIEW01"
+          }
+        }
+      },
+      "ApplicationType": {
+        "enum": [
+          "SM",
+          "CM"
+        ],
+        "type": "string"
+      },
+      "ViewType": {
+        "enum": [
+          "Person",
+          "ChangePerson",
+          "RollCall"
+        ],
+        "type": "string"
+      },
+      "CreateViewResource": {
+        "required": [
+          "DisplayName",
+          "LanguageId"
+        ],
+        "properties": {
+          "DisplayName": {
+            "type": "string",
+            "default": "ViewXYZ"
+          },
+          "LanguageId": {
+            "type": "string",
+            "default": "ENG"
+          }
+        }
+      },
+      "GetAuthorisedViews": {
+        "required": [
+          "ViewId",
+          "Resource"
+        ],
+        "properties": {
+          "ViewId": {
+            "type": "string",
+            "default": "ViewXYZ"
+          },
+          "Resources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ViewResource"
+            },
+            "nullable": true
+          },
+          "AuthorisedRoles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuthorisedRole"
+            },
+            "nullable": true
+          }
+        }
+      },
+      "ViewResource": {
+        "required": [
+          "DisplayName",
+          "LanguageId",
+          "ResourceId"
+        ],
+        "properties": {
+          "DisplayName": {
+            "type": "string",
+            "default": "ViewXYZ"
+          },
+          "LanguageId": {
+            "type": "string",
+            "default": "ENG"
+          },
+          "ResourceId": {
+            "type": "string",
+            "default": "ResourceXYZ"
+          }
+        }
+      },
+      "AuthorisedRole": {
+        "required": [
+          "RoleId",
+          "RoleName"
+        ],
+        "properties": {
+          "RoleId": {
+            "type": "string",
+            "default": "Role01"
+          },
+          "RoleName": {
+            "type": "string",
+            "default": "SUPERVISOR ROLE"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "view",
+      "description": "<p>Operations related to views.</p>"
+    }
+  ]
+}

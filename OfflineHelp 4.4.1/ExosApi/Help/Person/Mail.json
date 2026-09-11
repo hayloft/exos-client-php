@@ -1,0 +1,133 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "paths": {
+    "/v1.0/mails/send": {
+      "post": {
+        "tags": [
+          "mail"
+        ],
+        "summary": "send a mail",
+        "description": "<p>This method provides mail send functionality with lMailLog and r9MailClient.</p><p>Required private notification license</p>",
+        "requestBody": {
+          "description": "Mail data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendMailInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_SYS_MailsSend",
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100007,300008"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "VoidResponseOutput": {
+        "required": [
+          "TimeElapsed"
+        ],
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "SendMailInput": {
+        "required": [
+          "To",
+          "Subject"
+        ],
+        "properties": {
+          "From": {
+            "type": "string",
+            "description": "the mail sender",
+            "default": "from@company.com",
+            "nullable": true
+          },
+          "To": {
+            "type": "string",
+            "description": "the mail receiver",
+            "default": "to@company.com"
+          },
+          "Cc": {
+            "type": "string",
+            "description": "additional the mail receivers",
+            "default": "cc@company.com",
+            "nullable": true
+          },
+          "Subject": {
+            "type": "string",
+            "description": "the mail subject",
+            "default": "mySubject"
+          },
+          "Body": {
+            "type": "string",
+            "description": "the mail body",
+            "default": "myMessage",
+            "nullable": true
+          },
+          "BodyIsHtml": {
+            "type": "boolean",
+            "description": "the mail body is formatted in HTLM style",
+            "default": false,
+            "nullable": true
+          },
+          "AttachmentName": {
+            "type": "string",
+            "description": "the mail body",
+            "default": "myAttachment",
+            "nullable": true
+          },
+          "Attachment": {
+            "type": "string",
+            "format": "byte",
+            "default": "1234",
+            "nullable": true
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "mail",
+      "description": ""
+    }
+  ]
+}

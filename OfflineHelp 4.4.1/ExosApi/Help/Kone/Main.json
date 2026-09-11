@@ -1,0 +1,43 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "calltype",
+      "description": ""
+    },
+    {
+      "name": "home floor",
+      "description": "<p>Operations related to home floors</p>"
+    }
+  ],
+  "paths": {
+    "/v1.0/calltypes": {
+      "$ref": "./Calltype.json#/paths/%2Fv1.0%2Fcalltypes"
+    },
+    "/v1.0/homeFloors": {
+      "$ref": "./HomeFloor.json#/paths/%2Fv1.0%2FhomeFloors"
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  }
+}

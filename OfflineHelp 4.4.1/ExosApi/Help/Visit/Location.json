@@ -1,0 +1,1285 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "paths": {
+    "/v1.0/locations": {
+      "get": {
+        "tags": [
+          "location"
+        ],
+        "summary": "get a list of locations",
+        "description": "Be aware that a query made here can return up to 10000 records. If you need more, please use the built in paging functionality with $top and $skip.\nhttp://www.asp.net/web-api/overview/odata-support-in-aspnet-web-api/supporting-odata-query-options. ",
+        "parameters": [
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "Workstations, AccessDomains, DefaultProfiles",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select and $expand.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$skip",
+            "in": "query",
+            "description": "skips the first x entries of the response(paging)",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$top",
+            "in": "query",
+            "description": "limits the number of returned records.",
+            "schema": {
+              "type": "integer",
+              "default": 1000,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetLocationsOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_PERS_LocationsRead",
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/locations/{locationId}/delete": {
+      "post": {
+        "tags": [
+          "location"
+        ],
+        "summary": "delete a location",
+        "description": "deletes a location.",
+        "parameters": [
+          {
+            "name": "locationId",
+            "in": "path",
+            "description": "id of location",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_PERS_LocationsDelete",
+        "x-errorcodes": "100000,100001,400231,300004,300008,400098,999999"
+      }
+    },
+    "/v1.0/locations/{locationId}/update": {
+      "post": {
+        "tags": [
+          "location"
+        ],
+        "summary": "update a location",
+        "description": "updates a location.",
+        "parameters": [
+          {
+            "name": "locationId",
+            "in": "path",
+            "description": "id of location",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "location to update",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLocationInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateLocationOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_PERS_LocationsUpdate",
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100007,100012,300004,300008,400010,400098,400099,400103,999999"
+      }
+    },
+    "/v1.0/locations/{locationId}/setAsMyDefault": {
+      "post": {
+        "tags": [
+          "location"
+        ],
+        "summary": "set a default location",
+        "description": "old default location is replaced with new one",
+        "parameters": [
+          {
+            "name": "locationId",
+            "in": "path",
+            "description": "id of location",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_PERS_LocationsRead",
+          "API_PERS_LocationsUpdate",
+          "API_PERS_LocationsDelete"
+        ],
+        "x-errorcodes": "100000,100001,400231,300004,300008,400100,999999"
+      }
+    },
+    "/v1.0/locations/create": {
+      "post": {
+        "tags": [
+          "location"
+        ],
+        "summary": "create a new location",
+        "description": "creates a new location.",
+        "requestBody": {
+          "description": "location to create",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLocationInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateLocationOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_PERS_LocationsCreate",
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100007,100012,300004,300008,400010,400099,400103,400106,400123,999999"
+      }
+    },
+    "/v1.0/authorisedLocations": {
+      "get": {
+        "tags": [
+          "location"
+        ],
+        "summary": "get a list of authorised locations",
+        "description": "Be aware that a query made here can return up to 10000 records. If you need more, please use the built in paging functionality with $top and $skip.\nhttp://www.asp.net/web-api/overview/odata-support-in-aspnet-web-api/supporting-odata-query-options. ",
+        "parameters": [
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "no expand possible",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select and $expand.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$skip",
+            "in": "query",
+            "description": "skips the first x entries of the response(paging)",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$top",
+            "in": "query",
+            "description": "limits the number of returned records.",
+            "schema": {
+              "type": "integer",
+              "default": 1000,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOdataLocationAuthorisationsOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "",
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/locationAuthorisations/{loginId}": {
+      "get": {
+        "tags": [
+          "location"
+        ],
+        "summary": "gets the authorised locations of a specific user",
+        "description": "gets the authorised locations of a specific user.",
+        "parameters": [
+          {
+            "name": "loginId",
+            "in": "path",
+            "description": "id of login",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetLocationAuthorisationsOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_LOGIN_LocationAuthorisationsRead",
+          "API_SDM_LocationAuthorisationsRead",
+          "API_CM_LocationAuthorisationsRead"
+        ],
+        "x-errorcodes": "100000,100001,300004,300008,400038,400146,999999"
+      }
+    },
+    "/v1.0/locationAuthorisations/update": {
+      "post": {
+        "tags": [
+          "location"
+        ],
+        "summary": "updates a login location authorisation",
+        "description": "updates a login location authorisation.",
+        "requestBody": {
+          "description": "location authorisation",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLocationAuthorisationInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_LOGIN_LocationAuthorisationsUpdate",
+          "API_SDM_LocationAuthorisationsUpdate",
+          "API_CM_LocationAuthorisationsUpdate"
+        ],
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100007,100012,300004,300008,400038,400098,400101,400102,400146,999999"
+      }
+    },
+    "/v1.0/workstations/create": {
+      "post": {
+        "tags": [
+          "location"
+        ],
+        "summary": "create a new workstation",
+        "description": "creates a new workstation.",
+        "requestBody": {
+          "description": "workstation to create",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateWorkstationInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateWorkstationOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_VM_WorkstationsCreate",
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100007,100012,300004,300008,400098,400106,400123,999999"
+      }
+    },
+    "/v1.0/workstations/{workstationId}/update": {
+      "post": {
+        "tags": [
+          "location"
+        ],
+        "summary": "update a workstation",
+        "description": "updates a workstation.",
+        "parameters": [
+          {
+            "name": "workstationId",
+            "in": "path",
+            "description": "id of workstation",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "workstation to update",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateWorkstationInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateWorkstationOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_VM_WorkstationsUpdate",
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100007,100012,300004,300008,400106,400107,400123,999999"
+      }
+    },
+    "/v1.0/workstations/{workstationId}/delete": {
+      "post": {
+        "tags": [
+          "location"
+        ],
+        "summary": "delete a workstation",
+        "description": "deletes a workstation.",
+        "parameters": [
+          {
+            "name": "workstationId",
+            "in": "path",
+            "description": "id of workstation",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_VM_WorkstationsDelete",
+        "x-errorcodes": "100000,100001,300004,300008,400107,999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GetLocationsOutputWithTime": {
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "@odata.count": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetLocationOutput"
+            }
+          }
+        }
+      },
+      "CreateLocationOutput": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "required": [
+              "LocationId"
+            ],
+            "properties": {
+              "LocationId": {
+                "type": "string",
+                "default": "LocationId"
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "CreateLocationInput": {
+        "required": [
+          "DisplayName",
+          "Workstations"
+        ],
+        "properties": {
+          "LocationId": {
+            "type": "string",
+            "default": "Location01",
+            "nullable": true
+          },
+          "DisplayName": {
+            "type": "string",
+            "default": "Location01"
+          },
+          "IsActive": {
+            "type": "boolean",
+            "default": true,
+            "nullable": true
+          },
+          "DefaultProfileId": {
+            "type": "string",
+            "default": "Profile01",
+            "nullable": true
+          },
+          "Workstations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateLocationWorkstationInput"
+            }
+          }
+        }
+      },
+      "UpdateLocationOutput": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "required": [
+              "LocationId"
+            ],
+            "properties": {
+              "LocationId": {
+                "type": "string",
+                "default": "Location01"
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "UpdateLocationInput": {
+        "properties": {
+          "LocationId": {
+            "type": "string",
+            "default": "Location01",
+            "nullable": true
+          },
+          "DisplayName": {
+            "type": "string",
+            "default": "Location01",
+            "nullable": true
+          },
+          "IsActive": {
+            "type": "boolean",
+            "default": true,
+            "nullable": true
+          },
+          "DefaultProfileId": {
+            "type": "string",
+            "default": "Profile01",
+            "nullable": true
+          },
+          "AccessDomains": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UpdateLocationAccessDomainInput"
+            }
+          }
+        }
+      },
+      "VoidResponseOutput": {
+        "required": [
+          "TimeElapsed"
+        ],
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "GetLocationOutput": {
+        "required": [
+          "LocationIdInternal",
+          "LocationId",
+          "DisplayName",
+          "IsActive"
+        ],
+        "properties": {
+          "LocationIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "LocationId": {
+            "type": "string",
+            "default": "LocationId01"
+          },
+          "DisplayName": {
+            "type": "string",
+            "default": "Location01"
+          },
+          "IsActive": {
+            "type": "boolean",
+            "default": true
+          },
+          "Workstations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetWorkstationOutput"
+            },
+            "nullable": true
+          },
+          "AccessDomains": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessDomainOutput"
+            },
+            "nullable": true
+          },
+          "DefaultProfiles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DefaultProfileOutput"
+            },
+            "nullable": true
+          }
+        }
+      },
+      "CreateLocationWorkstationInput": {
+        "required": [
+          "WorkstationName"
+        ],
+        "properties": {
+          "WorkstationId": {
+            "type": "string",
+            "default": "Workstation01",
+            "nullable": true
+          },
+          "WorkstationName": {
+            "type": "string",
+            "default": "Workstation01"
+          }
+        }
+      },
+      "UpdateLocationAccessDomainInput": {
+        "required": [
+          "AccessDomainId"
+        ],
+        "properties": {
+          "AccessDomainId": {
+            "type": "string",
+            "default": "AccessDomain01",
+            "nullable": true
+          }
+        }
+      },
+      "GetWorkstationOutput": {
+        "required": [
+          "WorkstationIdInternal",
+          "WorkstationId",
+          "WorkstationName",
+          "WorkstationType"
+        ],
+        "properties": {
+          "WorkstationIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "WorkstationId": {
+            "type": "string",
+            "default": "Workstation01"
+          },
+          "WorkstationName": {
+            "type": "string",
+            "default": "Workstation01"
+          },
+          "WorkstationType": {
+            "enum": [
+              "Default",
+              "VisitorManagement"
+            ],
+            "type": "string"
+          }
+        }
+      },
+      "AccessDomainOutput": {
+        "required": [
+          "AccessDomainId",
+          "AccessDomainIdInternal"
+        ],
+        "properties": {
+          "AccessDomainIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "AccessDomainId": {
+            "type": "string",
+            "default": ""
+          },
+          "AccessDomainNr": {
+            "type": "integer",
+            "format": "int16",
+            "default": 1,
+            "nullable": true
+          },
+          "DisplayName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Description": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "CategoryId": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "ValidationDateToDefault": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "SpecificUpdatePeriodChangeable": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "VirtualNetworkActive": {
+            "deprecated": true,
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "SegData": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "ActuatorVersion": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "ActuatorTechnology": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "AssignedToGroupController": {
+            "deprecated": true,
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "ValidFrom": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "ValidTo": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "MultiprofileEnabled": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "TimeZoneBehaviour": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "DepotControlId": {
+            "type": "integer",
+            "format": "int32",
+            "default": null,
+            "nullable": true
+          },
+          "AccessDomainType": {
+            "$ref": "#/components/schemas/AccessDomainType",
+            "nullable": true
+          },
+          "OssNumberOfTimeProfilesOnUserMedium": {
+            "type": "string",
+            "format": "byte",
+            "default": null,
+            "nullable": true
+          },
+          "OssNumberOfIndividualRightsOnUserMedium": {
+            "type": "integer",
+            "format": "byte",
+            "default": null,
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "DefaultProfileOutput": {
+        "required": [
+          "ProfileIdInternal",
+          "ProfileId",
+          "ProfileName",
+          "ProfileType"
+        ],
+        "properties": {
+          "ProfileIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "ProfileId": {
+            "type": "string",
+            "default": "Profile01"
+          },
+          "ProfileName": {
+            "type": "string",
+            "default": "Profile01"
+          },
+          "ProfileType": {
+            "type": "string",
+            "default": "ProfileType01"
+          }
+        }
+      },
+      "GetOdataLocationAuthorisationsOutputWithTime": {
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "@odata.count": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetOdataLocationAuthorisationOutput"
+            }
+          }
+        }
+      },
+      "GetOdataLocationAuthorisationOutput": {
+        "required": [
+          "LocationIdInternal",
+          "LocationId",
+          "DisplayName",
+          "IsActive",
+          "LoginIdInternal",
+          "LoginId",
+          "Permission"
+        ],
+        "properties": {
+          "LocationIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "LocationId": {
+            "type": "string",
+            "default": "LocationId01"
+          },
+          "DisplayName": {
+            "type": "string",
+            "default": "Location01"
+          },
+          "IsActive": {
+            "type": "boolean",
+            "default": true
+          },
+          "LoginIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "LoginId": {
+            "type": "string",
+            "default": "LoginId01"
+          },
+          "Permission": {
+            "enum": [
+              "None",
+              "ReadOnly",
+              "Full"
+            ],
+            "type": "string"
+          },
+          "IsDefaultLocation": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          }
+        }
+      },
+      "GetLocationAuthorisationsOutputWithTime": {
+        "required": [
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/GetLocationAuthorisationOutput"
+          },
+          "TimeElapsed": {
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      "GetLocationAuthorisationOutput": {
+        "required": [
+          "LoginIdInternal",
+          "LoginId",
+          "AuthorizeAllLocations",
+          "AuthorizeAllLocationsPermission"
+        ],
+        "properties": {
+          "LoginIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "LoginId": {
+            "type": "string",
+            "default": ""
+          },
+          "AuthorizeAllLocations": {
+            "type": "boolean",
+            "default": false
+          },
+          "AuthorizeAllLocationsPermission": {
+            "enum": [
+              "None",
+              "ReadOnly",
+              "Full"
+            ],
+            "type": "string"
+          },
+          "Locations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetLoginLocationAuthorisationOutput"
+            },
+            "nullable": true
+          }
+        }
+      },
+      "GetLoginLocationAuthorisationOutput": {
+        "required": [
+          "IsDefaultLocation",
+          "Permission",
+          "Location"
+        ],
+        "properties": {
+          "IsDefaultLocation": {
+            "type": "boolean",
+            "default": false
+          },
+          "Permission": {
+            "enum": [
+              "None",
+              "ReadOnly",
+              "Full"
+            ],
+            "type": "string"
+          },
+          "Location": {
+            "$ref": "#/components/schemas/GetLocationSmallOutput"
+          }
+        }
+      },
+      "GetLocationSmallOutput": {
+        "required": [
+          "LocationIdInternal",
+          "LocationId",
+          "DisplayName"
+        ],
+        "properties": {
+          "LocationIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "LocationId": {
+            "type": "string",
+            "default": "LocationId01"
+          },
+          "DisplayName": {
+            "type": "string",
+            "default": "Location01"
+          }
+        }
+      },
+      "UpdateLocationAuthorisation": {
+        "required": [
+          "LocationId",
+          "IsDefaultLocation",
+          "Permission"
+        ],
+        "properties": {
+          "LocationId": {
+            "type": "string",
+            "default": "Location01"
+          },
+          "IsDefaultLocation": {
+            "type": "boolean",
+            "default": false
+          },
+          "Permission": {
+            "enum": [
+              "None",
+              "ReadOnly",
+              "Full"
+            ],
+            "type": "string"
+          }
+        }
+      },
+      "UpdateLocationAuthorisationInput": {
+        "required": [
+          "LoginId",
+          "AuthorizeAllLocations",
+          "AuthorizeAllLocationsPermission",
+          "Locations"
+        ],
+        "properties": {
+          "LoginId": {
+            "type": "string",
+            "default": "Login01"
+          },
+          "AuthorizeAllLocations": {
+            "type": "boolean",
+            "default": false
+          },
+          "AuthorizeAllLocationsPermission": {
+            "enum": [
+              "None",
+              "ReadOnly",
+              "Full"
+            ],
+            "type": "string"
+          },
+          "Locations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UpdateLocationAuthorisation"
+            }
+          }
+        }
+      },
+      "CreateWorkstationOutput": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "required": [
+              "WorkstationId"
+            ],
+            "properties": {
+              "WorkstationId": {
+                "type": "string",
+                "default": "Workstation01"
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "UpdateWorkstationInput": {
+        "properties": {
+          "WorkstationId": {
+            "type": "string",
+            "default": "Workstation01",
+            "nullable": true
+          },
+          "WorkstationName": {
+            "type": "string",
+            "default": "Workstation01",
+            "nullable": true
+          }
+        }
+      },
+      "UpdateWorkstationOutput": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "required": [
+              "WorkstationId"
+            ],
+            "properties": {
+              "WorkstationId": {
+                "type": "string",
+                "default": "Workstation01"
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "CreateWorkstationInput": {
+        "required": [
+          "LocationId",
+          "WorkstationName"
+        ],
+        "properties": {
+          "LocationId": {
+            "type": "string",
+            "default": "Location01"
+          },
+          "WorkstationId": {
+            "type": "string",
+            "default": "Workstation01",
+            "nullable": true
+          },
+          "WorkstationName": {
+            "type": "string",
+            "default": "Workstation01"
+          }
+        }
+      },
+      "AccessDomainType": {
+        "enum": [
+          "StandardAccessDomain",
+          "KoneGroupController",
+          "Oss",
+          "LoxTop",
+          "CardLink",
+          "KoneAccess"
+        ],
+        "type": "string",
+        "nullable": false
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "location",
+      "description": "<p>Operations related to locations.</p>"
+    }
+  ]
+}

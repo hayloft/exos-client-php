@@ -1,0 +1,3249 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "paths": {
+    "/v1.0/visits": {
+      "get": {
+        "tags": [
+          "visit"
+        ],
+        "summary": "get a list of visits by odata query options",
+        "description": "Be aware that a query made here can return up to 10000 records. If you need more, please use the built in paging functionality with $top and $skip.<br /> http://www.asp.net/web-api/overview/odata-support-in-aspnet-web-api/supporting-odata-query-options. <br /> The provided searchString will result in a fulltext search on all selected fields. If the passed value is encapsulated with quotes(\"), it will be treated as an exact match search, otherwise the passed value will be an OR search over all keywords(splitted by space character). ",
+        "parameters": [
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "Visitors",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Location eq 'DEFAULT_LOCATION'",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "Location desc",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Location",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$skip",
+            "in": "query",
+            "description": "skips the first x entries of the response(paging)",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$top",
+            "in": "query",
+            "description": "limits the number of returned records.",
+            "schema": {
+              "type": "integer",
+              "default": 1000,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetVisitsOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_VM_VisitsRead",
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/essVisits": {
+      "get": {
+        "tags": [
+          "visit"
+        ],
+        "summary": "get a list of my (ESS-User) visits by odata query options",
+        "description": "Be aware that a query made here can return up to 10000 records. If you need more, please use the built in paging functionality with $top and $skip.<br /> http://www.asp.net/web-api/overview/odata-support-in-aspnet-web-api/supporting-odata-query-options. <br /> The provided searchString will result in a fulltext search on all selected fields. If the passed value is encapsulated with quotes(\"), it will be treated as an exact match search, otherwise the passed value will be an OR search over all keywords(splitted by space character). ",
+        "parameters": [
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "Visitors",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Location eq 'DEFAULT_LOCATION'",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "Location desc",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Location",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$skip",
+            "in": "query",
+            "description": "skips the first x entries of the response(paging)",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$top",
+            "in": "query",
+            "description": "limits the number of returned records.",
+            "schema": {
+              "type": "integer",
+              "default": 1000,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetVisitsOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_VM_EssVisitsRead",
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/visits/{visitId}/assignQrCodeBadgesToVisitors": {
+      "post": {
+        "tags": [
+          "visit"
+        ],
+        "summary": "generates qr code for each person and sends the mail",
+        "description": "generates the QR code for each passed person and send the mail",
+        "parameters": [
+          {
+            "name": "visitId",
+            "in": "path",
+            "description": "id of visit",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "visit to update",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignQrCodeBadgeInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssignQrCodeBadgeOutputOldWithTime"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": true,
+        "x-rights": "API_VM_VisitAssignQrCodeBadge",
+        "x-errorcodes": "100000,100004,100008,300001,300004,300008,300009,300011,400017,400072,400104,400114,400119,400180,400187,999999"
+      }
+    },
+    "/v1.1/visits/{visitId}/assignQrCodeBadgesToVisitors": {
+      "post": {
+        "tags": [
+          "visit"
+        ],
+        "summary": "generates qr code for each person and sends the mail",
+        "description": "generates the QR code for each passed person and send the mail",
+        "parameters": [
+          {
+            "name": "visitId",
+            "in": "path",
+            "description": "id of visit",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "visit to update",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignQrCodeBadgeInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssignQrCodeBadgeOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_VM_VisitAssignQrCodeBadge",
+        "x-errorcodes": "100000,100004,100008,300001,300004,300008,300009,300011,400017,400072,400104,400114,400119,400180,400187,999999"
+      }
+    },
+    "/v1.0/visits/{visitId}/assignVisitor/{personId}": {
+      "post": {
+        "tags": [
+          "visit"
+        ],
+        "summary": "assign a visitor to the visit",
+        "description": "assign a visitor to the visit",
+        "parameters": [
+          {
+            "name": "visitId",
+            "in": "path",
+            "description": "id of visit",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "personId",
+            "in": "path",
+            "description": "id of person",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_VM_VisitsAssignVisitor",
+        "x-errorcodes": "100000,300004,300008,400001,400104,400119,400120,999999"
+      }
+    },
+    "/v1.0/visits/{visitId}/delete": {
+      "post": {
+        "tags": [
+          "visit"
+        ],
+        "summary": "delete a visit",
+        "description": "delete a visit",
+        "parameters": [
+          {
+            "name": "visitId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_VM_VisitsDelete",
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100007,100012,300004,300008,400104,400119,400195,999999"
+      }
+    },
+    "/v1.0/visits/{visitId}/functionsSetting": {
+      "get": {
+        "tags": [
+          "visit"
+        ],
+        "summary": "get functions setting for a visit",
+        "description": "returns functions setting for a visit.",
+        "parameters": [
+          {
+            "name": "visitId",
+            "in": "path",
+            "description": "id of visit",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "settingKey",
+            "in": "query",
+            "description": "The key used to find the function ids in the settings",
+            "required": true,
+            "schema": {
+              "enum": [
+                "VM_RECEPTION_UPCOMING_VISIT",
+                "VM_RECEPTION_ONGOING_VISIT",
+                "VM_RECEPTION_PAST_VISIT",
+                "VM_EMPLOYEE_UPCOMING_VISIT",
+                "VM_EMPLOYEE_ONGOING_VISIT",
+                "VM_EMPLOYEE_PAST_VISIT"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetFunctionsSettingOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "",
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,300004,300008,400003,400104,400108,999999"
+      }
+    },
+    "/v1.0/visits/{visitId}/sendMailConfirmation": {
+      "post": {
+        "tags": [
+          "visit"
+        ],
+        "summary": "send email confirmation",
+        "description": "send email confirmation",
+        "parameters": [
+          {
+            "name": "visitId",
+            "in": "path",
+            "description": "id of visit",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfirmationMailOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_VM_VisitsSendMailConfirmation",
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100007,100012,300004,300008,999999"
+      }
+    },
+    "/v1.0/visits/{visitId}/unassignVisitor/{personId}": {
+      "post": {
+        "tags": [
+          "visit"
+        ],
+        "summary": "unassign a visitor from the visit",
+        "description": "unassign a visitor from the visit",
+        "parameters": [
+          {
+            "name": "visitId",
+            "in": "path",
+            "description": "id of visit",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "personId",
+            "in": "path",
+            "description": "id of person",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "unassignBadges",
+            "in": "query",
+            "description": "all badges of visitor should be removed",
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnassignVisitorOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_VM_VisitsUnassignVisitor",
+        "x-errorcodes": "100000,300004,300008,400001,400104,400114,400119,999999"
+      }
+    },
+    "/v1.0/visits/{visitId}/update": {
+      "post": {
+        "tags": [
+          "visit"
+        ],
+        "summary": "update a visit",
+        "description": "update a visit",
+        "parameters": [
+          {
+            "name": "visitId",
+            "in": "path",
+            "description": "id of visit",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "visit to update",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateVisitInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateVisitOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_VM_VisitsUpdate",
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100007,100012,300004,300008,400001,400010,400098,400104,400110,400113,999999"
+      }
+    },
+    "/v1.0/visits/{visitId}/visitors/{personId}/checkIn": {
+      "post": {
+        "tags": [
+          "visit"
+        ],
+        "summary": "check-in the visitor associated to the visit",
+        "description": "check-in the visitor associated to the visit",
+        "parameters": [
+          {
+            "name": "visitId",
+            "in": "path",
+            "description": "id of visit",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "personId",
+            "in": "path",
+            "description": "id of person",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ignoreBlacklist",
+            "in": "query",
+            "description": "Ignore blacklist check",
+            "schema": {
+              "type": "boolean",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IsCardlinkUpdateRequiredOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_VM_VisitsCheckIn",
+        "x-errorcodes": "100000,100001,300004,300008,400001,400072,400104,400109,400111,400114,400161,999999"
+      }
+    },
+    "/v1.0/visits/{visitId}/visitors/{personId}/checkOut": {
+      "post": {
+        "tags": [
+          "visit"
+        ],
+        "summary": "check-out the visitor associated to the visit",
+        "description": "check-out the visitor associated to the visit",
+        "parameters": [
+          {
+            "name": "visitId",
+            "in": "path",
+            "description": "id of visit",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "personId",
+            "in": "path",
+            "description": "id of person",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "unassignBadges",
+            "in": "query",
+            "description": "all badges of visitor should be removed",
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "nullable": true
+            }
+          },
+          {
+            "name": "sourceName",
+            "in": "query",
+            "description": "Source Name is device name where check out has happened",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckOutOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_VM_VisitsCheckOut",
+        "x-errorcodes": "100000,100001,300004,300008,400001,400104,400109,400112,400114,999999"
+      }
+    },
+    "/v1.0/visits/create": {
+      "post": {
+        "tags": [
+          "visit"
+        ],
+        "summary": "create a visit",
+        "description": "create a visit",
+        "requestBody": {
+          "description": "visit to update",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateVisitInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateVisitOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_VM_VisitsCreate",
+        "x-errorcodes": "100000,300004,300008,400001,400010,400098,400110,400113,400122,999999"
+      }
+    },
+    "/v1.0/visits/csvFormatted": {
+      "get": {
+        "tags": [
+          "visit"
+        ],
+        "summary": "get the data of visits and associated visitors in csv format with fields separated by semicolon",
+        "description": "get the data of visits and associated visitors in csv format with fields separated by semicolon",
+        "parameters": [
+          {
+            "name": "isUpcoming",
+            "in": "query",
+            "description": "The state of the visit is upcoming. Only one of the three states may be set true",
+            "required": true,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "isOngoing",
+            "in": "query",
+            "description": "The state of the visit is ongoing. Only one of the three states may be set true",
+            "required": true,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "isPast",
+            "in": "query",
+            "description": "The state of the visit is past. Only one of the three states may be set true",
+            "required": true,
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          {
+            "name": "visitStartTimeFrom",
+            "in": "query",
+            "description": "The minimal start date/time of the visit. E.g. 2017-01-01",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2001-01-31T11:55:00",
+              "default": "2017-01-01"
+            }
+          },
+          {
+            "name": "visitStartTimeTo",
+            "in": "query",
+            "description": "The maximal start date/time of the visit. E.g. 2017-01-31",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2001-01-31T11:55:00",
+              "default": "2017-01-31"
+            }
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "The list of the fields to return (comma separated list of fieldId from fieldConfiguration. Fields which do not match fieldConfiguration or are not authorized are not applied). Usable fields are e.g. Visits_StartTime, Visits_EndTime, Visitors_FirstName, Visitors_LastName",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "StartTime, EndTime, Location, Info, FullName, Company, HostFirstName, HostLastName"
+            }
+          },
+          {
+            "name": "locationId",
+            "in": "query",
+            "description": "The location Id of the visit",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetVisitsCsvFormattedOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_VM_VisitsCsvFormattedRead",
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,300004,300008,400098,400125,400126,999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GetVisitsOutput": {
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "@odata.count": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetVisitEntryOutput"
+            }
+          }
+        }
+      },
+      "AssignQrCodeBadgeOutputWithTime": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/AssignQrCodeBadgeOutput"
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "AssignQrCodeBadgeOutput": {
+        "required": [
+          "SendResult"
+        ],
+        "properties": {
+          "SendResult": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssignQrCodeToPersonResult"
+            }
+          }
+        }
+      },
+      "AssignQrCodeToPersonResult": {
+        "required": [
+          "PersonId"
+        ],
+        "properties": {
+          "PersonId": {
+            "type": "string",
+            "default": ""
+          },
+          "IsVisitor": {
+            "type": "boolean",
+            "default": false
+          },
+          "IsDeputy": {
+            "type": "boolean",
+            "default": false
+          },
+          "IsHost": {
+            "type": "boolean",
+            "default": false
+          },
+          "IsToMail": {
+            "type": "boolean",
+            "default": false
+          },
+          "ErrorMessage": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "ErrorCode": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          }
+        }
+      },
+      "AssignQrCodeBadgeOutputOldWithTime": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/AssignQrCodeBadgeOutputOld"
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "AssignQrCodeBadgeOutputOld": {
+        "required": [
+          "SendResult"
+        ],
+        "properties": {
+          "SendResult": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssignQrCodeToPersonResultOld"
+            }
+          }
+        }
+      },
+      "AssignQrCodeToPersonResultOld": {
+        "required": [
+          "PersonId"
+        ],
+        "properties": {
+          "PersonId": {
+            "type": "string",
+            "default": ""
+          },
+          "ErrorMessage": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "ErrorCode": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          }
+        }
+      },
+      "AssignQrCodeBadgeInput": {
+        "required": [
+          "Visitors"
+        ],
+        "properties": {
+          "Visitors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VisitorGenerateQrCodeInfo"
+            }
+          }
+        }
+      },
+      "VisitorGenerateQrCodeInfo": {
+        "required": [
+          "PersonId",
+          "IsNewVisitor",
+          "SendQrCode"
+        ],
+        "properties": {
+          "PersonId": {
+            "type": "string"
+          },
+          "IsNewVisitor": {
+            "type": "boolean"
+          },
+          "SendQrCode": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CreateVisitOutput": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "required": [
+              "VisitId"
+            ],
+            "properties": {
+              "VisitId": {
+                "type": "string",
+                "default": "Visit01"
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "CreateVisitInput": {
+        "required": [
+          "StartTime",
+          "EndTime",
+          "LocationId"
+        ],
+        "properties": {
+          "VisitId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "StartTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00"
+          },
+          "EndTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00"
+          },
+          "Subject": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Info": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "AnonymousMembers": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "KabacardLayout": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "HostId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "DeputyId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "LocationId": {
+            "type": "string",
+            "default": ""
+          },
+          "WorkstationId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text1": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text2": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text3": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text4": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text5": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text6": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text7": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text8": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text9": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text10": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Number1": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "Number2": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "Number3": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "Number4": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "Number5": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "Bool1": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool2": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool3": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool4": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool5": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Date1": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date2": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date3": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date4": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date5": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          }
+        }
+      },
+      "UpdateVisitOutput": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "required": [
+              "VisitId",
+              "CardLinkUpdate"
+            ],
+            "properties": {
+              "VisitId": {
+                "type": "string",
+                "default": "Visit01"
+              },
+              "CardLinkUpdate": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/IsCardlinkUpdateRequiredForPersonOutput"
+                }
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "UpdateVisitInput": {
+        "properties": {
+          "VisitId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "StartTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "EndTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Subject": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Info": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "AnonymousMembers": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "KabacardLayout": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "HostId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "DeputyId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "LocationId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "WorkstationId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text1": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text2": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text3": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text4": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text5": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text6": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text7": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text8": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text9": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text10": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Number1": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "Number2": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "Number3": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "Number4": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "Number5": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "Bool1": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool2": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool3": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool4": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool5": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Date1": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date2": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date3": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date4": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date5": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          }
+        }
+      },
+      "VoidResponseOutput": {
+        "required": [
+          "TimeElapsed"
+        ],
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "UnassignVisitorOutput": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "required": [
+              "FkCardLogs"
+            ],
+            "properties": {
+              "FkCardLogs": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "IsCardlinkUpdateRequiredOutputWithTime": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/IsCardlinkUpdateRequiredOutput"
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "CheckOutOutput": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "required": [
+              "FkCardLogs",
+              "IsCardlinkUpdateRequired",
+              "AccessDomainIds"
+            ],
+            "properties": {
+              "IsCardlinkUpdateRequired": {
+                "type": "boolean",
+                "default": false
+              },
+              "AccessDomainIds": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              "FkCardLogs": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              },
+              "TbsError": {
+                "type": "string",
+                "default": "",
+                "nullable": true
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "GetFunctionsSettingOutputWithTime": {
+        "required": [
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/GetFunctionsSettingOutput"
+          },
+          "TimeElapsed": {
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      "ConfirmationMailOutput": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "required": [
+              "NofMailsSentToVisitors",
+              "MailSentToHost",
+              "MailSentToDeputy"
+            ],
+            "properties": {
+              "NofMailsSentToVisitors": {
+                "type": "integer"
+              },
+              "MailSentToHost": {
+                "type": "boolean"
+              },
+              "MailSentToDeputy": {
+                "type": "boolean"
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "GetVisitsCsvFormattedOutput": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer"
+          },
+          "Value": {
+            "type": "string"
+          }
+        }
+      },
+      "GetVisitEntryOutput": {
+        "properties": {
+          "VisitIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "VisitId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "IsUpcoming": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "IsOngoing": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "IsPast": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "StartTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "EndTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Subject": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Info": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "AnonymousMembers": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "KabacardLayout": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "HostId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "HostHierarchy": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "HostFirstName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "HostLastName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "HostTelNr": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "HostPicture": {
+            "type": "string",
+            "format": "byte",
+            "default": "",
+            "nullable": true
+          },
+          "DeputyId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "DeputyFirstName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "DeputyLastName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "DeputyTelNr": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "DeputyPicture": {
+            "type": "string",
+            "format": "byte",
+            "default": "",
+            "nullable": true
+          },
+          "LocationId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Location": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "WorkstationIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "WorkstationId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "WorkstationName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "NofVisitors": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "Text1": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text2": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text3": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text4": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text5": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text6": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text7": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text8": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text9": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text10": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Number1": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "Number2": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "Number3": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "Number4": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "Number5": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "Bool1": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool2": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool3": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool4": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool5": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Date1": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date2": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date3": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date4": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date5": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Visitors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetVisitorEntryOutput"
+            },
+            "nullable": true
+          }
+        }
+      },
+      "IsCardlinkUpdateRequiredForPersonOutput": {
+        "required": [
+          "IsCardlinkUpdateRequired"
+        ],
+        "properties": {
+          "PersonId": {
+            "type": "string",
+            "default": "Person01",
+            "nullable": true
+          },
+          "IsCardlinkUpdateRequired": {
+            "type": "boolean",
+            "default": false
+          },
+          "AccessDomainIds": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "nullable": true
+          }
+        }
+      },
+      "IsCardlinkUpdateRequiredOutput": {
+        "required": [
+          "IsCardlinkUpdateRequired"
+        ],
+        "properties": {
+          "IsCardlinkUpdateRequired": {
+            "type": "boolean",
+            "default": false
+          },
+          "AccessDomainIds": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "nullable": true
+          }
+        }
+      },
+      "GetFunctionsSettingOutput": {
+        "required": [
+          "Mandatory",
+          "Optional"
+        ],
+        "properties": {
+          "Mandatory": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "default": "functionName"
+            }
+          },
+          "Optional": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "default": "functionName"
+            }
+          }
+        }
+      },
+      "GetVisitorEntryOutput": {
+        "properties": {
+          "PersonIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "PersonId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "VisitId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Blocked": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "FirstName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "LastName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "FullName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "EMail": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "TelNr": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Nationality": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Picture": {
+            "type": "string",
+            "format": "byte",
+            "default": "",
+            "nullable": true
+          },
+          "PictDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "OfficialIdcardMedium": {
+            "enum": [
+              "None",
+              "Identity card",
+              "Passport",
+              "Driving license"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "OfficialIdcardNr": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "OfficialIdcardExpeditionDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "OfficialIdcardExpirationDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Zipcode": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "City": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Country": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Street": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Info": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Steps": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "VehicleLicensePlate": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "VehicleModel": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "VehicleType": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "DateIn": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "DateOut": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "CheckedInBy": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "CheckedOutBy": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Company": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "CompanyStreet": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "CompanyZipcode": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "CompanyCity": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "CompanyDepartment": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "RoomName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "HasBadge": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "HasAccessRight": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "PrivacyStatus": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "OwnerPersonIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "Text1": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text2": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text3": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text4": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text5": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text6": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text7": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text8": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text9": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text10": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text11": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text12": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text13": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text14": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text15": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text16": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text17": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text18": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text19": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text20": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text21": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text22": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text23": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text24": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text25": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text26": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text27": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text28": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text29": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text30": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text31": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text32": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text33": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text34": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text35": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text36": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text37": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text38": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text39": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text40": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text41": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text42": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text43": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text44": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text45": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text46": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text47": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text48": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text49": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text50": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Date1": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date2": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date3": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date4": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date5": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date6": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date7": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date8": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date9": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date10": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date11": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date12": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date13": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date14": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date15": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date16": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date17": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date18": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date19": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date20": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date21": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date22": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date23": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date24": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date25": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date26": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date27": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date28": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date29": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date30": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date31": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date32": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date33": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date34": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date35": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date36": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date37": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date38": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date39": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date40": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date41": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date42": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date43": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date44": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date45": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date46": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date47": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date48": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date49": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date50": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Bool1": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool2": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool3": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool4": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool5": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool6": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool7": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool8": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool9": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool10": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool11": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool12": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool13": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool14": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool15": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool16": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool17": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool18": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool19": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool20": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool21": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool22": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool23": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool24": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool25": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool26": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool27": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool28": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool29": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool30": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool31": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool32": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool33": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool34": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool35": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool36": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool37": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool38": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool39": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool40": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool41": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool42": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool43": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool44": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool45": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool46": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool47": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool48": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool49": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool50": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Number1": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number2": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number3": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number4": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number5": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number6": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number7": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number8": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number9": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number10": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number11": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number12": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number13": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number14": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number15": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number16": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number17": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number18": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number19": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number20": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number21": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number22": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number23": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number24": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number25": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number26": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number27": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number28": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number29": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number30": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number31": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number32": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number33": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number34": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number35": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number36": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number37": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number38": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number39": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number40": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number41": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number42": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number43": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number44": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number45": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number46": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number47": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number48": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number49": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number50": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "visit",
+      "description": ""
+    }
+  ]
+}

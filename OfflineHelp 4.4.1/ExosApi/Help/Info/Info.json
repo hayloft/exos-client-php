@@ -1,0 +1,179 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Info API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "paths": {
+    "/v1.0/info/about": {
+      "get": {
+        "tags": [
+          "Info"
+        ],
+        "responses": {
+          "200": {
+            "description": "List of about information.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseOfGetInformationOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "",
+        "x-errorcodes": "100000,100001,300004,400222,999999"
+      }
+    },
+    "/v1.0/info/licence": {
+      "get": {
+        "tags": [
+          "Info"
+        ],
+        "responses": {
+          "200": {
+            "description": "List of license information.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseOfGetInformationOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "",
+        "x-errorcodes": "100000,100001,300004,400222,999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GenericResponseOfGetInformationOutput": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ResponseBase"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "Value": {
+                "$ref": "#/components/schemas/GetInformationOutput"
+              }
+            }
+          }
+        ]
+      },
+      "GetInformationOutput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "Information": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/KeyValuePairOfStringAndListOfInformationRow"
+            }
+          }
+        }
+      },
+      "KeyValuePairOfStringAndListOfInformationRow": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "Key": {
+            "type": "string",
+            "nullable": true
+          },
+          "Value": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/InformationRow"
+            }
+          }
+        }
+      },
+      "InformationRow": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "Label": {
+            "type": "string",
+            "nullable": true
+          },
+          "Value": {
+            "type": "string",
+            "nullable": true
+          },
+          "ValueType": {
+            "$ref": "#/components/schemas/ValueTypeEnum"
+          },
+          "ValueState": {
+            "$ref": "#/components/schemas/ValueStateEnum"
+          }
+        }
+      },
+      "ValueTypeEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "STRING",
+          "DATE",
+          "BOOLEAN"
+        ],
+        "enum": [
+          "STRING",
+          "DATE",
+          "BOOLEAN"
+        ]
+      },
+      "ValueStateEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "NotSet",
+          "Ok",
+          "NotOk"
+        ],
+        "enum": [
+          "NotSet",
+          "Ok",
+          "NotOk"
+        ]
+      },
+      "ResponseBase": {
+        "type": "object",
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Info",
+      "description": "<p>Operations related to product information</p>"
+    }
+  ]
+}

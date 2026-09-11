@@ -1,0 +1,735 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "paths": {
+    "/v1.0/fieldConfiguration": {
+      "get": {
+        "tags": [
+          "field configuration"
+        ],
+        "summary": "get fields allowed to read",
+        "description": "Gets a flat list of possible fields that can be read in this resource. ",
+        "parameters": [
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select and $expand.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$skip",
+            "in": "query",
+            "description": "skips the first x entries of the response(paging)",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$top",
+            "in": "query",
+            "description": "limits the number of returned records.",
+            "schema": {
+              "type": "integer",
+              "default": 1000,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetFieldConfigurationOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "",
+        "x-errorcodes": "300004,300008,400028,999999"
+      }
+    },
+    "/v1.0/fieldConfiguration/{fieldId}/delete": {
+      "post": {
+        "tags": [
+          "field configuration"
+        ],
+        "summary": "delete field configuration",
+        "description": "Delete specific free field. . ",
+        "parameters": [
+          {
+            "name": "fieldId",
+            "in": "path",
+            "description": "field configuration to delete",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "Field01"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteFieldConfigurationOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": true,
+        "x-rights": "API_SYS_FreeFieldConfigurationDeactivate",
+        "x-errorcodes": "100000,100001,100002,100005,300004,300008,400030,999999"
+      }
+    },
+    "/v1.0/fieldConfiguration/{fieldId}/update": {
+      "post": {
+        "tags": [
+          "field configuration"
+        ],
+        "summary": "update field configuration",
+        "description": "updates a field. . ",
+        "parameters": [
+          {
+            "name": "fieldId",
+            "in": "path",
+            "description": "field configuration id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "Field01"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "fieldConfiguration to be updated",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateFieldConfigurationInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateFieldConfigurationOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_SYS_FieldConfigurationUpdate",
+        "x-errorcodes": "100000,100001,100002,100005,100006,100009,300004,300008,400030,999999"
+      }
+    },
+    "/v1.0/fieldConfiguration/create": {
+      "post": {
+        "tags": [
+          "field configuration"
+        ],
+        "summary": "create field configuration",
+        "description": "Creates a free field of a specific type. . ",
+        "requestBody": {
+          "description": "field configuration to add",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFieldConfigurationInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateFieldConfigurationOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": true,
+        "x-rights": "API_SYS_FreeFieldConfigurationActivate",
+        "x-errorcodes": "100000,100001,100002,100005,100009,300004,300008,400031,400032,400034,999999"
+      }
+    },
+    "/v1.0/fieldConfigurationDropList": {
+      "get": {
+        "tags": [
+          "field configuration"
+        ],
+        "summary": "get drop down list for specific field",
+        "description": "Gets a list of possible drop down values for the specific field. ",
+        "parameters": [
+          {
+            "name": "fieldId",
+            "in": "query",
+            "description": "specific field id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select and $expand.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$skip",
+            "in": "query",
+            "description": "skips the first x entries of the response(paging)",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$top",
+            "in": "query",
+            "description": "limits the number of returned records.",
+            "schema": {
+              "type": "integer",
+              "default": 1000,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetFieldConfigurationDropDownListOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "",
+        "x-errorcodes": "100000,100001,100002,100005,300004,300008,400030,999999"
+      }
+    },
+    "/v1.0/fieldConfigurationDropList/{fieldId}/delete": {
+      "post": {
+        "tags": [
+          "field configuration"
+        ],
+        "summary": "delete field configuration drop list value",
+        "description": "delete field configuration drop list value",
+        "parameters": [
+          {
+            "name": "fieldId",
+            "in": "path",
+            "description": "field configuration id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "Field01"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "value in drop list to delete",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteFieldConfigurationDropListInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteFieldConfigurationDropListOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": true,
+        "x-rights": "API_SYS_FreeFieldConfigurationDeactivate",
+        "x-errorcodes": "100000,100001,300004,300008,400030,999999"
+      }
+    },
+    "/v1.0/fieldConfigurationDropList/create": {
+      "post": {
+        "tags": [
+          "field configuration"
+        ],
+        "summary": "create field configuration drop list value",
+        "description": "creates drop list value for a field. The value must be unique. . ",
+        "requestBody": {
+          "description": "field configuration drop list to add",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFieldConfigurationDropListInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateFieldConfigurationDropListOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": true,
+        "x-rights": "API_SYS_FreeFieldConfigurationActivate",
+        "x-errorcodes": "100000,100001,100002,300004,300008,400030,400033,999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GetFieldConfigurationOutputWithTime": {
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "@odata.count": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FieldOutput"
+            }
+          }
+        }
+      },
+      "CreateFieldConfigurationOutputWithTime": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/CreateFieldConfigurationOutput"
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "CreateFieldConfigurationInput": {
+        "required": [
+          "Name",
+          "DataType"
+        ],
+        "properties": {
+          "Name": {
+            "type": "string",
+            "default": "Field01"
+          },
+          "DataType": {
+            "$ref": "#/components/schemas/DataType"
+          },
+          "DataFormat": {
+            "$ref": "#/components/schemas/DataFormat"
+          }
+        }
+      },
+      "UpdateFieldConfigurationOutputWithTime": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/UpdateFieldConfigurationOutput"
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "UpdateFieldConfigurationInput": {
+        "properties": {
+          "IsReadable": {
+            "type": "boolean",
+            "default": true,
+            "nullable": true
+          },
+          "IsWritable": {
+            "type": "boolean",
+            "default": true,
+            "nullable": true
+          },
+          "IsSortable": {
+            "type": "boolean",
+            "default": true,
+            "nullable": true
+          },
+          "IsFilterable": {
+            "type": "boolean",
+            "default": true,
+            "nullable": true
+          }
+        }
+      },
+      "DeleteFieldConfigurationOutputWithTime": {
+        "required": [
+          "TimeElapsed"
+        ],
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "GetFieldConfigurationDropDownListOutputWithTime": {
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "@odata.count": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "CreateFieldConfigurationDropListOutputWithTime": {
+        "required": [
+          "TimeElapsed"
+        ],
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "CreateFieldConfigurationDropListInput": {
+        "required": [
+          "FieldId",
+          "Value"
+        ],
+        "properties": {
+          "FieldId": {
+            "type": "string",
+            "default": "Field01"
+          },
+          "Value": {
+            "type": "string",
+            "default": "Value01"
+          }
+        }
+      },
+      "DeleteFieldConfigurationDropListOutputWithTime": {
+        "required": [
+          "TimeElapsed"
+        ],
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "DeleteFieldConfigurationDropListInput": {
+        "required": [
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "type": "string",
+            "default": "Value01"
+          }
+        }
+      },
+      "FieldOutput": {
+        "required": [
+          "FieldId"
+        ],
+        "properties": {
+          "FieldId": {
+            "type": "string",
+            "default": "PersonBaseData_LastName"
+          },
+          "ResourceId": {
+            "type": "string",
+            "default": "FieldName_PersonBaseData_LastName",
+            "nullable": true
+          },
+          "LocalizedFieldName": {
+            "type": "string",
+            "default": "Name",
+            "nullable": true
+          },
+          "ApiFieldName": {
+            "type": "string",
+            "default": "PersonBaseData/LastName",
+            "nullable": true
+          },
+          "DataType": {
+            "type": "string",
+            "default": "string",
+            "nullable": true
+          },
+          "DataFormat": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "IsReadable": {
+            "type": "boolean",
+            "default": true,
+            "nullable": true
+          },
+          "IsSortable": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "IsFilterable": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "IsWritable": {
+            "type": "boolean",
+            "default": true,
+            "nullable": true
+          },
+          "IsMassMutationPossible": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "IsConfigurable": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "ApiBasePath": {
+            "type": "string",
+            "default": "persons",
+            "nullable": true
+          }
+        }
+      },
+      "DataType": {
+        "enum": [
+          "String",
+          "Integer",
+          "Boolean",
+          "Decimal",
+          "File",
+          "PredefinedStringList",
+          "DynamicStringList",
+          "ForeignKey",
+          "Enum",
+          "ArrayOfObject",
+          "Image"
+        ],
+        "type": "string"
+      },
+      "DataFormat": {
+        "enum": [
+          "Unspecific",
+          "Byte",
+          "Int8",
+          "Int16",
+          "Int32",
+          "DateTime",
+          "Date",
+          "Time",
+          "EMail"
+        ],
+        "type": "string",
+        "nullable": true
+      },
+      "CreateFieldConfigurationOutput": {
+        "required": [
+          "FieldId",
+          "ResourceId"
+        ],
+        "properties": {
+          "FieldId": {
+            "type": "string",
+            "default": "PersonBaseData_LastName"
+          },
+          "ResourceId": {
+            "type": "string",
+            "default": "Field_PersonBaseData_LastName"
+          }
+        }
+      },
+      "UpdateFieldConfigurationOutput": {
+        "required": [
+          "FieldId"
+        ],
+        "properties": {
+          "FieldId": {
+            "type": "string",
+            "default": "PersonBaseData_LastName"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "field configuration",
+      "description": "<p>Operations related to field configurations.</p>"
+    }
+  ]
+}

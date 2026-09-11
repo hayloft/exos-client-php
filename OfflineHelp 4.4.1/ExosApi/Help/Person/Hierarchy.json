@@ -1,0 +1,1021 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "paths": {
+    "/v1.0/hierarchies": {
+      "get": {
+        "tags": [
+          "hierarchy"
+        ],
+        "summary": "get a list of hierarchies by odata query option.",
+        "description": "Be aware that a query made here can return up to 10000 records. If you need more, please use the built in paging functionality with $top and $skip.<br /> http://www.asp.net/web-api/overview/odata-support-in-aspnet-web-api/supporting-odata-query-options. <br /> The provided searchString will result in a fulltext search on all selected fields. If the passed value is encapsulated with quotes(\"), it will be treated as an exact match search, otherwise the passed value will be an OR search over all keywords(splitted by space character).",
+        "parameters": [
+          {
+            "name": "hierarchyType",
+            "in": "query",
+            "description": "the hierarchy type",
+            "schema": {
+              "enum": [
+                "Extern",
+                "Intern"
+              ],
+              "type": "string",
+              "default": "Intern",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select and $expand.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$skip",
+            "in": "query",
+            "description": "skips the first x entries of the response(paging)",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$top",
+            "in": "query",
+            "description": "limits the number of returned records.",
+            "schema": {
+              "type": "integer",
+              "default": 1000,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetHierarchyOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_SDM_HierarchiesRead",
+          "API_CM_HierarchiesRead"
+        ],
+        "x-errorcodes": "300004,300008,400146,999999"
+      }
+    },
+    "/v1.0/hierarchies/{hierarchyId}/block": {
+      "post": {
+        "tags": [
+          "hierarchy"
+        ],
+        "summary": "blocks a complete hierarchy. All persons which belong to this hierarchy will be blocked to",
+        "description": "<p>blocks a complete hierarchy. Alle persons which belong to this hierarchy will be blocked to.</p>",
+        "parameters": [
+          {
+            "name": "hierarchyId",
+            "in": "path",
+            "description": "id of hierarchy",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BlockHierarchyInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_CM_HierarchiesBlock",
+        "x-errorcodes": "100000,100001,300004,300008,400037,999999"
+      }
+    },
+    "/v1.0/hierarchies/{hierarchyId}/delete": {
+      "post": {
+        "tags": [
+          "hierarchy"
+        ],
+        "summary": "delete a hierarchy",
+        "description": "deletes a hierarchy.",
+        "parameters": [
+          {
+            "name": "hierarchyId",
+            "in": "path",
+            "description": "id of hierarchy",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_SDM_HierarchiesDelete",
+          "API_CM_HierarchiesDelete"
+        ],
+        "x-errorcodes": "100000,100001,300004,300008,400014,400037,400146,400166,999999"
+      }
+    },
+    "/v1.0/hierarchies/{hierarchyId}/unblock": {
+      "post": {
+        "tags": [
+          "hierarchy"
+        ],
+        "summary": "unblocks a complete hierarchy. Persons which belong to this hierarchy can also be unblocked",
+        "description": "<p>unblocks a complete hierarchy. Persons which belong to this hierarchy can also be unblocked when parameter 'unblockAllEmployees' is set to 'true'.</p>",
+        "parameters": [
+          {
+            "name": "hierarchyId",
+            "in": "path",
+            "description": "id of hierarchy",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "unblockAllEmployees",
+            "in": "query",
+            "description": "Should all employees be unblocked when unblocking hierarchy",
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "nullable": true
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UnblockHierarchyInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_CM_HierarchiesUnblock",
+        "x-errorcodes": "100000,100001,300004,300008,400037,999999"
+      }
+    },
+    "/v1.0/hierarchies/{hierarchyId}/update": {
+      "post": {
+        "tags": [
+          "hierarchy"
+        ],
+        "summary": "update a hierarchy",
+        "description": "updates a hierarchy.",
+        "parameters": [
+          {
+            "name": "hierarchyId",
+            "in": "path",
+            "description": "id of hierarchy",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "hierarchyId to create",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateHierarchyInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HierarchyIdOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_SDM_HierarchiesUpdate",
+          "API_CM_HierarchiesUpdate"
+        ],
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100007,100012,300004,300008,400014,400037,400061,400146,999999"
+      }
+    },
+    "/v1.0/hierarchies/create": {
+      "post": {
+        "tags": [
+          "hierarchy"
+        ],
+        "summary": "create a new hierarchy",
+        "description": "creates a new hierarchy.",
+        "requestBody": {
+          "description": "hierarchy to create",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateHierarchyInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HierarchyIdOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_SDM_HierarchiesCreate",
+          "API_CM_HierarchiesCreate"
+        ],
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100009,100012,300004,300008,400014,400061,400062,400146,999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GetHierarchyOutputWithTime": {
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "@odata.count": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetHierarchyOutput"
+            }
+          }
+        }
+      },
+      "HierarchyIdOutputWithTime": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "required": [
+              "HierarchyId"
+            ],
+            "properties": {
+              "HierarchyId": {
+                "type": "string"
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "CreateHierarchyInput": {
+        "required": [
+          "HierarchyName"
+        ],
+        "properties": {
+          "HierarchyName": {
+            "type": "string",
+            "default": "Hierarchy01"
+          },
+          "Type": {
+            "$ref": "#/components/schemas/HierarchyType"
+          },
+          "HierarchyId": {
+            "type": "string",
+            "default": "Hierarchy01",
+            "nullable": true
+          },
+          "ParentHierarchyIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "PersonCategoryIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Street": {
+            "type": "string",
+            "default": "Street01",
+            "nullable": true
+          },
+          "PoBox": {
+            "type": "string",
+            "default": "PoBox01",
+            "nullable": true
+          },
+          "Zip": {
+            "type": "string",
+            "default": "Zip01",
+            "nullable": true
+          },
+          "City": {
+            "type": "string",
+            "default": "City01",
+            "nullable": true
+          },
+          "Country": {
+            "type": "string",
+            "default": "Country01",
+            "nullable": true
+          },
+          "Phone": {
+            "type": "string",
+            "default": "Phone01",
+            "nullable": true
+          },
+          "Fax": {
+            "type": "string",
+            "default": "Fax01",
+            "nullable": true
+          },
+          "EMail": {
+            "type": "string",
+            "default": "EMail01",
+            "nullable": true
+          },
+          "Commentary": {
+            "type": "string",
+            "default": "Commentary01",
+            "nullable": true
+          },
+          "Text1": {
+            "type": "string",
+            "default": "Text1",
+            "nullable": true
+          },
+          "Text2": {
+            "type": "string",
+            "default": "Text2",
+            "nullable": true
+          },
+          "Text3": {
+            "type": "string",
+            "default": "Text3",
+            "nullable": true
+          },
+          "Text4": {
+            "type": "string",
+            "default": "Text4",
+            "nullable": true
+          },
+          "Text5": {
+            "type": "string",
+            "default": "Text5",
+            "nullable": true
+          },
+          "Text6": {
+            "type": "string",
+            "default": "Text6",
+            "nullable": true
+          },
+          "Text7": {
+            "type": "string",
+            "default": "Text7",
+            "nullable": true
+          },
+          "Text8": {
+            "type": "string",
+            "default": "Text8",
+            "nullable": true
+          },
+          "Text9": {
+            "type": "string",
+            "default": "Text9",
+            "nullable": true
+          },
+          "Text10": {
+            "type": "string",
+            "default": "Text10",
+            "nullable": true
+          },
+          "Date1": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date2": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date3": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date4": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date5": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Bool1": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool2": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool3": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool4": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool5": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          }
+        }
+      },
+      "UpdateHierarchyInput": {
+        "required": [
+          "HierarchyName"
+        ],
+        "properties": {
+          "HierarchyName": {
+            "type": "string",
+            "default": "Hierarchy01"
+          },
+          "Type": {
+            "$ref": "#/components/schemas/HierarchyType"
+          },
+          "HierarchyId": {
+            "type": "string",
+            "default": "Hierarchy01",
+            "nullable": true
+          },
+          "PersonCategoryIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Street": {
+            "type": "string",
+            "default": "Street01",
+            "nullable": true
+          },
+          "PoBox": {
+            "type": "string",
+            "default": "PoBox01",
+            "nullable": true
+          },
+          "Zip": {
+            "type": "string",
+            "default": "Zip01",
+            "nullable": true
+          },
+          "City": {
+            "type": "string",
+            "default": "City01",
+            "nullable": true
+          },
+          "Country": {
+            "type": "string",
+            "default": "Country01",
+            "nullable": true
+          },
+          "Phone": {
+            "type": "string",
+            "default": "Phone01",
+            "nullable": true
+          },
+          "Fax": {
+            "type": "string",
+            "default": "Fax01",
+            "nullable": true
+          },
+          "EMail": {
+            "type": "string",
+            "default": "EMail01",
+            "nullable": true
+          },
+          "Commentary": {
+            "type": "string",
+            "default": "Commentary01",
+            "nullable": true
+          },
+          "Text1": {
+            "type": "string",
+            "default": "Text1",
+            "nullable": true
+          },
+          "Text2": {
+            "type": "string",
+            "default": "Text2",
+            "nullable": true
+          },
+          "Text3": {
+            "type": "string",
+            "default": "Text3",
+            "nullable": true
+          },
+          "Text4": {
+            "type": "string",
+            "default": "Text4",
+            "nullable": true
+          },
+          "Text5": {
+            "type": "string",
+            "default": "Text5",
+            "nullable": true
+          },
+          "Text6": {
+            "type": "string",
+            "default": "Text6",
+            "nullable": true
+          },
+          "Text7": {
+            "type": "string",
+            "default": "Text7",
+            "nullable": true
+          },
+          "Text8": {
+            "type": "string",
+            "default": "Text8",
+            "nullable": true
+          },
+          "Text9": {
+            "type": "string",
+            "default": "Text9",
+            "nullable": true
+          },
+          "Text10": {
+            "type": "string",
+            "default": "Text10",
+            "nullable": true
+          },
+          "Date1": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date2": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date3": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date4": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date5": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Bool1": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool2": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool3": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool4": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool5": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          }
+        }
+      },
+      "VoidResponseOutput": {
+        "required": [
+          "TimeElapsed"
+        ],
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "BlockHierarchyInput": {
+        "required": [
+          "Reason"
+        ],
+        "properties": {
+          "Reason": {
+            "type": "string",
+            "default": ""
+          }
+        }
+      },
+      "UnblockHierarchyInput": {
+        "required": [
+          "Reason"
+        ],
+        "properties": {
+          "Reason": {
+            "type": "string",
+            "default": ""
+          }
+        }
+      },
+      "GetHierarchyOutput": {
+        "required": [
+          "HierarchyId",
+          "HierarchyName",
+          "HierarchyLevel",
+          "HierarchyType"
+        ],
+        "properties": {
+          "HierarchyIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "HierarchyId": {
+            "type": "string"
+          },
+          "HierarchyName": {
+            "type": "string"
+          },
+          "HierarchyLevel": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "HierarchyType": {
+            "$ref": "#/components/schemas/HierarchyType"
+          },
+          "PersonCategoryIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "PersonCategoryDisplayName": {
+            "type": "string",
+            "nullable": true
+          },
+          "ParentHierarchyIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "IsBlocked": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "BlockedOn": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "BlockedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "BlockedReason": {
+            "type": "string",
+            "nullable": true
+          },
+          "HierarchyInfo": {
+            "type": "string"
+          },
+          "HierarchyDetail": {
+            "$ref": "#/components/schemas/HierarchyDetailOutput"
+          }
+        }
+      },
+      "HierarchyType": {
+        "enum": [
+          "Intern",
+          "Extern"
+        ],
+        "type": "string",
+        "default": "Intern",
+        "nullable": true
+      },
+      "HierarchyDetailOutput": {
+        "properties": {
+          "HierarchyFkInternal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "HierarchyDetailIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "HierarchyDetailId": {
+            "type": "string",
+            "nullable": true
+          },
+          "Street": {
+            "type": "string",
+            "nullable": true
+          },
+          "PoBox": {
+            "type": "string",
+            "nullable": true
+          },
+          "Zip": {
+            "type": "string",
+            "nullable": true
+          },
+          "City": {
+            "type": "string",
+            "nullable": true
+          },
+          "Country": {
+            "type": "string",
+            "nullable": true
+          },
+          "Phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "Fax": {
+            "type": "string",
+            "nullable": true
+          },
+          "EMail": {
+            "type": "string",
+            "nullable": true
+          },
+          "Commentary": {
+            "type": "string",
+            "nullable": true
+          },
+          "Text1": {
+            "type": "string",
+            "nullable": true
+          },
+          "Text2": {
+            "type": "string",
+            "nullable": true
+          },
+          "Text3": {
+            "type": "string",
+            "nullable": true
+          },
+          "Text4": {
+            "type": "string",
+            "nullable": true
+          },
+          "Text5": {
+            "type": "string",
+            "nullable": true
+          },
+          "Text6": {
+            "type": "string",
+            "nullable": true
+          },
+          "Text7": {
+            "type": "string",
+            "nullable": true
+          },
+          "Text8": {
+            "type": "string",
+            "nullable": true
+          },
+          "Text9": {
+            "type": "string",
+            "nullable": true
+          },
+          "Text10": {
+            "type": "string",
+            "nullable": true
+          },
+          "Date1": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date2": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date3": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date4": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date5": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Bool1": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "Bool2": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "Bool3": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "Bool4": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "Bool5": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "nullable": true
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "hierarchy",
+      "description": "<p>Operations related to company hierarchies.</p>"
+    }
+  ]
+}

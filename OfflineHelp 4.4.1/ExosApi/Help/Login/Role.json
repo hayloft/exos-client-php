@@ -1,0 +1,939 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "paths": {
+    "/v1.0/roles": {
+      "get": {
+        "tags": [
+          "role"
+        ],
+        "summary": "get a list of roles by odata query option.",
+        "description": "Be aware that a query made here can return up to 10000 records. If you need more, please use the built in paging functionality with $top and $skip.\nhttp://www.asp.net/web-api/overview/odata-support-in-aspnet-web-api/supporting-odata-query-options. ",
+        "parameters": [
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select and $expand.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$skip",
+            "in": "query",
+            "description": "skips the first x entries of the response(paging)",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$top",
+            "in": "query",
+            "description": "limits the number of returned records.",
+            "schema": {
+              "type": "integer",
+              "default": 1000,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetRoleOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_PERS_RolesRead",
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/roles/{roleId}/delete": {
+      "post": {
+        "tags": [
+          "role"
+        ],
+        "summary": "deletes a existing role",
+        "description": "deletes a existing role.",
+        "parameters": [
+          {
+            "name": "roleId",
+            "in": "path",
+            "description": "id of role",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_SYS_RolesDelete"
+        ],
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100009,100012,300004,300008,400042,400156,400157,400164,999999"
+      }
+    },
+    "/v1.0/roles/{roleId}/update": {
+      "post": {
+        "tags": [
+          "role"
+        ],
+        "summary": "updates a existing role",
+        "description": "updates a existing role.",
+        "parameters": [
+          {
+            "name": "roleId",
+            "in": "path",
+            "description": "id of role",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "role to update",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_SYS_RolesUpdate"
+        ],
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100009,100012,300004,300008,400042,400155,400156,400157,400158,999999"
+      }
+    },
+    "/v1.0/roles/copy": {
+      "post": {
+        "tags": [
+          "role"
+        ],
+        "summary": "copies all authorisations from an existing role to another role",
+        "description": "copies all authorisations from an existing role to another role.",
+        "requestBody": {
+          "description": "role to create",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CopyRoleInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_SYS_AuthorisationsUpdate"
+        ],
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100009,100012,300004,300008,400042,400156,400157,400167,999999"
+      }
+    },
+    "/v1.0/roles/create": {
+      "post": {
+        "tags": [
+          "role"
+        ],
+        "summary": "create a new role",
+        "description": "creates a new role.",
+        "requestBody": {
+          "description": "role to create",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_SYS_RolesCreate"
+        ],
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100009,100012,300004,300008,400155,400157,999999"
+      }
+    },
+    "/v1.0/authorisationGroups": {
+      "get": {
+        "tags": [
+          "role"
+        ],
+        "summary": "gets the authorisation groups",
+        "description": "Be aware that a query made here can return up to 10000 records. If you need more, please use the built in paging functionality with $top and $skip.\nhttp://www.asp.net/web-api/overview/odata-support-in-aspnet-web-api/supporting-odata-query-options. ",
+        "parameters": [
+          {
+            "name": "roleId",
+            "in": "query",
+            "description": "specific role id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select and $expand.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$skip",
+            "in": "query",
+            "description": "skips the first x entries of the response(paging)",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$top",
+            "in": "query",
+            "description": "limits the number of returned records.",
+            "schema": {
+              "type": "integer",
+              "default": 1000,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAuthorisationGroupsOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_SYS_AuthorisationsRead",
+        "x-errorcodes": "300004,300008,400042,999999"
+      }
+    },
+    "/v1.0/authorisationGroups/{roleId}/numberOfAuthorisedAuthorisationsPerGroup": {
+      "get": {
+        "tags": [
+          "role"
+        ],
+        "summary": "gets the number of authorised authorisations per group for a specific role",
+        "description": "gets the number of authorised authorisations per group for a specific role",
+        "parameters": [
+          {
+            "name": "roleId",
+            "in": "path",
+            "description": "specific role id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetNumberOfAuthorisedAuthorisationsPerGroupOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_SYS_AuthorisationsRead",
+        "x-errorcodes": "300004,300008,400042,999999"
+      }
+    },
+    "/v1.0/roleAuthorisations": {
+      "get": {
+        "tags": [
+          "role"
+        ],
+        "summary": "gets the authorisation for a specific role.",
+        "description": "Be aware that a query made here can return up to 10000 records. If you need more, please use the built in paging functionality with $top and $skip.\nhttp://www.asp.net/web-api/overview/odata-support-in-aspnet-web-api/supporting-odata-query-options. ",
+        "parameters": [
+          {
+            "name": "roleId",
+            "in": "query",
+            "description": "specific role",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select and $expand.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$skip",
+            "in": "query",
+            "description": "skips the first x entries of the response(paging)",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$top",
+            "in": "query",
+            "description": "limits the number of returned records.",
+            "schema": {
+              "type": "integer",
+              "default": 1000,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAuthorisationsOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_SYS_AuthorisationsRead",
+        "x-errorcodes": "300004,300008,400042,999999"
+      }
+    },
+    "/v1.0/roleAuthorisations/{roleId}/update": {
+      "post": {
+        "tags": [
+          "role"
+        ],
+        "summary": "updates one or more authorisation(s) of a specific role",
+        "description": "updates one or more authorisation(s) of a specific role.",
+        "parameters": [
+          {
+            "name": "roleId",
+            "in": "path",
+            "description": "specific role id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "role to update",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAuthorisationsInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_SYS_AuthorisationsUpdate",
+        "x-errorcodes": "300004,300008,400042,400153,400154,400156,400157,400162,400163,999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GetRoleOutputWithTime": {
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "@odata.count": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetRoleOutput"
+            }
+          }
+        }
+      },
+      "RoleOutputWithTime": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "required": [
+              "RoleId"
+            ],
+            "properties": {
+              "RoleId": {
+                "type": "string"
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "CreateRoleInput": {
+        "required": [
+          "RoleName",
+          "RoleType"
+        ],
+        "properties": {
+          "RoleName": {
+            "type": "string",
+            "default": "Role01"
+          },
+          "RoleType": {
+            "$ref": "#/components/schemas/RoleType"
+          },
+          "RoleId": {
+            "type": "string",
+            "default": "Role01",
+            "nullable": true
+          }
+        }
+      },
+      "UpdateRoleInput": {
+        "properties": {
+          "RoleName": {
+            "type": "string",
+            "default": "Role01",
+            "nullable": true
+          },
+          "RoleId": {
+            "type": "string",
+            "default": "Role01",
+            "nullable": true
+          },
+          "IsEnabled": {
+            "type": "boolean",
+            "default": true,
+            "nullable": true
+          }
+        }
+      },
+      "VoidResponseOutput": {
+        "required": [
+          "TimeElapsed"
+        ],
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "CopyRoleInput": {
+        "required": [
+          "SourceRoleId",
+          "DestinationRoleId"
+        ],
+        "properties": {
+          "SourceRoleId": {
+            "type": "string",
+            "default": "Role01"
+          },
+          "DestinationRoleId": {
+            "type": "string",
+            "default": "Role02"
+          }
+        }
+      },
+      "GetRoleOutput": {
+        "required": [
+          "RoleId"
+        ],
+        "properties": {
+          "RoleId": {
+            "type": "string",
+            "default": "RoleId"
+          },
+          "RoleIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "RoleName": {
+            "type": "string",
+            "default": "Supervisor",
+            "nullable": true
+          },
+          "RoleType": {
+            "$ref": "#/components/schemas/RoleType"
+          },
+          "TenantId": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "IsEnabled": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          }
+        }
+      },
+      "RoleType": {
+        "enum": [
+          "Admin",
+          "Supervisor",
+          "EmployeeSelfService",
+          "System",
+          "Category"
+        ],
+        "type": "string",
+        "nullable": true
+      },
+      "GetAuthorisationGroupsOutputWithTime": {
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "@odata.count": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetAuthorisationGroupOutput"
+            }
+          }
+        }
+      },
+      "GetAuthorisationGroupOutput": {
+        "properties": {
+          "AuthorisationGroupIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "AuthorisationGroupId": {
+            "type": "string",
+            "default": "Group01",
+            "nullable": true
+          },
+          "AuthorisationGroupName": {
+            "type": "string",
+            "default": "Group01",
+            "nullable": true
+          },
+          "AuthorisationGroupDescription": {
+            "type": "string",
+            "default": "Description01",
+            "nullable": true
+          }
+        }
+      },
+      "GetNumberOfAuthorisedAuthorisationsPerGroupOutputWithTime": {
+        "required": [
+          "Value",
+          "TimeElapsed"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/GetNumberOfAuthorisedAuthorisationsPerGroupOutputValue"
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "GetNumberOfAuthorisedAuthorisationsPerGroupOutputValue": {
+        "required": [
+          "AuthorisationGroups"
+        ],
+        "properties": {
+          "AuthorisationGroups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetNumberOfAuthorisedAuthorisationsPerGroupOutput"
+            }
+          }
+        }
+      },
+      "GetNumberOfAuthorisedAuthorisationsPerGroupOutput": {
+        "properties": {
+          "AuthorisationGroupId": {
+            "type": "string",
+            "default": "Visitormanagement",
+            "nullable": true
+          },
+          "AuthorisationGroupName": {
+            "type": "string",
+            "default": "Visitormanagement",
+            "nullable": true
+          },
+          "Total": {
+            "type": "integer",
+            "format": "int32",
+            "default": 17,
+            "nullable": true
+          },
+          "Authorised": {
+            "type": "integer",
+            "format": "int32",
+            "default": 15,
+            "nullable": true
+          }
+        }
+      },
+      "GetAuthorisationsOutputWithTime": {
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "@odata.count": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetAuthorisationOutput"
+            }
+          }
+        }
+      },
+      "GetAuthorisationOutput": {
+        "properties": {
+          "Identification": {
+            "type": "string",
+            "default": "GUID",
+            "nullable": true
+          },
+          "AuthorisationGroupId": {
+            "type": "string",
+            "default": "GroupId",
+            "nullable": true
+          },
+          "AuthorisationGroupName": {
+            "type": "string",
+            "default": "GroupName",
+            "nullable": true
+          },
+          "AuthorisationGroupDescription": {
+            "type": "string",
+            "default": "GroupDescription",
+            "nullable": true
+          },
+          "AuthorisationIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "AuthId": {
+            "type": "string",
+            "default": "API_SDM_EmployeeRead",
+            "nullable": true
+          },
+          "AuthorisationName": {
+            "type": "string",
+            "default": "Show employee data",
+            "nullable": true
+          },
+          "AuthorisationDescription": {
+            "type": "string",
+            "default": "Right for: Show employee data",
+            "nullable": true
+          },
+          "AuthorisationValue": {
+            "$ref": "#/components/schemas/AuthorisationValueType"
+          },
+          "IsAuthorisationTriState": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          }
+        }
+      },
+      "AuthorisationValueType": {
+        "enum": [
+          "None",
+          "Display",
+          "Edit"
+        ],
+        "type": "string",
+        "nullable": true
+      },
+      "UpdateAuthorisationsInput": {
+        "required": [
+          "Authorisations"
+        ],
+        "properties": {
+          "Authorisations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UpdateAuthorisationInput"
+            }
+          }
+        }
+      },
+      "UpdateAuthorisationInput": {
+        "properties": {
+          "AuthId": {
+            "type": "string",
+            "default": "API_SDM_EmployeeRead",
+            "nullable": true
+          },
+          "AuthorisationValue": {
+            "$ref": "#/components/schemas/AuthorisationValueType"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "role",
+      "description": "<p>Operations related to roles. Roles contain authorisations and can be assigned to a login.</p>"
+    }
+  ]
+}

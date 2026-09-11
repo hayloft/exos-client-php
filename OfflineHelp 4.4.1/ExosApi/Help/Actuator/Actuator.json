@@ -1,0 +1,377 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Actuator API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "paths": {
+    "/v1.0/actuators/getConfiguration": {
+      "post": {
+        "tags": [
+          "Actuator"
+        ],
+        "requestBody": {
+          "description": "List of actuator addresses.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetActuatorConfigurationInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "List of actuator configurations.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetActuatorConfigurationOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_SYS_ImportFromProgrammerSyncronize"
+        ],
+        "x-errorcodes": "100000,100001,300004,400222,999999"
+      }
+    },
+    "/v1.0/actuators/setState": {
+      "post": {
+        "tags": [
+          "Actuator"
+        ],
+        "requestBody": {
+          "description": "List of actuator addresses/names and the actuator state.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetActuatorStateInput"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_SYS_LoadToProgrammer",
+          "API_SYS_ImportFromProgrammerSyncronize",
+          "API_SYS_StandAloneNormalOperation"
+        ],
+        "x-errorcodes": "100000,100001,300004,400222,999999"
+      }
+    },
+    "/v1.0/actuators/importTraceback": {
+      "post": {
+        "tags": [
+          "Actuator"
+        ],
+        "requestBody": {
+          "description": "List of actuator traceback strings",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ImportTracebackInput"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImportTracebackOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_SYS_ImportFromProgrammerSyncronize"
+        ],
+        "x-errorcodes": "100000,100001,300004,999999"
+      }
+    },
+    "/v1.0/actuators/importInfo": {
+      "post": {
+        "tags": [
+          "Actuator"
+        ],
+        "requestBody": {
+          "description": "Imports actuator info",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ImportActuatorInfoInput"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_SYS_ImportFromProgrammerSyncronize"
+        ],
+        "x-errorcodes": "100000,100001,100005,300004,300008,400086,500001,999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GetActuatorConfigurationOutput": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ResponseBase"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "Value": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/ActuatorConfiguration"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "ActuatorConfiguration": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "Configurations": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "InfoTexts": {
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "type": "string"
+            }
+          },
+          "ConfigurationVersion": {
+            "type": "string"
+          }
+        }
+      },
+      "ResponseBase": {
+        "type": "object",
+        "x-abstract": true,
+        "additionalProperties": false,
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "GetActuatorConfigurationInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "ActuatorAddresses"
+        ],
+        "properties": {
+          "ActuatorAddresses": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "ClearBlacklist": {
+            "type": "boolean"
+          }
+        }
+      },
+      "VoidResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ResponseBase"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "SetActuatorStateInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "ActuatorState"
+        ],
+        "properties": {
+          "ActuatorAddresses": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "ActuatorNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "ActuatorState": {
+            "$ref": "#/components/schemas/ActuatorState"
+          }
+        }
+      },
+      "ActuatorState": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "StandaloneStateUpToDate",
+          "StandaloneStateUpdateNecessary",
+          "StandaloneStateProgrammerLoaded",
+          "StandaloneStateIncomplete"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          -1
+        ]
+      },
+      "ImportTracebackInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "ActuatorTracebacks"
+        ],
+        "properties": {
+          "ActuatorTracebacks": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "TracebackVersion": {
+            "type": "string"
+          }
+        }
+      },
+      "ImportTracebackOutput": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ResponseBase"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "Value": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/ImportTracebackResult"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "ImportTracebackResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "DeleteFileOnProgrammer": {
+            "type": "boolean"
+          },
+          "InfoTexts": {
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ImportActuatorInfoInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "NameOnPd",
+          "FirmwareVersion"
+        ],
+        "properties": {
+          "NameOnPd": {
+            "type": "string",
+            "default": ""
+          },
+          "FirmwareVersion": {
+            "type": "string",
+            "default": ""
+          },
+          "SerialNumber": {
+            "type": "string",
+            "default": "1"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Actuator",
+      "description": "<p>Operations related to actuators</p>"
+    }
+  ]
+}

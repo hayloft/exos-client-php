@@ -1,0 +1,97 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "access right",
+      "description": "<p>Operations related to access rights</p><p>A Profile is a set of defined access rights, which defines where and when a person has access. A profile can contain other profiles, access grids, door groups or cardlink components.</p>"
+    },
+    {
+      "name": "cardLink",
+      "description": "<p>Operations related to CardLink</p>"
+    },
+    {
+      "name": "passageway",
+      "description": "<p>Operations related to passageways</p>"
+    },
+    {
+      "name": "room",
+      "description": ""
+    },
+    {
+      "name": "time zone",
+      "description": ""
+    }
+  ],
+  "paths": {
+    "/v1.0/accessDomains": {
+      "$ref": "./AccessRights.json#/paths/%2Fv1.0%2FaccessDomains"
+    },
+    "/v1.0/accessRightAssignments": {
+      "$ref": "./AccessRights.json#/paths/%2Fv1.0%2FaccessRightAssignments"
+    },
+    "/v1.0/accessRights": {
+      "$ref": "./AccessRights.json#/paths/%2Fv1.0%2FaccessRights"
+    },
+    "/v1.0/accessRights/minimised": {
+      "$ref": "./AccessRights.json#/paths/%2Fv1.0%2FaccessRights%2Fminimised"
+    },
+    "/v1.0/accessRights/accessCheck": {
+      "$ref": "./AccessRights.json#/paths/%2Fv1.0%2FaccessRights%2FaccessCheck"
+    },
+    "/v1.0/accessRights/accessRightDetails/{accessRightId}": {
+      "$ref": "./AccessRights.json#/paths/%2Fv1.0%2FaccessRights%2FaccessRightDetails%2F%7BaccessRightId%7D"
+    },
+    "/v1.0/accessRights/alarmZoneSwitches/{personId}": {
+      "$ref": "./AccessRights.json#/paths/%2Fv1.0%2FaccessRights%2FalarmZoneSwitches%2F%7BpersonId%7D"
+    },
+    "/v1.0/accessRights/alarmZoneSwitches/{personId}/update": {
+      "$ref": "./AccessRights.json#/paths/%2Fv1.0%2FaccessRights%2FalarmZoneSwitches%2F%7BpersonId%7D%2Fupdate"
+    },
+    "/v1.0/cardLink/{validationPeriodId}/assignPerson": {
+      "$ref": "./CardLink.json#/paths/%2Fv1.0%2FcardLink%2F%7BvalidationPeriodId%7D%2FassignPerson"
+    },
+    "/v1.0/cardLink/isCardLinkUpdatePending/{personId}/{accessDomainId}": {
+      "$ref": "./CardLink.json#/paths/%2Fv1.0%2FcardLink%2FisCardLinkUpdatePending%2F%7BpersonId%7D%2F%7BaccessDomainId%7D"
+    },
+    "/v1.0/cardLink/setSpecificUpdatePeriod": {
+      "$ref": "./CardLink.json#/paths/%2Fv1.0%2FcardLink%2FsetSpecificUpdatePeriod"
+    },
+    "/v1.0/cardLink/updateValidation": {
+      "$ref": "./CardLink.json#/paths/%2Fv1.0%2FcardLink%2FupdateValidation"
+    },
+    "/v1.0/cardLink/validationPeriods/{personId}": {
+      "$ref": "./CardLink.json#/paths/%2Fv1.0%2FcardLink%2FvalidationPeriods%2F%7BpersonId%7D"
+    },
+    "/v1.0/passageways/{passagewayId}/openonce": {
+      "$ref": "./Passageway.json#/paths/%2Fv1.0%2Fpassageways%2F%7BpassagewayId%7D%2Fopenonce"
+    },
+    "/v1.0/rooms": {
+      "$ref": "./Room.json#/paths/%2Fv1.0%2Frooms"
+    },
+    "/v1.0/timeZones": {
+      "$ref": "./TimeZones.json#/paths/%2Fv1.0%2FtimeZones"
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  }
+}

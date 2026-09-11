@@ -1,0 +1,3892 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "paths": {
+    "/v1.0/badges": {
+      "get": {
+        "tags": [
+          "badge"
+        ],
+        "summary": "get a list of badges",
+        "description": "Be aware that a query made here can return up to 10000 records. If you need more, please use the built in paging functionality with $top and $skip.\nhttp://www.asp.net/web-api/overview/odata-support-in-aspnet-web-api/supporting-odata-query-options. ",
+        "parameters": [
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select and $expand.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$skip",
+            "in": "query",
+            "description": "skips the first x entries of the response(paging)",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$top",
+            "in": "query",
+            "description": "limits the number of returned records.",
+            "schema": {
+              "type": "integer",
+              "default": 1000,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetBadgesOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_PERS_BadgesRead",
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/badges/block": {
+      "post": {
+        "tags": [
+          "badge"
+        ],
+        "summary": "blocks a released badge",
+        "description": "blocks a released badge",
+        "requestBody": {
+          "description": "block badge with reason",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BlockBadgeInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_PERS_BadgesBlock",
+        "x-errorcodes": "100000,100001,300004,300008,400005,400007,400008,500000,999999"
+      }
+    },
+    "/v1.0/badges/create": {
+      "post": {
+        "tags": [
+          "badge"
+        ],
+        "summary": "creates a new badge",
+        "description": "Creates a badge.",
+        "requestBody": {
+          "description": "Badge",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBadgeInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateBadgeOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_PERS_BadgesCreate",
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100009,300004,300008,400001,400014,400015,400016,400017,400018,400019,400020,400021,400022,400023,400147,400240,400284,40352,500000,999999"
+      }
+    },
+    "/v1.0/badges/delete": {
+      "post": {
+        "tags": [
+          "badge"
+        ],
+        "summary": "delete badge",
+        "description": "delete badge",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteBadgeInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_PERS_BadgesDelete, API_BM_BadgeDelete",
+        "x-errorcodes": "100000,100001,300004,300008,400005,400007,400145,400147,400283,400331,40352,500000,999999"
+      }
+    },
+    "/v1.0/badges/nexus/update": {
+      "post": {
+        "tags": [
+          "badge"
+        ],
+        "summary": "update nexus information",
+        "description": "update nexus information after badge is printed",
+        "requestBody": {
+          "description": "nexus information",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NexusInfoInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "SYS_PERS_BADGEPROD",
+        "x-errorcodes": "100000,100001,300004,300008,400005,400007,400009,400072,400080,500000,999999"
+      }
+    },
+    "/v1.0/badges/unblock": {
+      "post": {
+        "tags": [
+          "badge"
+        ],
+        "summary": "unblocks a released badge",
+        "description": "unblocks a released badge",
+        "parameters": [
+          {
+            "name": "ignoreBlacklist",
+            "in": "query",
+            "description": "Ignore blacklist check",
+            "schema": {
+              "type": "boolean",
+              "nullable": true
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "unblock badge",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UnblockBadgeInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_PERS_BadgesUnblock",
+        "x-errorcodes": "100000,100001,300004,300008,400005,400007,400009,400072,400080,500000,999999"
+      }
+    },
+    "/v1.0/mediaDefinitions": {
+      "get": {
+        "tags": [
+          "badge"
+        ],
+        "summary": "get a list of media definitions",
+        "description": "Be aware that a query made here can return up to 10000 records. If you need more, please use the built in paging functionality with $top and $skip.\nhttp://www.asp.net/web-api/overview/odata-support-in-aspnet-web-api/supporting-odata-query-options. ",
+        "parameters": [
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select and $expand.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$skip",
+            "in": "query",
+            "description": "skips the first x entries of the response(paging)",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$top",
+            "in": "query",
+            "description": "limits the number of returned records.",
+            "schema": {
+              "type": "integer",
+              "default": 1000,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMediaDefinitionsOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_AC_MediaDefinitionsRead",
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/mediaDefinitions/mediaApplicationDefinitions/sortOrder": {
+      "get": {
+        "tags": [
+          "badge"
+        ],
+        "summary": "get sort order of media application definitions",
+        "description": "get sort order of media application definitions",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SortOrderOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_AC_MediaDefinitionsRead",
+        "x-errorcodes": "300004,300008,999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GetBadgesOutputWithTime": {
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "@odata.count": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetBadgeOutput"
+            }
+          }
+        }
+      },
+      "CreateBadgeOutputWithTime": {
+        "required": [
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/CreateBadgeOutput"
+          },
+          "TimeElapsed": {
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      "CreateBadgeInput": {
+        "required": [
+          "MediaDefinitionFk",
+          "ApplicationDefinitions"
+        ],
+        "properties": {
+          "BadgeName": {
+            "type": "string",
+            "default": "ApiCard1",
+            "nullable": true
+          },
+          "BadgeId": {
+            "type": "string",
+            "default": "BadgeUID",
+            "nullable": true
+          },
+          "MediaDefinitionFk": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "CategoryFk": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Comment": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "MediaRoleAuthorisation": {
+            "$ref": "#/components/schemas/MediaRoleAuthorisation"
+          },
+          "ValidFrom": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "ValidTo": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "ApplicationDefinitions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApplicationDefinition"
+            }
+          }
+        }
+      },
+      "VoidResponseOutput": {
+        "required": [
+          "TimeElapsed"
+        ],
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "SortOrderOutput": {
+        "required": [
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MediaDefinitionSortOrderOutput"
+            },
+            "nullable": true
+          },
+          "TimeElapsed": {
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      "MediaDefinitionSortOrderOutput": {
+        "properties": {
+          "MediaDefinitionId": {
+            "type": "number",
+            "nullable": true
+          },
+          "Name": {
+            "type": "string",
+            "nullable": true
+          },
+          "MediaApplicationDefinitionOutputs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MediaApplicationDefinitionSortOrderOutput"
+            }
+          }
+        }
+      },
+      "MediaApplicationDefinitionSortOrderOutput": {
+        "required": [
+          "MediaApplicationDefinitionId",
+          "ApplicationType"
+        ],
+        "properties": {
+          "MediaApplicationDefinitionId": {
+            "type": "number",
+            "default": 1
+          },
+          "Name": {
+            "type": "string",
+            "default": "Name"
+          },
+          "ApplicationType": {
+            "type": "string",
+            "default": "ActuatorStatus"
+          }
+        }
+      },
+      "BlockBadgeInput": {
+        "properties": {
+          "BadgeName": {
+            "type": "string",
+            "default": "Badge01",
+            "nullable": true
+          },
+          "BadgeId": {
+            "type": "string",
+            "default": "BadgeUID",
+            "nullable": true
+          },
+          "BlockingReason": {
+            "type": "string",
+            "format": "Reason",
+            "nullable": true
+          }
+        }
+      },
+      "DeleteBadgeInput": {
+        "properties": {
+          "BadgeName": {
+            "type": "string",
+            "default": "Badge01",
+            "nullable": true
+          },
+          "BadgeId": {
+            "type": "string",
+            "default": "BadgeUID",
+            "nullable": true
+          }
+        }
+      },
+      "UnblockBadgeInput": {
+        "properties": {
+          "BadgeName": {
+            "type": "string",
+            "default": "Badge01",
+            "nullable": true
+          },
+          "BadgeId": {
+            "type": "string",
+            "default": "BadgeUID",
+            "nullable": true
+          }
+        }
+      },
+      "NexusInfoInput": {
+        "required": [
+          "Layout",
+          "IsEncoding"
+        ],
+        "properties": {
+          "BadgeName": {
+            "type": "string",
+            "default": "Badge01",
+            "nullable": true
+          },
+          "BadgeId": {
+            "type": "string",
+            "default": "BadgeUID",
+            "nullable": true
+          },
+          "Layout": {
+            "type": "string",
+            "default": "Demo"
+          },
+          "IsEncoding": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "GetBoolParameterOutputWithTime": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "required": [
+              "Value"
+            ],
+            "properties": {
+              "Value": {
+                "type": "boolean"
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "GetBadgeOutput": {
+        "required": [
+          "BadgeName"
+        ],
+        "properties": {
+          "BadgeIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "BadgeId": {
+            "type": "string",
+            "default": ""
+          },
+          "BadgeName": {
+            "type": "string",
+            "default": "ApiCard1"
+          },
+          "Comment": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "LastChangeDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "LastUsedDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "FabricationKeyReplacedDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "ValidFrom": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "ValidTo": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Tenant": {
+            "$ref": "#/components/schemas/TenantOutput"
+          },
+          "Category": {
+            "$ref": "#/components/schemas/PersonCategoryOutput"
+          },
+          "MediaUsageData": {
+            "$ref": "#/components/schemas/MediaUsageDataOutput"
+          },
+          "PledgeData": {
+            "$ref": "#/components/schemas/PledgeDataOutput"
+          },
+          "ProductionData": {
+            "$ref": "#/components/schemas/ProductionDataOutput"
+          },
+          "MediaDefinition": {
+            "$ref": "#/components/schemas/MediaDefinitionOutput"
+          },
+          "MediaApplications": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MediaApplicationOutput"
+            },
+            "nullable": true
+          },
+          "MobileAccessMediaData": {
+            "$ref": "#/components/schemas/MobileAccessMediaDataOutput"
+          },
+          "WalletMediaData": {
+            "$ref": "#/components/schemas/WalletMediaDataOutput"
+          },
+          "Person": {
+            "$ref": "#/components/schemas/GetPersonOutput"
+          }
+        },
+        "nullable": true
+      },
+      "CreateBadgeOutput": {
+        "required": [
+          "BadgeName",
+          "BadgeId"
+        ],
+        "properties": {
+          "BadgeName": {
+            "type": "string",
+            "default": "ApiCard1"
+          },
+          "BadgeId": {
+            "type": "string",
+            "default": ""
+          }
+        }
+      },
+      "MediaRoleAuthorisation": {
+        "enum": [
+          "All",
+          "Standard",
+          "Replacement",
+          "Visitor",
+          "Invalid"
+        ],
+        "type": "string",
+        "nullable": true
+      },
+      "ApplicationDefinition": {
+        "required": [
+          "BadgeNumber",
+          "ApplicationDefinitionFk"
+        ],
+        "properties": {
+          "BadgeNumber": {
+            "maxLength": 20,
+            "type": "string",
+            "default": "1"
+          },
+          "BadgeVersion": {
+            "maxLength": 2,
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "ApplicationDefinitionFk": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          }
+        }
+      },
+      "TenantOutput": {
+        "required": [
+          "TenantIdInternal",
+          "TenantId",
+          "DisplayName"
+        ],
+        "properties": {
+          "TenantIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "TenantId": {
+            "type": "string",
+            "default": "Tenant 1"
+          },
+          "DisplayName": {
+            "type": "string",
+            "default": "Tenant 1"
+          }
+        },
+        "nullable": true
+      },
+      "PersonCategoryOutput": {
+        "required": [
+          "CategoryId"
+        ],
+        "properties": {
+          "CategoryId": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "DisplayName": {
+            "type": "string",
+            "default": "Category 1",
+            "nullable": true
+          },
+          "TenantId": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "MediaUsageDataOutput": {
+        "properties": {
+          "CurrentRole": {
+            "enum": [
+              "UnknownRole",
+              "Invalid",
+              "Standard",
+              "Replacement",
+              "Initialized",
+              "Visitor"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "RoleAuthorisation": {
+            "enum": [
+              "AllRoles",
+              "InitializedRoleOnly",
+              "NoRoleAuthorisation",
+              "ReplacementRoleOnly",
+              "StandardRoleOnly",
+              "SpecialAuthorisation",
+              "UnknownRoleAuthorisation",
+              "VisitorRoleOnly"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "ReleaseState": {
+            "enum": [
+              "Released",
+              "Blocked",
+              "BlockedOnlineOnly"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "BlockingReason": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "HasSpecialFunction": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "IsGlobal": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "IsImported": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "IsInterventionMedia": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "IsSmartKey": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Blocks": {
+            "type": "string",
+            "description": "badge which is blocked by this badge",
+            "nullable": true
+          },
+          "VisitId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "PledgeDataOutput": {
+        "properties": {
+          "Amount": {
+            "type": "number",
+            "default": 0,
+            "nullable": true
+          },
+          "PledgeText": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "ProductionDataOutput": {
+        "properties": {
+          "ProducedDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Layout": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "PrintedByUser": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "PrintedDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "ViewZones": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "MediaDefinitionOutput": {
+        "properties": {
+          "MediaDefinitionId": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "DisplayName": {
+            "type": "string",
+            "default": "MediaDefinition1",
+            "nullable": true
+          },
+          "MediaType": {
+            "enum": [
+              "ElectronicOnly",
+              "MechanicalOnly",
+              "ElectronicAndMechanical"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "PledgeType": {
+            "enum": [
+              "NoPledge",
+              "PledgeTextOnly",
+              "PledgeAmountOnly",
+              "PledgeTextAndPledgeAmount"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "DefaultPledgeText": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "DefaultPledgeAmount": {
+            "type": "number",
+            "default": 0,
+            "nullable": true
+          },
+          "DefaultReceipt": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "CurrencySymbol": {
+            "type": "string",
+            "default": "EUR",
+            "nullable": true
+          },
+          "BadgeNamePrefix": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "BadgeNamePostfix": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "NumberOfDigitsInBadgeName": {
+            "type": "string",
+            "default": "6",
+            "nullable": true
+          },
+          "IsBadgeNameCalculated": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "DesignationApplicationDefinitionId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "MediaDefinitionUid": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "MediaApplicationDefinitions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MediaApplicationDefinitionOutput"
+            },
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "MediaApplicationOutput": {
+        "properties": {
+          "MediaApplicationDataId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": false
+          },
+          "Number": {
+            "type": "string",
+            "default": "1111",
+            "nullable": true
+          },
+          "Version": {
+            "type": "string",
+            "default": "1111",
+            "nullable": true
+          },
+          "MediaApplicationDefinition": {
+            "$ref": "#/components/schemas/MediaApplicationDefinitionOutput"
+          }
+        }
+      },
+      "MobileAccessMediaDataOutput": {
+        "properties": {
+          "BadgeIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "MobileAccessNumber": {
+            "type": "string",
+            "default": "+123456789",
+            "nullable": true
+          },
+          "MobileEmailAddress": {
+            "type": "string",
+            "default": "john.doe@company.com",
+            "nullable": true
+          },
+          "MobileAccessStatus": {
+            "enum": [
+              "Undefined",
+              "InRegistration",
+              "RegistrationFailed",
+              "RegistrationSuccessful",
+              "Initialized"
+            ],
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "WalletMediaDataOutput": {
+        "nullable": true,
+        "properties": {
+          "WalletStatus": {
+            "enum": [
+              "NotIssued",
+              "Deployed",
+              "Suspended",
+              "Blocked"
+            ],
+            "type": "string",
+            "nullable": false
+          }
+        }
+      },
+      "GetPersonOutput": {
+        "required": [
+          "PersonIdInternal",
+          "TenantId"
+        ],
+        "properties": {
+          "PersonIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "TenantId": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "PersonBaseData": {
+            "$ref": "#/components/schemas/PersonBaseDataOutput"
+          },
+          "PersonAccessControlData": {
+            "$ref": "#/components/schemas/PersonAccessControlDataOutput"
+          },
+          "PersonTenantFreeFields": {
+            "$ref": "#/components/schemas/PersonTenantFreeFieldsOutput"
+          },
+          "PersonImageData": {
+            "$ref": "#/components/schemas/PersonImageDataOutput"
+          },
+          "PersonSecurityData": {
+            "$ref": "#/components/schemas/PersonSecurityDataOutput"
+          },
+          "PersonSAPData": {
+            "$ref": "#/components/schemas/PersonSAPDataOutput"
+          },
+          "Category": {
+            "$ref": "#/components/schemas/PersonCategoryOutput"
+          },
+          "Tenant": {
+            "$ref": "#/components/schemas/TenantOutput"
+          },
+          "Badge": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetBadgeOutput"
+            },
+            "nullable": true
+          },
+          "Keys": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetKeyOutput"
+            },
+            "nullable": true
+          },
+          "KeyRings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetKeyRingOutput"
+            },
+            "nullable": true
+          },
+          "PersonOfficeFlowData": {
+            "$ref": "#/components/schemas/PersonOfficeFlowDataOutput",
+            "nullable": true
+          },
+          "PersonTimeAndAttendanceData": {
+            "$ref": "#/components/schemas/PersonTimeAndAttendanceDataOutput",
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "MediaApplicationDefinitionOutput": {
+        "properties": {
+          "MediaApplicationDefinitionId": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "DisplayName": {
+            "type": "string",
+            "default": "MediaApplicationDefinition1",
+            "nullable": true
+          },
+          "CompanyCode": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "CompanyCodeLength": {
+            "type": "integer",
+            "format": "int32",
+            "default": 8,
+            "nullable": true
+          },
+          "NumberLength": {
+            "type": "integer",
+            "format": "int32",
+            "default": 6,
+            "nullable": true
+          },
+          "VersionLength": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "NumberEncoding": {
+            "enum": [
+              "Alphanumeric",
+              "BinaryCodedDecimal",
+              "Decimal",
+              "Hexadecimal"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "ApplicationType": {
+            "enum": [
+              "ActuatorStatus",
+              "Biometric",
+              "CardLink",
+              "Identification",
+              "LockerLock",
+              "TraceBack"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "LexicaNumber": {
+            "maximum": 8,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "MediaCode": {
+            "enum": [
+              "AriosMifare",
+              "Elostar",
+              "Legic",
+              "Omron",
+              "Other",
+              "Wiegand",
+              "Unused"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "MediaSubCode": {
+            "enum": [
+              "AccessAdvant",
+              "AdvantID",
+              "CID",
+              "CarNumberPlate",
+              "CardKey",
+              "CardLink10",
+              "CardLink11",
+              "Custom",
+              "KabaGroupHeader",
+              "KabaGroupHeaderPlus",
+              "LegicAccess",
+              "UID",
+              "QrCode",
+              "FreeSelectionCabinetLock",
+              "MobileId",
+              "OSS",
+              "InsideSecure"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "MediaStructureType": {
+            "enum": [
+              "Structured",
+              "Unstructured",
+              "AppleWallet",
+              "GoogleWallet"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "LegicSegmentSearchKey": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "LegicSegmentSearchKeyPosition": {
+            "type": "integer",
+            "format": "int32",
+            "default": 9,
+            "nullable": true
+          },
+          "LegicSegmentSearchKeyLength": {
+            "type": "integer",
+            "format": "int32",
+            "default": 4,
+            "nullable": true
+          },
+          "LegicSegmentStartPosition": {
+            "type": "integer",
+            "format": "int32",
+            "default": 6,
+            "nullable": true
+          },
+          "LegicSegmentLength": {
+            "type": "integer",
+            "format": "int32",
+            "default": 7,
+            "nullable": true
+          },
+          "LegicSegmentCrcPosition": {
+            "type": "integer",
+            "format": "int32",
+            "default": 13,
+            "nullable": true
+          },
+          "LegicSegmentCrcSize": {
+            "enum": [
+              "None",
+              "crc8Bit",
+              "crc16Bit"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "LegicSegmentCrcOffset": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "LockerLockSegmentOffset": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "LegicSegmentType": {
+            "enum": [
+              "Data",
+              "LegicAccess",
+              "Undefined"
+            ],
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "PersonBaseDataOutput": {
+        "properties": {
+          "PersonId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "PersonIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "LastName": {
+            "type": "string",
+            "default": "ApiLastName",
+            "nullable": true
+          },
+          "FirstName": {
+            "type": "string",
+            "default": "ApiFirstName",
+            "nullable": true
+          },
+          "PersonalNumber": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "LastChangeDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "FullName": {
+            "type": "string",
+            "default": "ApiLastName,ApiFirstName",
+            "nullable": true
+          },
+          "PhoneNumber": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "BirthDate": {
+            "type": "string",
+            "format": "date",
+            "nullable": true,
+            "example": "2001-01-31"
+          },
+          "Sex": {
+            "enum": [
+              "M",
+              "F",
+              "X"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "CompanyEntryDate": {
+            "type": "string",
+            "format": "date",
+            "nullable": true,
+            "example": "2001-01-31"
+          },
+          "EMail": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "HierarchyFk": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "PersonType": {
+            "enum": [
+              "Employee",
+              "Visitor",
+              "Contractor"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "Text": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Comment": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "DefaultLocationFk": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "DefaultLocationUid": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Nationality": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Street": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Zipcode": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "City": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Country": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "OfficialIdcardExpeditionDate": {
+            "type": "string",
+            "format": "date",
+            "nullable": true,
+            "example": "2001-01-31"
+          },
+          "OfficialIdcardExpirationDate": {
+            "type": "string",
+            "format": "date",
+            "nullable": true,
+            "example": "2001-01-31"
+          },
+          "OfficialIdcardMedium": {
+            "enum": [
+              "None",
+              "Identity card",
+              "Passport",
+              "Driving license"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "OfficialIdcardNr": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "VehicleLicensePlate": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "VehicleType": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "VehicleModel": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "IsActivatedForTimeRegistration": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "PersIdLastVisited": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "DateLastUsed": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "CompanyFk": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "DepartmentFk": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "PrivacyStatus": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "OwnerPersonFk": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Info": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Hierarchy": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "HasMobileAccessDevice": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "HasDigitalWallet": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "BaseTenant": {
+            "$ref": "#/components/schemas/GetTenantOutput"
+          },
+          "PersonLoginData": {
+            "$ref": "#/components/schemas/GetLoginOutput"
+          },
+          "PersonWalletData": {
+            "$ref": "#/components/schemas/GetPersonWalletOutput"
+          },
+          "Language": {
+            "$ref": "#/components/schemas/PersonLanguageOutput"
+          },
+          "BadgesOfMainTenant": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BadgeOfMainTenantOutput"
+            },
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "PersonAccessControlDataOutput": {
+        "properties": {
+          "PersonIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "IsDownloadEnabled": {
+            "type": "boolean",
+            "default": true,
+            "nullable": true
+          },
+          "CurrentNumberOfInvalidPinCodeEntries": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "AccessExitDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "LastAccessDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "LastAccessGridId": {
+            "type": "string",
+            "default": "AccessGrid 1",
+            "nullable": true
+          },
+          "LastAccessDomainId": {
+            "type": "string",
+            "default": "AccessDomain 1",
+            "nullable": true
+          },
+          "LastReaderAddress": {
+            "type": "string",
+            "default": "E0100010001",
+            "nullable": true
+          },
+          "LastReaderName": {
+            "type": "string",
+            "default": "Treppenhaus 1.Stock",
+            "nullable": true
+          },
+          "IsInOutControlIgnored": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "IsAntipassbackIgnored": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "IsMinMaxPersonInRoomIgnored": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "SecurityLevel": {
+            "maximum": 9,
+            "minimum": 0,
+            "type": "integer",
+            "format": "int32",
+            "default": 9,
+            "nullable": true
+          },
+          "IsBlocked": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "IsMediaTracebackEnabled": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "IsInterventionMediaPermitted": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "IsFingerprintUnfeasible": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "IsBiometricEnabled": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "ExtendedLatchTimeActive": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "PersonElevatorData": {
+            "$ref": "#/components/schemas/PersonElevatorDataOutput"
+          },
+          "PersonRoomData": {
+            "$ref": "#/components/schemas/PersonRoomData"
+          },
+          "AccessRights": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PersonAccessRights"
+            },
+            "nullable": true
+          },
+          "Profiles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PersonProfiles"
+            },
+            "nullable": true
+          },
+          "HasIndividualAccessRights": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PersonHasIndividualAccessRights"
+            },
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "PersonTenantFreeFieldsOutput": {
+        "properties": {
+          "PersonIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Text1": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text2": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text3": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text4": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text5": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text6": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text7": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text8": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text9": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text10": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text11": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text12": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text13": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text14": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text15": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text16": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text17": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text18": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text19": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text20": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text21": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text22": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text23": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text24": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text25": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text26": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text27": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text28": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text29": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text30": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text31": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text32": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text33": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text34": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text35": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text36": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text37": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text38": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text39": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text40": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text41": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text42": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text43": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text44": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text45": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text46": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text47": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text48": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text49": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text50": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Date1": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date2": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date3": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date4": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date5": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date6": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date7": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date8": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date9": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date10": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date11": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date12": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date13": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date14": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date15": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date16": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date17": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date18": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date19": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date20": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date21": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date22": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date23": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date24": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date25": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date26": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date27": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date28": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date29": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date30": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date31": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date32": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date33": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date34": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date35": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date36": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date37": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date38": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date39": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date40": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date41": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date42": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date43": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date44": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date45": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date46": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date47": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date48": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date49": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date50": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Bool1": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool2": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool3": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool4": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool5": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool6": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool7": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool8": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool9": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool10": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool11": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool12": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool13": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool14": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool15": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool16": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool17": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool18": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool19": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool20": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool21": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool22": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool23": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool24": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool25": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool26": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool27": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool28": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool29": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool30": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool31": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool32": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool33": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool34": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool35": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool36": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool37": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool38": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool39": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool40": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool41": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool42": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool43": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool44": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool45": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool46": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool47": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool48": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool49": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool50": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Number1": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number2": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number3": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number4": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number5": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number6": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number7": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number8": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number9": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number10": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number11": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number12": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number13": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number14": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number15": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number16": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number17": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number18": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number19": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number20": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number21": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number22": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number23": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number24": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number25": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number26": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number27": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number28": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number29": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number30": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number31": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number32": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number33": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number34": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number35": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number36": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number37": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number38": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number39": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number40": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number41": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number42": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number43": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number44": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number45": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number46": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number47": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number48": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number49": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number50": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "PersonImageDataOutput": {
+        "properties": {
+          "PersonIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Image": {
+            "type": "string",
+            "format": "byte",
+            "default": "",
+            "nullable": true
+          },
+          "ImageChangedDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Signature": {
+            "type": "string",
+            "format": "byte",
+            "default": "",
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "PersonSecurityDataOutput": {
+        "properties": {
+          "PersonIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "SafetyCheckExpirationDate": {
+            "type": "string",
+            "format": "date",
+            "nullable": true,
+            "example": "2001-01-31"
+          },
+          "IsSafetyCheckExpired": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "WorkingPermitEndDate": {
+            "type": "string",
+            "format": "date",
+            "nullable": true,
+            "example": "2001-01-31"
+          }
+        },
+        "nullable": true
+      },
+      "PersonSAPDataOutput": {
+        "properties": {
+          "PersonIdInternal": {
+            "type": "integer",
+            "default": 1,
+            "nullable": true
+          },
+          "Moabw": {
+            "type": "string",
+            "nullable": true
+          },
+          "Molga": {
+            "type": "string",
+            "nullable": true
+          },
+          "Bdegr": {
+            "type": "string",
+            "nullable": true
+          },
+          "Zeity": {
+            "type": "string",
+            "nullable": true
+          },
+          "Zdgbe": {
+            "type": "string",
+            "nullable": true
+          },
+          "Imail": {
+            "type": "string",
+            "nullable": true
+          },
+          "Zmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "Zanbe": {
+            "type": "string",
+            "nullable": true
+          },
+          "SapInfo0": {
+            "type": "string",
+            "nullable": true
+          },
+          "SapInfo1": {
+            "type": "string",
+            "nullable": true
+          },
+          "SapInfo2": {
+            "type": "string",
+            "nullable": true
+          },
+          "SapInfo3": {
+            "type": "string",
+            "nullable": true
+          },
+          "SapInfo4": {
+            "type": "string",
+            "nullable": true
+          },
+          "SapInfo5": {
+            "type": "string",
+            "nullable": true
+          },
+          "SapInfo6": {
+            "type": "string",
+            "nullable": true
+          },
+          "SapInfo7": {
+            "type": "string",
+            "nullable": true
+          },
+          "SapInfo8": {
+            "type": "string",
+            "nullable": true
+          },
+          "SapInfo9": {
+            "type": "string",
+            "nullable": true
+          },
+          "IsSapPerson": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "GetKeyOutput": {
+        "required": [
+          "KeyName",
+          "KeyId",
+          "KeyIdInternal"
+        ],
+        "properties": {
+          "KeyIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "KeyId": {
+            "type": "string",
+            "default": "KeyId01"
+          },
+          "KeyName": {
+            "type": "string",
+            "default": "Key01"
+          },
+          "KeyState": {
+            "$ref": "#/components/schemas/KeyStateOutput"
+          },
+          "PledgeData": {
+            "$ref": "#/components/schemas/KeyPledgeDataOutput"
+          },
+          "Badge": {
+            "$ref": "#/components/schemas/GetBadgeOutput"
+          },
+          "MediaDefinition": {
+            "$ref": "#/components/schemas/MediaDefinitionOutput"
+          },
+          "Person": {
+            "$ref": "#/components/schemas/GetPersonOutput"
+          }
+        }
+      },
+      "GetKeyRingOutput": {
+        "required": [
+          "KeyRingName",
+          "KeyRingId",
+          "KeyRingIdInternal"
+        ],
+        "properties": {
+          "KeyRingIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "KeyRingId": {
+            "type": "string",
+            "default": "KeyRingId01"
+          },
+          "KeyRingName": {
+            "type": "string",
+            "default": "KeyRing01"
+          },
+          "Keys": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetKeyOutput"
+            },
+            "nullable": true
+          }
+        }
+      },
+      "GetRoleOutput": {
+        "required": [
+          "RoleId"
+        ],
+        "properties": {
+          "RoleId": {
+            "type": "string",
+            "default": "RoleId"
+          },
+          "RoleIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "RoleName": {
+            "type": "string",
+            "default": "Supervisor",
+            "nullable": true
+          },
+          "RoleType": {
+            "$ref": "#/components/schemas/RoleType"
+          },
+          "TenantId": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "IsEnabled": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          }
+        }
+      },
+      "RoleType": {
+        "enum": [
+          "Admin",
+          "Supervisor",
+          "EmployeeSelfService",
+          "System",
+          "Category"
+        ],
+        "type": "string",
+        "nullable": true
+      },
+      "GetTenantOutput": {
+        "required": [
+          "TenantIdInternal",
+          "TenantId",
+          "DisplayName"
+        ],
+        "properties": {
+          "TenantIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "TenantId": {
+            "type": "string",
+            "default": "Tenant 1"
+          },
+          "DisplayName": {
+            "type": "string",
+            "default": "Tenant 1"
+          }
+        },
+        "nullable": true
+      },
+      "PersonOfficeFlowDataOutput": {
+        "required": [
+          "PersonIdInternal",
+          "MobilexEnabled",
+          "Language"
+        ],
+        "properties": {
+          "PersonIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "Language": {
+            "type": "string",
+            "default": ""
+          },
+          "MobilexEnabled": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "DirectCallDestinations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DirectCallDestinationOutput"
+            },
+            "nullable": true
+          }
+        }
+      },
+      "DirectCallDestinationOutput": {
+        "required": [
+          "ID",
+          "SyncApiCallDestinationId",
+          "Name",
+          "SortOrder",
+          "PersonIdInternal"
+        ],
+        "properties": {
+          "PersonIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "ID": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "SyncApiCallDestinationId": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "Name": {
+            "type": "string",
+            "default": ""
+          },
+          "SortOrder": {
+            "type": "integer",
+            "default": 1
+          }
+        }
+      },
+      "PersonTimeAndAttendanceDataOutput": {
+        "properties": {
+          "TimeAndAttendanceEntryDate": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "GetLoginOutput": {
+        "required": [
+          "LoginIdInternal",
+          "TenantId"
+        ],
+        "properties": {
+          "LoginId": {
+            "type": "string",
+            "default": "Loginid",
+            "nullable": true
+          },
+          "LoginIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "LanguageFk": {
+            "type": "string",
+            "default": "ENG",
+            "nullable": true
+          },
+          "LoginName": {
+            "type": "string",
+            "default": "MyLoginName",
+            "nullable": true
+          },
+          "Description": {
+            "type": "string",
+            "default": "MyDescription",
+            "nullable": true
+          },
+          "TenantId": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "PasswordValidityInDays": {
+            "type": "integer",
+            "format": "int32",
+            "default": 60,
+            "nullable": true
+          },
+          "CurrentPasswordValidTo": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "TimeZoneId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Roles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetRoleOutput"
+            },
+            "nullable": true
+          },
+          "Persons": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PersonBaseDataOutput"
+            },
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "GetPersonWalletOutput": {
+        "required": [
+          "Status"
+        ],
+        "properties": {
+          "MobileNumber": {
+            "type": "string",
+            "default": "+123456789",
+            "nullable": true
+          },
+          "EmailAddress": {
+            "type": "string",
+            "default": "john.doe@company.com",
+            "nullable": true
+          },
+          "Status": {
+            "enum": [
+              "Undefined",
+              "InRegistration",
+              "RegistrationFailed",
+              "RegistrationSuccessful"
+            ],
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "PersonLanguageOutput": {
+        "properties": {
+          "LanguageId": {
+            "type": "string",
+            "default": "GER",
+            "nullable": true
+          },
+          "DisplayName": {
+            "type": "string",
+            "default": "Deutsch",
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "BadgeOfMainTenantOutput": {
+        "required": [
+          "BadgeName",
+          "BadgeId"
+        ],
+        "properties": {
+          "BadgeIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "BadgeId": {
+            "type": "string",
+            "default": ""
+          },
+          "BadgeName": {
+            "type": "string",
+            "default": ""
+          },
+          "TenantIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": "",
+            "nullable": true
+          },
+          "Tenant": {
+            "$ref": "#/components/schemas/TenantOutput"
+          }
+        }
+      },
+      "GetAccessRightOutput": {
+        "required": [
+          "AccessRightId"
+        ],
+        "properties": {
+          "AccessRightId": {
+            "type": "string",
+            "default": "AccessRightId1"
+          },
+          "DisplayName": {
+            "type": "string",
+            "default": "Profile 1",
+            "nullable": true
+          },
+          "AccessRightType": {
+            "$ref": "#/components/schemas/AccessRightType"
+          },
+          "Comment": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "IsAssignableToVisitor": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "IsAssignableToContractor": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "IsAssignableToEmployee": {
+            "type": "boolean",
+            "default": true,
+            "nullable": true
+          },
+          "RequiredSecurityLevel": {
+            "maximum": 9,
+            "minimum": 0,
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "ValidFrom": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "ValidTo": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Tenant": {
+            "$ref": "#/components/schemas/TenantOutput"
+          },
+          "Category": {
+            "$ref": "#/components/schemas/PersonCategoryOutput"
+          },
+          "AccessDomain": {
+            "$ref": "#/components/schemas/AccessDomainOutput"
+          }
+        },
+        "nullable": true
+      },
+      "GetTimeZoneOutput": {
+        "required": [
+          "TimeZoneId"
+        ],
+        "properties": {
+          "TimeZoneId": {
+            "type": "string",
+            "default": "TimeZoneId1"
+          },
+          "TimeZoneIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "DisplayName": {
+            "type": "string",
+            "default": "Time zone 1",
+            "nullable": true
+          },
+          "Comment": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Tenant": {
+            "$ref": "#/components/schemas/TenantOutput"
+          },
+          "AccessDomain": {
+            "$ref": "#/components/schemas/AccessDomainOutput"
+          }
+        },
+        "nullable": true
+      },
+      "KeyStateOutput": {
+        "properties": {
+          "KeyStateId": {
+            "type": "string",
+            "default": "MKS_STATE_USABLE",
+            "nullable": true
+          },
+          "IsAssignable": {
+            "type": "boolean",
+            "default": true,
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "KeyPledgeDataOutput": {
+        "properties": {
+          "Amount": {
+            "type": "integer",
+            "default": 0,
+            "nullable": true
+          },
+          "PledgeText": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "AccessRightType": {
+        "enum": [
+          "Profile",
+          "ProfileCollection",
+          "ProfileSuperCollection",
+          "ProfilePrivate",
+          "DoorGroup",
+          "AccessGrid",
+          "AccessGridDepot",
+          "AccessGridParking",
+          "ComponentStandalone",
+          "ComponentWireless",
+          "ComponentStandaloneWhite",
+          "AccessGridDepotControl",
+          "AllComponentTypes",
+          "AllProfileTypes",
+          "AllAccessGridTypes"
+        ],
+        "type": "string",
+        "nullable": true
+      },
+      "AccessDomainOutput": {
+        "required": [
+          "AccessDomainId",
+          "AccessDomainIdInternal"
+        ],
+        "properties": {
+          "AccessDomainIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "AccessDomainId": {
+            "type": "string",
+            "default": ""
+          },
+          "AccessDomainNr": {
+            "type": "integer",
+            "format": "int16",
+            "default": 1,
+            "nullable": true
+          },
+          "DisplayName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Description": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "CategoryId": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "ValidationDateToDefault": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "SpecificUpdatePeriodChangeable": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "VirtualNetworkActive": {
+            "deprecated": true,
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "SegData": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "ActuatorVersion": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "ActuatorTechnology": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "AssignedToGroupController": {
+            "deprecated": true,
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "ValidFrom": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "ValidTo": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "MultiprofileEnabled": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "TimeZoneBehaviour": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "DepotControlId": {
+            "type": "integer",
+            "format": "int32",
+            "default": null,
+            "nullable": true
+          },
+          "AccessDomainType": {
+            "$ref": "#/components/schemas/AccessDomainType",
+            "nullable": true
+          },
+          "OssNumberOfTimeProfilesOnUserMedium": {
+            "type": "string",
+            "format": "byte",
+            "default": null,
+            "nullable": true
+          },
+          "OssNumberOfIndividualRightsOnUserMedium": {
+            "type": "integer",
+            "format": "byte",
+            "default": null,
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "PersonElevatorDataOutput": {
+        "required": [
+          "CallTypeId"
+        ],
+        "properties": {
+          "CallTypeId": {
+            "type": "integer",
+            "default": 0
+          },
+          "FloorConfigurationId": {
+            "type": "integer",
+            "nullable": true
+          },
+          "HomeFloorId": {
+            "type": "integer",
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "PersonRoomData": {
+        "required": [
+          "RoomId"
+        ],
+        "properties": {
+          "RoomUid": {
+            "type": "string",
+            "default": "1234",
+            "nullable": true
+          },
+          "RoomId": {
+            "type": "integer",
+            "default": 1
+          },
+          "RoomName": {
+            "type": "string",
+            "default": "Room 1",
+            "nullable": true
+          },
+          "TenantId": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "RoomNr": {
+            "type": "integer",
+            "default": 0,
+            "nullable": true
+          },
+          "Outside": {
+            "type": "boolean",
+            "description": "'false': persons in this room are considered present, 'true': persons in this room are considered absent.",
+            "default": false,
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "PersonAccessRights": {
+        "properties": {
+          "AssignmentId": {
+            "type": "string",
+            "default": "Assignment1",
+            "nullable": true
+          },
+          "AccessRightId": {
+            "type": "string",
+            "default": "AccessRightId1",
+            "nullable": true
+          },
+          "TimeZoneId": {
+            "type": "string",
+            "default": "TimeZoneId1",
+            "nullable": true
+          },
+          "ValidFrom": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "ValidTo": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "IsActive": {
+            "type": "boolean",
+            "default": true,
+            "nullable": true
+          },
+          "Comment": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "SecurityLevel": {
+            "maximum": 9,
+            "minimum": 0,
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "IsOfficeModeEnabled": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "VisitId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "AccessRight": {
+            "$ref": "#/components/schemas/GetAccessRightOutput"
+          },
+          "TimeZone": {
+            "$ref": "#/components/schemas/GetTimeZoneOutput"
+          }
+        }
+      },
+      "PersonProfiles": {
+        "properties": {
+          "PersonIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "AccessDomainIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "ProfileNames": {
+            "type": "string",
+            "default": "[Profile01],[Profile02]",
+            "nullable": true
+          }
+        }
+      },
+      "PersonHasIndividualAccessRights": {
+        "properties": {
+          "PersonIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "AccessDomainIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        }
+      },
+      "SetBoolParameterInputWithDefaultFalse": {
+        "required": [
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "GetMediaDefinitionsOutputWithTime": {
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "@odata.count": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MediaDefinitionOutput"
+            }
+          }
+        }
+      },
+      "AccessDomainType": {
+        "enum": [
+          "StandardAccessDomain",
+          "KoneGroupController",
+          "Oss",
+          "LoxTop",
+          "CardLink",
+          "KoneAccess"
+        ],
+        "type": "string",
+        "nullable": false
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "badge",
+      "description": "<p>Operations related to badge</p>"
+    }
+  ]
+}

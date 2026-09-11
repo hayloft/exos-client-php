@@ -1,0 +1,650 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos time API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/time_api"
+    }
+  ],
+  "paths": {
+    "/v1.0/timeRegistrations/{personId}/{fromDate}/{toDate}": {
+      "get": {
+        "tags": [
+          "timeRegistrations"
+        ],
+        "summary": "gets time registrations for a specific person and time period",
+        "description": "",
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "path",
+            "description": "The personId to get registraions",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fromDate",
+            "in": "path",
+            "description": "First date to get",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "toDate",
+            "in": "path",
+            "description": "Last date to get",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetTimeRegistrationsOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_CM_TimeRegistrationsRead",
+        "x-errorcodes": "100000,100001,100004,100007,300001,300008,400001,400056,400057,400058"
+      }
+    },
+    "/v1.0/timeRegistrations/{personId}/{registrationTime}/delete": {
+      "post": {
+        "tags": [
+          "timeRegistrations"
+        ],
+        "summary": "deletes a specific time registration",
+        "description": "Deleteded manual corrections will disappear completely, while registrations from devices will still appear as deleted registrations.",
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "path",
+            "description": "The personId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "registrationTime",
+            "in": "path",
+            "description": "registration time to delete",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2001-01-31T11:55:00"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_CM_TimeRegistrationsDelete",
+        "x-errorcodes": "100000,100001,100004,300001,300008,400001,400056,400057,400058,400060"
+      }
+    },
+    "/v1.0/timeRegistrations/{personId}/setEndOfDay": {
+      "post": {
+        "tags": [
+          "timeRegistrations"
+        ],
+        "summary": "sets the end of a day for a specific date and person",
+        "description": "Sets the end of day in minutes (for example 1440 are the equivalent to 24:00)",
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "path",
+            "description": "The personId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetEndOfDayInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_CM_TimeRegistrationsDelete",
+        "x-errorcodes": "100000,100001,100004,300001,300008,400001,400056,400057,400058,400060"
+      }
+    },
+    "/v1.0/timeRegistrations/{personId}/activate": {
+      "post": {
+        "tags": [
+          "timeRegistrations"
+        ],
+        "summary": "activates a person for time registrations",
+        "description": "enables a person to register time on registration units configured for time registrations.",
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "path",
+            "description": "The personId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_CM_TimeRegistrationsActivate",
+        "x-errorcodes": "100000,100001,300001,300008,400001,400056,400057,400063,400064"
+      }
+    },
+    "/v1.0/timeRegistrations/{personId}/create": {
+      "post": {
+        "tags": [
+          "timeRegistrations"
+        ],
+        "summary": "creates a new time registration",
+        "description": "At a specific time only one registration is allowed. ",
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "path",
+            "description": "The personId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "data passed to create the registration",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTimeRegistrationInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_CM_TimeRegistrationsCreate",
+        "x-errorcodes": "100000,100001,100004,300001,300008,400001,400056,400057,400058,400059"
+      }
+    },
+    "/v1.0/timeRegistrations/{personId}/deactivate": {
+      "post": {
+        "tags": [
+          "timeRegistrations"
+        ],
+        "summary": "deactivate a person for time registrations",
+        "description": "deletes all existing time registrations for a person and prevents further registrations until time registration is activated again.",
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "path",
+            "description": "The personId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_CM_TimeRegistrationsDeactivate",
+        "x-errorcodes": "100000,100001,300001,300008,400001,400071"
+      }
+    },
+    "/v1.0/timeReports/presenceTime/forHierarchy/{hierarchyId}/{fromDate}/{toDate}": {
+      "get": {
+        "tags": [
+          "timeReports"
+        ],
+        "summary": "gets the presence time for all persons under a specific hierarchy",
+        "description": "",
+        "parameters": [
+          {
+            "name": "hierarchyId",
+            "in": "path",
+            "description": "The hierarchyId to get presenceTime",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fromDate",
+            "in": "path",
+            "description": "First date to get",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "toDate",
+            "in": "path",
+            "description": "Last date to get",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetHierarchyPresenceTimeOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_CM_TimeReportsPresenceTimeForHierarchyRead",
+        "x-errorcodes": "100000,100001,100007,300001,300008,400037,400056,400057,400058"
+      }
+    },
+    "/v1.0/timeReports/presenceTime/forPerson/{personId}/{fromDate}/{toDate}": {
+      "get": {
+        "tags": [
+          "timeReports"
+        ],
+        "summary": "gets the presence time for a person in a specific period",
+        "description": "",
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "path",
+            "description": "The personId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fromDate",
+            "in": "path",
+            "description": "First date to get",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "toDate",
+            "in": "path",
+            "description": "Last date to get",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPersonPresenceTimeOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_CM_TimeReportsPresenceTimeForPersonRead",
+        "x-errorcodes": "100000,100001,100004,100007,300001,300008,400001,400056,400057,400058"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CreateTimeRegistrationInput": {
+        "required": [
+          "RegistrationTime",
+          "Value"
+        ],
+        "properties": {
+          "RegistrationTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00"
+          },
+          "RegistrationType": {
+            "enum": [
+              "Come",
+              "Go"
+            ],
+            "type": "string",
+            "default": "Come",
+            "nullable": true
+          }
+        }
+      },
+      "SetEndOfDayInput": {
+        "required": [
+          "EndOfDayInMinutes"
+        ],
+        "properties": {
+          "EndOfDayInMinutes": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": false
+          },
+          "Date": {
+            "type": "string",
+            "format": "date",
+            "nullable": false
+          }
+        }
+      },
+      "GetTimeRegistrationsOutputWithTime": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/GetTimeRegistrationsOutput"
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "GetHierarchyPresenceTimeOutputWithTime": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/GetHierarchyPresenceTimeOutput"
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "GetHierarchyPresenceTimeOutput": {
+        "required": [
+          "PersonPresenceTimes",
+          "TotalPresenceTimeInMinutes"
+        ],
+        "properties": {
+          "TotalPresenceTimeInMinutes": {
+            "type": "integer"
+          },
+          "PersonPresenceTimes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetPersonPresenceTimeOutput"
+            }
+          }
+        }
+      },
+      "GetPersonPresenceTimeOutputWithTime": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/GetPersonPresenceTimeOutput"
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "GetPersonPresenceTimeOutput": {
+        "required": [
+          "PersonId",
+          "FullName",
+          "FromDate",
+          "ToDate",
+          "PresenceTimeInMinutes"
+        ],
+        "properties": {
+          "PersonId": {
+            "type": "string"
+          },
+          "FullName": {
+            "type": "string"
+          },
+          "IsSuccessful": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "ErrorCode": {
+            "type": "integer",
+            "nullable": true
+          },
+          "Message": {
+            "type": "string",
+            "nullable": true
+          },
+          "FromDate": {
+            "type": "string",
+            "format": "date",
+            "example": "2001-01-31"
+          },
+          "ToDate": {
+            "type": "string",
+            "format": "date",
+            "example": "2001-01-31"
+          },
+          "PresenceTimeInMinutes": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0
+          }
+        }
+      },
+      "GetTimeRegistrationsOutput": {
+        "required": [
+          "Days"
+        ],
+        "properties": {
+          "Days": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DayOutput"
+            }
+          }
+        }
+      },
+      "DayOutput": {
+        "required": [
+          "Date",
+          "CalculationState"
+        ],
+        "properties": {
+          "Date": {
+            "type": "string",
+            "format": "date",
+            "example": "2001-01-31"
+          },
+          "CalculationState": {
+            "enum": [
+              "Successful",
+              "Failed"
+            ],
+            "type": "string",
+            "default": "Successful"
+          },
+          "PresenceTimeInMinutes": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "EndOfDayInMinutes": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1440,
+            "nullable": true
+          },
+          "TimeRegistrations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TimeRegistrationOutput"
+            },
+            "nullable": true
+          }
+        }
+      },
+      "TimeRegistrationOutput": {
+        "required": [
+          "RegistrationTime",
+          "RegistrationType",
+          "IsManualCorrection",
+          "HasReason",
+          "Days",
+          "IsDeleted"
+        ],
+        "properties": {
+          "RegistrationTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00"
+          },
+          "RegistrationType": {
+            "enum": [
+              "Come",
+              "Go"
+            ],
+            "type": "string",
+            "default": "Come"
+          },
+          "IsManualCorrection": {
+            "type": "boolean",
+            "default": false
+          },
+          "HasReason": {
+            "type": "boolean",
+            "default": false
+          },
+          "Days": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0
+          },
+          "IsDeleted": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "VoidResponseOutput": {
+        "required": [
+          "TimeElapsed"
+        ],
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "timeRegistrations",
+      "description": "Operations related to time registrations."
+    },
+    {
+      "name": "timeReports",
+      "description": "Operations related to reading calculated time data."
+    }
+  ]
+}

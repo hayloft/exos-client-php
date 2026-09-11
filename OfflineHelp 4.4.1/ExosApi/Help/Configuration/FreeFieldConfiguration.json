@@ -1,0 +1,672 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "paths": {
+    "/v1.0/freeFieldConfiguration": {
+      "get": {
+        "tags": [
+          "free field configuration"
+        ],
+        "summary": "get free field configuration for a specific usage",
+        "description": "get free field configuration for a specific usage. ",
+        "parameters": [
+          {
+            "name": "usage",
+            "in": "query",
+            "description": "freefield usage",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/FreeFieldUsageEnum"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetFreeFieldConfigurationOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "",
+        "x-errorcodes": "300004,300008,400028,999999"
+      }
+    },
+    "/v1.0/freeFieldConfiguration/activate": {
+      "post": {
+        "tags": [
+          "free field configuration"
+        ],
+        "summary": "activates a specific freefield",
+        "description": "activates a specific freefield. . ",
+        "requestBody": {
+          "description": "activates a specific freefield",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActivateFreeFieldInputV10"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivateFreeFieldOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": true,
+        "x-rights": "API_SYS_FreeFieldConfigurationActivate",
+        "x-errorcodes": "100000,100001,100002,300004,300008,400030,400044,400129,400130,400131,400132,400133,400134,999999"
+      }
+    },
+    "/v1.1/freeFieldConfiguration/activate": {
+      "post": {
+        "tags": [
+          "free field configuration"
+        ],
+        "summary": "activates a specific freefield",
+        "description": "activates a specific freefield. . ",
+        "requestBody": {
+          "description": "activates a specific freefield",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActivateFreeFieldInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivateFreeFieldOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_SYS_FreeFieldConfigurationActivate",
+        "x-errorcodes": "100000,100001,100002,300004,300008,400030,400044,400129,400130,400131,400132,400133,400134,400241,999999"
+      }
+    },
+    "/v1.0/freeFieldConfiguration/deactivate": {
+      "post": {
+        "tags": [
+          "free field configuration"
+        ],
+        "summary": "deactivates a specific freefield",
+        "description": "deactivates a specific freefield. . ",
+        "parameters": [
+          {
+            "name": "deleteFreeFieldData",
+            "in": "query",
+            "description": "delete freefield data for specific field",
+            "schema": {
+              "type": "boolean",
+              "nullable": true
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "deactivates a specific freefield",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeactivateFreeFieldInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeactivateFreeFieldOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_SYS_FreeFieldConfigurationDeactivate",
+        "x-errorcodes": "100000,100001,100002,300004,300008,400030,999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GetFreeFieldConfigurationOutputWithTime": {
+        "required": [
+          "Value",
+          "TimeElapsed"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/GetFreeFieldConfigurationOutput"
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "ActivateFreeFieldOutputWithTime": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/ActivateFreeFieldOutput"
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "ActivateFreeFieldInput": {
+        "required": [
+          "FreeFieldUsage",
+          "FreeFieldColumn",
+          "FreeFieldType",
+          "ResourceTexts"
+        ],
+        "properties": {
+          "FreeFieldUsage": {
+            "$ref": "#/components/schemas/FreeFieldUsageEnum"
+          },
+          "FreeFieldColumn": {
+            "$ref": "#/components/schemas/FreeFieldColumnEnum"
+          },
+          "FreeFieldType": {
+            "$ref": "#/components/schemas/FreeFieldTypeEnum"
+          },
+          "ValueList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FreeFieldValueList"
+            },
+            "nullable": true
+          },
+          "ResourceTexts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FreeFieldResourceTextsInput"
+            }
+          }
+        }
+      },
+      "ActivateFreeFieldInputV10": {
+        "required": [
+          "FreeFieldUsage",
+          "FreeFieldColumn",
+          "FreeFieldType",
+          "ResourceTexts"
+        ],
+        "properties": {
+          "FreeFieldUsage": {
+            "$ref": "#/components/schemas/FreeFieldUsageEnum"
+          },
+          "FreeFieldColumn": {
+            "$ref": "#/components/schemas/FreeFieldColumnEnum"
+          },
+          "FreeFieldType": {
+            "$ref": "#/components/schemas/FreeFieldTypeEnum"
+          },
+          "ValueList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FreeFieldValueListV10"
+            },
+            "nullable": true
+          },
+          "ResourceTexts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FreeFieldResourceTextsInput"
+            }
+          }
+        }
+      },
+      "DeactivateFreeFieldOutputWithTime": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/DeactivateFreeFieldOutput"
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "DeactivateFreeFieldInput": {
+        "required": [
+          "FreeFieldUsage",
+          "FreeFieldColumn"
+        ],
+        "properties": {
+          "FreeFieldUsage": {
+            "$ref": "#/components/schemas/FreeFieldUsageEnum"
+          },
+          "FreeFieldColumn": {
+            "$ref": "#/components/schemas/FreeFieldColumnEnum"
+          }
+        }
+      },
+      "GetFreeFieldConfigurationOutput": {
+        "properties": {
+          "FreeFieldConfigurations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetFreeFieldConfigurationOutputDetail"
+            },
+            "nullable": true
+          }
+        }
+      },
+      "GetFreeFieldConfigurationOutputDetail": {
+        "properties": {
+          "FieldId": {
+            "type": "string",
+            "default": "Field01",
+            "nullable": true
+          },
+          "IsActive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "FreeFieldUsage": {
+            "$ref": "#/components/schemas/FreeFieldUsageEnum"
+          },
+          "FreeFieldColumn": {
+            "$ref": "#/components/schemas/FreeFieldColumnEnum"
+          },
+          "FreeFieldType": {
+            "$ref": "#/components/schemas/FreeFieldTypeEnum"
+          },
+          "ValueList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FreeFieldValueListV10"
+            },
+            "nullable": true
+          },
+          "ResourceTexts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FreeFieldResourceTexts"
+            },
+            "nullable": true
+          }
+        }
+      },
+      "FreeFieldUsageEnum": {
+        "enum": [
+          "Person",
+          "Company",
+          "Visit",
+          "VisitorLog"
+        ],
+        "type": "string",
+        "nullable": false
+      },
+      "FreeFieldColumnEnum": {
+        "enum": [
+          "Text1",
+          "Text2",
+          "Text3",
+          "Text4",
+          "Text5",
+          "Text6",
+          "Text7",
+          "Text8",
+          "Text9",
+          "Text10",
+          "Text11",
+          "Text12",
+          "Text13",
+          "Text14",
+          "Text15",
+          "Text16",
+          "Text17",
+          "Text18",
+          "Text19",
+          "Text20",
+          "Text21",
+          "Text22",
+          "Text23",
+          "Text24",
+          "Text25",
+          "Text26",
+          "Text27",
+          "Text28",
+          "Text29",
+          "Text30",
+          "Text31",
+          "Text32",
+          "Text33",
+          "Text34",
+          "Text35",
+          "Text36",
+          "Text37",
+          "Text38",
+          "Text39",
+          "Text40",
+          "Text41",
+          "Text42",
+          "Text43",
+          "Text44",
+          "Text45",
+          "Text46",
+          "Text47",
+          "Text48",
+          "Text49",
+          "Text50",
+          "Number1",
+          "Number2",
+          "Number3",
+          "Number4",
+          "Number5",
+          "Number6",
+          "Number7",
+          "Number8",
+          "Number9",
+          "Number10",
+          "Number11",
+          "Number12",
+          "Number13",
+          "Number14",
+          "Number15",
+          "Number16",
+          "Number17",
+          "Number18",
+          "Number19",
+          "Number20",
+          "Number21",
+          "Number22",
+          "Number23",
+          "Number24",
+          "Number25",
+          "Number26",
+          "Number27",
+          "Number28",
+          "Number29",
+          "Number30",
+          "Number31",
+          "Number32",
+          "Number33",
+          "Number34",
+          "Number35",
+          "Number36",
+          "Number37",
+          "Number38",
+          "Number39",
+          "Number40",
+          "Number41",
+          "Number42",
+          "Number43",
+          "Number44",
+          "Number45",
+          "Number46",
+          "Number47",
+          "Number48",
+          "Number49",
+          "Number50",
+          "Date1",
+          "Date2",
+          "Date3",
+          "Date4",
+          "Date5",
+          "Date6",
+          "Date7",
+          "Date8",
+          "Date9",
+          "Date10",
+          "Date11",
+          "Date12",
+          "Date13",
+          "Date14",
+          "Date15",
+          "Date16",
+          "Date17",
+          "Date18",
+          "Date19",
+          "Date20",
+          "Date21",
+          "Date22",
+          "Date23",
+          "Date24",
+          "Date25",
+          "Date26",
+          "Date27",
+          "Date28",
+          "Date29",
+          "Date30",
+          "Date31",
+          "Date32",
+          "Date33",
+          "Date34",
+          "Date35",
+          "Date36",
+          "Date37",
+          "Date38",
+          "Date39",
+          "Date40",
+          "Date41",
+          "Date42",
+          "Date43",
+          "Date44",
+          "Date45",
+          "Date46",
+          "Date47",
+          "Date48",
+          "Date49",
+          "Date50",
+          "Bool1",
+          "Bool2",
+          "Bool3",
+          "Bool4",
+          "Bool5",
+          "Bool6",
+          "Bool7",
+          "Bool8",
+          "Bool9",
+          "Bool10",
+          "Bool11",
+          "Bool12",
+          "Bool13",
+          "Bool14",
+          "Bool15",
+          "Bool16",
+          "Bool17",
+          "Bool18",
+          "Bool19",
+          "Bool20",
+          "Bool21",
+          "Bool22",
+          "Bool23",
+          "Bool24",
+          "Bool25",
+          "Bool26",
+          "Bool27",
+          "Bool28",
+          "Bool29",
+          "Bool30",
+          "Bool31",
+          "Bool32",
+          "Bool33",
+          "Bool34",
+          "Bool35",
+          "Bool36",
+          "Bool37",
+          "Bool38",
+          "Bool39",
+          "Bool40",
+          "Bool41",
+          "Bool42",
+          "Bool43",
+          "Bool44",
+          "Bool45",
+          "Bool46",
+          "Bool47",
+          "Bool48",
+          "Bool49",
+          "Bool50",
+          "VisitText1",
+          "VisitText2",
+          "VisitText3",
+          "VisitText4",
+          "VisitText5",
+          "VisitText6",
+          "VisitText7",
+          "VisitText8",
+          "VisitText9",
+          "VisitText10",
+          "VisitNumber1",
+          "VisitNumber2",
+          "VisitNumber3",
+          "VisitNumber4",
+          "VisitNumber5",
+          "VisitDate1",
+          "VisitDate2",
+          "VisitDate3",
+          "VisitDate4",
+          "VisitDate5",
+          "VisitBool1",
+          "VisitBool2",
+          "VisitBool3",
+          "VisitBool4",
+          "VisitBool5"
+        ],
+        "type": "string",
+        "nullable": true
+      },
+      "FreeFieldTypeEnum": {
+        "enum": [
+          "Alphanumeric",
+          "ValueList",
+          "Combo",
+          "Numeric",
+          "Boolean",
+          "DateTime",
+          "Date",
+          "Time"
+        ],
+        "type": "string",
+        "nullable": true
+      },
+      "FreeFieldValueList": {
+        "type": "object",
+        "properties": {
+          "Value": {
+            "type": "string"
+          },
+          "ExistingValue": {
+            "type": "string"
+          }
+        }
+      },
+      "FreeFieldValueListV10": {
+        "type": "string"
+      },
+      "FreeFieldResourceTexts": {
+        "properties": {
+          "LanguageId": {
+            "type": "string",
+            "default": "ENG",
+            "nullable": true
+          },
+          "LanguageName": {
+            "type": "string",
+            "default": "English",
+            "nullable": true
+          },
+          "Value": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "FreeFieldResourceTextsInput": {
+        "properties": {
+          "LanguageId": {
+            "type": "string",
+            "default": "ENG",
+            "nullable": true
+          },
+          "Value": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ActivateFreeFieldOutput": {
+        "required": [
+          "FieldId"
+        ],
+        "properties": {
+          "FieldId": {
+            "type": "string",
+            "default": "PersonBaseData_LastName"
+          }
+        }
+      },
+      "DeactivateFreeFieldOutput": {
+        "required": [
+          "FieldId"
+        ],
+        "properties": {
+          "FieldId": {
+            "type": "string",
+            "default": "PersonBaseData_LastName"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "free field configuration",
+      "description": "<p>Operations related to free field configuration.</p>"
+    }
+  ]
+}

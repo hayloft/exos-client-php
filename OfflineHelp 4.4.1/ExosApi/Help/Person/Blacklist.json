@@ -1,0 +1,489 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "paths": {
+    "/v1.0/blacklist": {
+      "get": {
+        "tags": [
+          "blacklist"
+        ],
+        "summary": "get all blacklist entries in the system",
+        "description": "Be aware that a query made here can return up to 10000 records. If you need more, please use the built in paging functionality with $top and $skip.<br /> http://www.asp.net/web-api/overview/odata-support-in-aspnet-web-api/supporting-odata-query-options. <br /> The provided searchString will result in a fulltext search on all selected fields. If the passed value is encapsulated with quotes(\"), it will be treated as an exact match search, otherwise the passed value will be an OR search over all keywords(splitted by space character). ",
+        "parameters": [
+          {
+            "name": "LastName",
+            "in": "query",
+            "description": "person lastname",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "FirstName",
+            "in": "query",
+            "description": "person firstname",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "BirthDate",
+            "in": "query",
+            "description": "person birthdate",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select and $expand.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$skip",
+            "in": "query",
+            "description": "skips the first x entries of the response(paging)",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$top",
+            "in": "query",
+            "description": "limits the number of returned records.",
+            "schema": {
+              "type": "integer",
+              "default": 1000,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetBlacklistOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_PERS_BlacklistRead",
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/blacklist/{personId}/isListed": {
+      "get": {
+        "tags": [
+          "blacklist"
+        ],
+        "summary": "returns whether the person is on the blacklist or not",
+        "description": "returns whether the person is on the blacklist or not",
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "path",
+            "description": "id of person",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IsOnBlacklistOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_PERS_BlacklistIsPersonListed",
+        "x-errorcodes": "300004,300008,400001,999999"
+      }
+    },
+    "/v1.0/blacklist/create": {
+      "post": {
+        "tags": [
+          "blacklist"
+        ],
+        "summary": "blacklists a person",
+        "description": "<p>adds a person to the blacklist. The person is uniquely identified by LastName and optional FirstName and BirthDate. If FirstName and BirthDate is not passed, the values are counted as wildcard and any person with the given LastName is blacklisted.</p>",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BlacklistPersonInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BlacklistPersonOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_PERS_BlacklistCreate",
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100009,300004,300008,400053,999999"
+      }
+    },
+    "/v1.0/blacklist/delete": {
+      "post": {
+        "tags": [
+          "blacklist"
+        ],
+        "summary": "removes a person from the blacklist",
+        "description": "<p>removes a person from the blacklist. A Person is unique by LastName, FirstName and BirthDate.</p>",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteBlacklistInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_PERS_BlacklistDelete",
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100009,300004,300008,400054,999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GetBlacklistOutput": {
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "@odata.count": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetBlacklistEntryOutput"
+            }
+          }
+        }
+      },
+      "IsOnBlacklistOutputWithTime": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/IsOnBlacklistOutput"
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "IsOnBlacklistOutput": {
+        "required": [
+          "IsOnBlacklist"
+        ],
+        "properties": {
+          "IsOnBlacklist": {
+            "type": "boolean"
+          }
+        }
+      },
+      "BlacklistPersonOutput": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "required": [
+              "BlacklistUid"
+            ],
+            "properties": {
+              "BlacklistUid": {
+                "type": "string"
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "BlacklistPersonInput": {
+        "required": [
+          "Reason",
+          "LastName"
+        ],
+        "properties": {
+          "LastName": {
+            "type": "string",
+            "default": "BlacklistLastName"
+          },
+          "FirstName": {
+            "type": "string",
+            "default": "BlacklistFirstName",
+            "nullable": true
+          },
+          "BirthDate": {
+            "type": "string",
+            "format": "date",
+            "default": "1950-01-01",
+            "nullable": true
+          },
+          "Reason": {
+            "type": "string",
+            "default": "Reason"
+          },
+          "Comment": {
+            "type": "string",
+            "default": "Comment",
+            "nullable": true
+          },
+          "Hierarchy": {
+            "type": "string",
+            "default": "CompanyOfBlacklistedVisitor",
+            "nullable": true
+          },
+          "Image": {
+            "type": "string",
+            "format": "byte",
+            "default": "",
+            "nullable": true
+          }
+        }
+      },
+      "VoidResponseOutput": {
+        "required": [
+          "TimeElapsed"
+        ],
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "DeleteBlacklistInput": {
+        "required": [
+          "LastName"
+        ],
+        "properties": {
+          "LastName": {
+            "type": "string",
+            "default": "BlacklistLastName"
+          },
+          "FirstName": {
+            "type": "string",
+            "default": "BlacklistFirstName",
+            "nullable": true
+          },
+          "BirthDate": {
+            "type": "string",
+            "format": "date",
+            "default": "1950-01-01",
+            "nullable": true
+          },
+          "Reason": {
+            "type": "string",
+            "default": "Reason",
+            "nullable": true
+          }
+        }
+      },
+      "GetBlacklistEntryOutput": {
+        "properties": {
+          "BlacklistId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "TenantId": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Tenant": {
+            "$ref": "#/components/schemas/TenantOutput"
+          },
+          "Reason": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Comment": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "FirstName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "LastName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "BirthDate": {
+            "type": "string",
+            "format": "date",
+            "nullable": true,
+            "example": "2001-01-31"
+          },
+          "LastChangeDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "LastChangeUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "Image": {
+            "type": "string",
+            "format": "byte",
+            "default": "",
+            "nullable": true
+          }
+        }
+      },
+      "TenantOutput": {
+        "required": [
+          "TenantIdInternal",
+          "TenantId",
+          "DisplayName"
+        ],
+        "properties": {
+          "TenantIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "TenantId": {
+            "type": "string",
+            "default": "Tenant 1"
+          },
+          "DisplayName": {
+            "type": "string",
+            "default": "Tenant 1"
+          }
+        },
+        "nullable": true
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "blacklist",
+      "description": ""
+    }
+  ]
+}

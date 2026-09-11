@@ -1,0 +1,313 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "paths": {
+    "/v1.0/parameter": {
+      "get": {
+        "tags": [
+          "parameter"
+        ],
+        "summary": "get a specific parameter",
+        "description": "get a specific parameter",
+        "parameters": [
+          {
+            "name": "ParameterName",
+            "in": "query",
+            "description": "The parameter name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetParameterOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "",
+        "x-errorcodes": "300004,300008,400168,400169,400170,999999"
+      }
+    },
+    "/v1.0/parameter/ChangeSapBadges": {
+      "post": {
+        "tags": [
+          "parameter"
+        ],
+        "summary": "enables/disables change sap badges",
+        "description": "Default false. ",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetBooleanParameterInputWithDefaultFalse"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_AC_ParameterChangeSapBadges",
+        "x-errorcodes": "100000,300004,300008,999999"
+      }
+    },
+    "/v1.0/parameter/MultiStandardCard": {
+      "post": {
+        "tags": [
+          "parameter"
+        ],
+        "summary": "enables/disables multi standard card",
+        "description": "Default false. ",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetBooleanParameterInputWithDefaultFalse"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_AC_ParameterMultiStandardCard",
+        "x-errorcodes": "100000,300004,300008,999999"
+      }
+    },
+    "/v1.0/parameter/OptionInitializedCard": {
+      "post": {
+        "tags": [
+          "parameter"
+        ],
+        "summary": "enables/disables option initialized card",
+        "description": "Default false. ",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetBooleanParameterInputWithDefaultFalse"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_AC_ParameterOptionInitializedCard",
+        "x-errorcodes": "100000,300004,300008,999999"
+      }
+    },
+    "/v1.0/parameter/OptionTransitionalCard": {
+      "post": {
+        "tags": [
+          "parameter"
+        ],
+        "summary": "enables/disables option transitional card",
+        "description": "Default false. ",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetBooleanParameterInputWithDefaultFalse"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_AC_ParameterOptionTransitionalCard",
+        "x-errorcodes": "100000,300004,300008,999999"
+      }
+    },
+    "/v1.0/parameter/SetBadgeParameters": {
+      "post": {
+        "tags": [
+          "parameter"
+        ],
+        "summary": "enables/disables option special the badge Parameters",
+        "description": "Default false. ",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BadgeParameters"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_BM_ParameterSet",
+        "x-errorcodes": "100000,300001,300004,300008,999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GetParameterOutputWithTime": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "required": [
+              "ParameterName",
+              "DataType",
+              "Value"
+            ],
+            "properties": {
+              "ParameterName": {
+                "type": "string"
+              },
+              "DataType": {
+                "enum": [
+                  "String",
+                  "Boolean",
+                  "Integer",
+                  "Double"
+                ],
+                "type": "string"
+              },
+              "Value": {
+                "type": "string"
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "VoidResponseOutput": {
+        "required": [
+          "TimeElapsed"
+        ],
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "SetBooleanParameterInputWithDefaultFalse": {
+        "required": [
+          "Enabled"
+        ],
+        "properties": {
+          "Enabled": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "BadgeParameters": {
+        "required": [
+          "Enabled"
+        ],
+        "properties": {
+          "MultiStdCard": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "InitialCard": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "ReplCard": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "SpecialCard": {
+            "type": "boolean",
+            "nullable": true
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "parameter",
+      "description": ""
+    }
+  ]
+}

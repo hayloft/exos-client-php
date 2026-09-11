@@ -1,0 +1,1578 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "paths": {
+    "/v1.0/export/list-own/{viewName}": {
+      "get": {
+        "tags": [
+          "export"
+        ],
+        "summary": "Get my own exports of a given view.",
+        "description": "Gets the list of existing data exports that were requested by the current user from the given application view.",
+        "parameters": [
+          {
+            "name": "viewName",
+            "in": "path",
+            "description": "name of the application view",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetExportListResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1.0/export/{exportId}/download": {
+      "get": {
+        "tags": [
+          "export"
+        ],
+        "summary": "Download export by its identifier.",
+        "description": "Gets the contents of the file with the exported data corresponding to the given export identifier.",
+        "parameters": [
+          {
+            "name": "exportId",
+            "in": "path",
+            "description": "export identifier",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "x-errorcodes": "400230"
+      }
+    },
+    "/v1.0/export/{exportId}/delete": {
+      "post": {
+        "tags": [
+          "export"
+        ],
+        "summary": "Delete export data by its identifier.",
+        "description": "Deletes from the server all data corresponding to the given export identifier.",
+        "parameters": [
+          {
+            "name": "exportId",
+            "in": "path",
+            "description": "export identifier",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        },
+        "x-errorcodes": "400230"
+      }
+    },
+    "/v1.0/export/persons": {
+      "get": {
+        "tags": [
+          "export"
+        ],
+        "summary": "Generate the person export.",
+        "description": "Starts the generation of the person export in the background.",
+        "parameters": [
+          {
+            "name": "viewName",
+            "in": "query",
+            "description": "name of the application view",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "columnsString",
+            "in": "query",
+            "description": "columns to be displayed in the export (separated by a comma)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fileName",
+            "in": "query",
+            "description": "name of the export file",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "exportFormat",
+            "in": "query",
+            "description": "format of the export file",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ExportFormat"
+            }
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "description": "title for the pdf export",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "personType",
+            "in": "query",
+            "description": "the person type",
+            "schema": {
+              "$ref": "#/components/schemas/PersonType"
+            }
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "PersonBaseData($select=LastName,FirstName)",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "startswith(PersonBaseData/LastName,'a')",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select and $expand.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "PersonBaseData/LastName desc",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "PersonId,ClientId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchStringLogic",
+            "in": "query",
+            "description": "Logic that is to be applied to the search string. If no value is provided: 'SelectedFields' is applied. ('SelectedFields': Filter in fields provided in the select/expand clause, 'BasicFields': filter only in fullname, personal nr, badge filtering, 'PersonalNumberOnly': only filter in personal number)",
+            "schema": {
+              "enum": [
+                "SelectedFields",
+                "BasicFields",
+                "PersonalNumberOnly"
+              ],
+              "type": "string",
+              "default": "SelectedFields",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExportResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/export/logs/accessLog": {
+      "get": {
+        "tags": [
+          "export"
+        ],
+        "summary": "Generate the access log export.",
+        "description": "Starts the generation of the access log export in the background.",
+        "parameters": [
+          {
+            "name": "columnsString",
+            "in": "query",
+            "description": "columns to be displayed in the export (separated by a comma)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fileName",
+            "in": "query",
+            "description": "name of the export file",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "exportFormat",
+            "in": "query",
+            "description": "format of the export file",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ExportFormat"
+            }
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "description": "title for the pdf export",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "Entity($select=Column1,Column2)",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "startswith(PersonalNr,'123')",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select and $expand.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "personName",
+            "in": "query",
+            "description": "Name of the person which was selected",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "PersonalNr desc",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "DeviceAddress,CardNr,PersonalNr",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExportResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/export/logs/accessLogPersonal": {
+      "get": {
+        "tags": [
+          "export"
+        ],
+        "summary": "Generate the personal access log export.",
+        "description": "Starts the generation of the personal access log export in the background.",
+        "parameters": [
+          {
+            "name": "columnsString",
+            "in": "query",
+            "description": "columns to be displayed in the export (separated by a comma)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fileName",
+            "in": "query",
+            "description": "name of the export file",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "exportFormat",
+            "in": "query",
+            "description": "format of the export file",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ExportFormat"
+            }
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "description": "title for the pdf export",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "Entity($select=Column1,Column2)",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "startswith(PersonalNr,'123')",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select and $expand.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "PersonalNr desc",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "DeviceAddress,CardNr,PersonalNr",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExportResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/export/logs/auditLog": {
+      "get": {
+        "tags": [
+          "export"
+        ],
+        "summary": "Generate the audit log export.",
+        "description": "Starts the generation of the audit log export in the background.",
+        "parameters": [
+          {
+            "name": "columnsString",
+            "in": "query",
+            "description": "columns to be displayed in the export (separated by a comma)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fileName",
+            "in": "query",
+            "description": "name of the export file",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "exportFormat",
+            "in": "query",
+            "description": "format of the export file",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ExportFormat"
+            }
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "description": "title for the pdf export",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "Entity($select=Column1,Column2)",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "startswith(Initiator,'a')",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select and $expand.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "Initiator desc",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Initiator,Text,DataRecord,NewValue",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExportResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/export/logs/visitorLog": {
+      "get": {
+        "tags": [
+          "export"
+        ],
+        "summary": "Generate the visitor log export.",
+        "description": "Starts the generation of the visitor log export in the background.",
+        "parameters": [
+          {
+            "name": "columnsString",
+            "in": "query",
+            "description": "columns to be displayed in the export (separated by a comma)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fileName",
+            "in": "query",
+            "description": "name of the export file",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "exportFormat",
+            "in": "query",
+            "description": "format of the export file",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ExportFormat"
+            }
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "description": "title for the pdf export",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "Entity($select=Column1,Column2)",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "startswith(PersonalNr,'123')",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select and $expand.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "PersonalNr desc",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Company,HasAccessRight,Location",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExportResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/export/logs/alarmLog": {
+      "get": {
+        "tags": [
+          "export"
+        ],
+        "summary": "Generate the alarm log export.",
+        "description": "Starts the generation of the alarm log export in the background.",
+        "parameters": [
+          {
+            "name": "columnsString",
+            "in": "query",
+            "description": "columns to be displayed in the export (separated by a comma)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fileName",
+            "in": "query",
+            "description": "name of the export file",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "exportFormat",
+            "in": "query",
+            "description": "format of the export file",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ExportFormat"
+            }
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "description": "title for the pdf export",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "Entity($select=Column1,Column2)",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "startswith(Text,'Connection')",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select and $expand.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "LogID desc",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Text,DeviceAddress,DeviceName",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExportResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/export/logs/downLog": {
+      "get": {
+        "tags": [
+          "export"
+        ],
+        "summary": "Generate the download log export.",
+        "description": "Starts the generation of the download log export in the background.",
+        "parameters": [
+          {
+            "name": "columnsString",
+            "in": "query",
+            "description": "columns to be displayed in the export (separated by a comma)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fileName",
+            "in": "query",
+            "description": "name of the export file",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "exportFormat",
+            "in": "query",
+            "description": "format of the export file",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ExportFormat"
+            }
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "description": "title for the pdf export",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "Entity($select=Column1,Column2)",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "startswith(Login,'admin')",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select and $expand.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "LogID desc",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "LogDate,Login",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExportResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/export/visits/visitorVisit": {
+      "get": {
+        "tags": [
+          "export"
+        ],
+        "summary": "Generate the visitor visit export.",
+        "description": "Starts the generation of the visitor visit export in the background.",
+        "parameters": [
+          {
+            "name": "columnsString",
+            "in": "query",
+            "description": "columns to be displayed in the export (separated by a comma)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fileName",
+            "in": "query",
+            "description": "name of the export file",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "exportFormat",
+            "in": "query",
+            "description": "format of the export file",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ExportFormat"
+            }
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "description": "title for the pdf export",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "Entity($select=Column1,Column2)",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "startswith(HostLastName,'Smith')",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select and $expand.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "DateIn asc",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "Company,HasAccessRight,Location,HostLastName,DateIn",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExportResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/export/blacklist": {
+      "get": {
+        "tags": [
+          "export"
+        ],
+        "summary": "Generate the blacklist export.",
+        "description": "Starts the generation of the blacklist export in the background.",
+        "parameters": [
+          {
+            "name": "viewName",
+            "in": "query",
+            "description": "name of the application view",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "columnsString",
+            "in": "query",
+            "description": "columns to be displayed in the export (separated by a comma)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fileName",
+            "in": "query",
+            "description": "name of the export file",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "exportFormat",
+            "in": "query",
+            "description": "format of the export file",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ExportFormat"
+            }
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "description": "title for the pdf export",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "Entity($select=Column1,Column2)",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "FirstName eq 'Test'",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select and $expand.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "LastName desc",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "FirstName,LastName,Reason,BlacklistId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExportResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/export/personAccessRights": {
+      "get": {
+        "tags": [
+          "export"
+        ],
+        "summary": "Generate the person access rights export.",
+        "description": "Starts the generation of the person access rights export in the background.",
+        "parameters": [
+          {
+            "name": "viewName",
+            "in": "query",
+            "description": "name of the application view",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "columnsString",
+            "in": "query",
+            "description": "columns to be displayed in the export (separated by a comma)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fileName",
+            "in": "query",
+            "description": "name of the export file",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "exportFormat",
+            "in": "query",
+            "description": "format of the export file",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ExportFormat"
+            }
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "description": "title for the pdf export",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "Entity($select=Column1,Column2)",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Fullname eq 'Test'",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select and $expand.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "LastName desc",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "LastName,AccessExitDate,PersonIdInternal",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "accessDomainId",
+            "in": "query",
+            "description": "accessDomainId to get persons by",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExportResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/export/logs/koneAccessLog": {
+      "get": {
+        "tags": [
+          "export"
+        ],
+        "summary": "Generate the KONE access log export.",
+        "description": "Starts the generation of the KONE access log export in the background.",
+        "parameters": [
+          {
+            "name": "columnsString",
+            "in": "query",
+            "description": "columns to be displayed in the export (separated by a comma)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fileName",
+            "in": "query",
+            "description": "name of the export file",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "exportFormat",
+            "in": "query",
+            "description": "format of the export file",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ExportFormat"
+            }
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "description": "title for the pdf export",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "Entity($select=Column1,Column2)",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "startswith(PersonalNr,'123')",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select and $expand.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "personName",
+            "in": "query",
+            "description": "Name of the person which was selected",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "PersonalNr desc",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "DeviceAddress,CardNr,PersonalNr",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExportResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-errorcodes": "300004,300008,999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GetExportListResponse": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/GetExportListOutput"
+          },
+          "TimeElapsed": {
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      "GetExportListOutput": {
+        "required": [
+          "Exports"
+        ],
+        "properties": {
+          "Exports": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExportItem"
+            }
+          }
+        }
+      },
+      "ExportItem": {
+        "required": [
+          "Identifier",
+          "Created",
+          "Status"
+        ],
+        "properties": {
+          "Identifier": {
+            "type": "string"
+          },
+          "Created": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00"
+          },
+          "Status": {
+            "type": "string",
+            "enum": [
+              "New",
+              "InProgress",
+              "Error",
+              "Ready",
+              "Downloaded"
+            ]
+          },
+          "ErrorMessage": {
+            "type": "string",
+            "nullable": true
+          },
+          "Filename": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ExportResponse": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/ExportItem"
+          },
+          "TimeElapsed": {
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      "ExportFormat": {
+        "enum": [
+          "CSV",
+          "PDF"
+        ],
+        "type": "string",
+        "default": "CSV"
+      },
+      "PersonType": {
+        "enum": [
+          "All",
+          "Employee",
+          "Visitor",
+          "Contractor"
+        ],
+        "type": "string",
+        "default": "All",
+        "nullable": true
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "export",
+      "description": "<p>Operations with data exports.</p>"
+    }
+  ]
+}

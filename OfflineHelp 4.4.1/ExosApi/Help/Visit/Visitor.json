@@ -1,0 +1,4959 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "paths": {
+    "/v1.0/visitorCompanies": {
+      "get": {
+        "tags": [
+          "visitor"
+        ],
+        "summary": "get a list of visitor companies",
+        "description": "Be aware that a query made here can return up to 10000 records. If you need more, please use the built in paging functionality with $top and $skip.\nhttp://www.asp.net/web-api/overview/odata-support-in-aspnet-web-api/supporting-odata-query-options. ",
+        "parameters": [
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "Departements",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select and $expand.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$skip",
+            "in": "query",
+            "description": "skips the first x entries of the response(paging)",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$top",
+            "in": "query",
+            "description": "limits the number of returned records.",
+            "schema": {
+              "type": "integer",
+              "default": 1000,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetVisitorCompaniesOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_VM_VisitorCompaniesRead",
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/visitorCompanies/{companyId}/delete": {
+      "post": {
+        "tags": [
+          "visitor"
+        ],
+        "summary": "deletes a existing visitor company",
+        "description": "deletes a existing visitor company.",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "description": "id of company",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_VM_VisitorCompaniesDelete",
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100007,100012,300004,300008,400116,400196"
+      }
+    },
+    "/v1.0/visitorCompanies/{companyId}/update": {
+      "post": {
+        "tags": [
+          "visitor"
+        ],
+        "summary": "updates a existing visitor company",
+        "description": "updates a existing visitor company.",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "description": "id of company",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "visitor company to update",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateVisitorCompanyInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateVisitorCompanyOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_VM_VisitorCompaniesUpdate",
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100007,100012,300004,300008,400115,400116"
+      }
+    },
+    "/v1.0/visitorCompanies/create": {
+      "post": {
+        "tags": [
+          "visitor"
+        ],
+        "summary": "create a new visitor company",
+        "description": "create a new visitor company.",
+        "requestBody": {
+          "description": "visitor company to create",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateVisitorCompanyInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateVisitorCompanyOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_VM_VisitorCompaniesCreate",
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100007,100012,300004,300008,400115"
+      }
+    },
+    "/v1.0/visitorCompanyDepartements/{departementId}/delete": {
+      "post": {
+        "tags": [
+          "visitor"
+        ],
+        "summary": "deletes a existing visitor company departement",
+        "description": "deletes a existing visitor company departement",
+        "parameters": [
+          {
+            "name": "departementId",
+            "in": "path",
+            "description": "id of company departement",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_VM_VisitorCompanyDepartementsDelete",
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100007,100012,300004,300008,400118,400197"
+      }
+    },
+    "/v1.0/visitorCompanyDepartements/{departementId}/update": {
+      "post": {
+        "tags": [
+          "visitor"
+        ],
+        "summary": "updates a existing visitor company departement",
+        "description": "updates a existing visitor company departement.",
+        "parameters": [
+          {
+            "name": "departementId",
+            "in": "path",
+            "description": "id of company departement",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "visitor company departement to update",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateVisitorCompanyDepartementInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateVisitorCompanyDepartementOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_VM_VisitorCompanyDepartementsUpdate",
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100007,100012,300004,300008,400117,400118"
+      }
+    },
+    "/v1.0/visitorCompanyDepartements/create": {
+      "post": {
+        "tags": [
+          "visitor"
+        ],
+        "summary": "create a new visitor company departement",
+        "description": "create a new visitor company departement.",
+        "requestBody": {
+          "description": "visitor company departement to create",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateVisitorCompanyDepartementInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateVisitorCompanyDepartementOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_VM_VisitorCompanyDepartementsCreate",
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100007,100012,300004,300008,400116,400117"
+      }
+    },
+    "/v1.0/visitors": {
+      "get": {
+        "tags": [
+          "visitor"
+        ],
+        "summary": "get a list of visitors by odata query options",
+        "description": "Be aware that a query made here can return up to 10000 records. If you need more, please use the built in paging functionality with $top and $skip.<br /> http://www.asp.net/web-api/overview/odata-support-in-aspnet-web-api/supporting-odata-query-options. <br /> The provided searchString will result in a fulltext search on all selected fields. If the passed value is encapsulated with quotes(\"), it will be treated as an exact match search, otherwise the passed value will be an OR search over all keywords(splitted by space character). ",
+        "parameters": [
+          {
+            "name": "distinctByPersonId",
+            "in": "query",
+            "description": "distinct by personId",
+            "schema": {
+              "type": "boolean",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "no expand",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "FullName eq 'Hans Meier'",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "FullName desc",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "FullName",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$skip",
+            "in": "query",
+            "description": "skips the first x entries of the response(paging)",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$top",
+            "in": "query",
+            "description": "limits the number of returned records.",
+            "schema": {
+              "type": "integer",
+              "default": 1000,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetVisitorsOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_VM_VisitorsRead",
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/visitorDetails/{personId}/{visitId}": {
+      "get": {
+        "tags": [
+          "visitor"
+        ],
+        "summary": "get the details of one Visitor",
+        "description": "With this end point you can get the information of a visitor, also theire access rights, free fields and Badges.",
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "path",
+            "description": "id of person",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "visitId",
+            "in": "path",
+            "description": "id of visit",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetVisitorDetailsOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_VM_VisitorRead",
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/visitorVisits": {
+      "get": {
+        "tags": [
+          "visitor"
+        ],
+        "summary": "get a list of visitors with visit by odata query options",
+        "description": "Be aware that a query made here can return up to 10000 records. If you need more, please use the built in paging functionality with $top and $skip.<br /> http://www.asp.net/web-api/overview/odata-support-in-aspnet-web-api/supporting-odata-query-options. <br /> The provided searchString will result in a fulltext search on all selected fields. If the passed value is encapsulated with quotes(\"), it will be treated as an exact match search, otherwise the passed value will be an OR search over all keywords(splitted by space character). ",
+        "parameters": [
+          {
+            "name": "$expand",
+            "in": "query",
+            "description": "no expand",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "FullName eq 'Hans Meier'",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "description": "Fulltext search on all string, int and date fields that are selected with $select.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$count",
+            "in": "query",
+            "description": "adds total possible results to the response",
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "nullable": true
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "FullName desc",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "description": "FullName",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$skip",
+            "in": "query",
+            "description": "skips the first x entries of the response(paging)",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          {
+            "name": "$top",
+            "in": "query",
+            "description": "limits the number of returned records.",
+            "schema": {
+              "type": "integer",
+              "default": 1000,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetVisitorVisitsOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_VM_VisitorVisitRead",
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/visitors/search": {
+      "post": {
+        "tags": [
+          "visitor"
+        ],
+        "summary": "search visitors",
+        "description": "Search visitor",
+        "requestBody": {
+          "description": "search information",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VisitorSearchInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VisitorSearchDataOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_VM_VisitorsRead",
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/visitors/searchAll": {
+      "post": {
+        "tags": [
+          "visitor"
+        ],
+        "summary": "search all visitors",
+        "description": "Search all visitors",
+        "requestBody": {
+          "description": "search information",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VisitorSearchInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VisitorSearchDataOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_VM_VisitorSearchAll",
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/visitors/{personId}/anyVisitStatus": {
+      "get": {
+        "tags": [
+          "visitor"
+        ],
+        "summary": "Get if any visits for each status exists",
+        "description": "Get if any visits for each status exists",
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "path",
+            "description": "id of person (persontype: visitor)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VisitStatusOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_VM_VisitorSearchAll",
+        "x-errorcodes": "300004,300008,999999"
+      }
+    },
+    "/v1.0/visitors/{personId}/delete": {
+      "post": {
+        "tags": [
+          "visitor"
+        ],
+        "summary": "deletes an existing visitor",
+        "description": "deletes an existing visitor",
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "path",
+            "description": "id of person",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_VM_VisitorDeleteAndAnonymize"
+        ],
+        "x-errorcodes": "100000,400114,400245,999999"
+      }
+    },
+    "/v1.0/visitors/{personId}/functionsSetting": {
+      "get": {
+        "tags": [
+          "visitor"
+        ],
+        "summary": "get functions setting for a visitor",
+        "description": "returns functions setting for a visitor.",
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "path",
+            "description": "id of person (persontype: visitor)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "visitId",
+            "in": "query",
+            "description": "id of visit",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "settingKey",
+            "in": "query",
+            "description": "The key used to find the function ids in the settings",
+            "required": true,
+            "schema": {
+              "enum": [
+                "VM_RECEPTION_UPCOMING_VISITOR",
+                "VM_RECEPTION_ONGOING_VISITOR",
+                "VM_RECEPTION_PAST_VISITOR",
+                "VM_EMPLOYEE_UPCOMING_VISITOR",
+                "VM_EMPLOYEE_ONGOING_VISITOR",
+                "VM_EMPLOYEE_PAST_VISITOR"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetFunctionsSettingOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "",
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,300004,300008,400001,400003,400104,400108,999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "VisitorSearchInput": {
+        "required": [
+          "SearchString"
+        ],
+        "properties": {
+          "SearchStrings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "SelectedVisitors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "Top": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true,
+            "default": 100
+          }
+        }
+      },
+      "GetVisitorsOutput": {
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "@odata.count": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetVisitorEntryOutput"
+            }
+          }
+        }
+      },
+      "GetVisitorVisitsOutput": {
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "@odata.count": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetVisitorVisitEntryOutput"
+            }
+          }
+        }
+      },
+      "VisitStatusOutputWithTime": {
+        "required": [
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/VisitStatusOutput"
+          },
+          "TimeElapsed": {
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      "VisitStatusOutput": {
+        "properties": {
+          "AnyActiveVisits": {
+            "type": "boolean",
+            "default": false
+          },
+          "AnyPreRegisteredVisits": {
+            "type": "boolean",
+            "default": false
+          },
+          "AnyPastVisits": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "VisitorSearchDataOutputWithTime": {
+        "required": [
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VisitorSearchDataOutput"
+            },
+            "nullable": true
+          },
+          "TimeElapsed": {
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      "VisitorSearchDataOutput": {
+        "properties": {
+          "PersonIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "PersonId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "FullName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "EMail": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "City": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Company": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "PrivacyStatus": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "OwnerPersonIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        }
+      },
+      "GetFunctionsSettingOutputWithTime": {
+        "required": [
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/GetFunctionsSettingOutput"
+          },
+          "TimeElapsed": {
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      "GetVisitorCompaniesOutputWithTime": {
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "@odata.count": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetVisitorCompanyOutput"
+            }
+          }
+        }
+      },
+      "CreateVisitorCompanyOutput": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "required": [
+              "CompanyId"
+            ],
+            "properties": {
+              "CompanyId": {
+                "type": "string",
+                "default": "Company01"
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "GetVisitorDetailsOutputWithTime": {
+        "required": [
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/GetVisitorDetailsOutput"
+          },
+          "TimeElapsed": {
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      "GetVisitorDetailsOutput": {
+        "required": [
+          "VisitorDetails",
+          "FreeFieldVisitorDetails"
+        ],
+        "properties": {
+          "VisitorDetails": {
+            "$ref": "#/components/schemas/VisitorDetails"
+          },
+          "FreeFieldVisitorDetails": {
+            "$ref": "#/components/schemas/FreeFieldVisitorDetails"
+          },
+          "OfficeFlowVisitorDetails": {
+            "$ref": "#/components/schemas/OfficeFlowVisitorDetails"
+          },
+          "BadgeList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BadgeVisitor"
+            }
+          },
+          "AccessRights": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessRightVisitor"
+            }
+          }
+        }
+      },
+      "AccessRightVisitor": {
+        "properties": {
+          "ValidTo": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "ValidFrom": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "AccessRight": {
+            "type": "string",
+            "default": ""
+          },
+          "VisitId": {
+            "type": "string",
+            "default": ""
+          },
+          "LocationId": {
+            "type": "string",
+            "default": ""
+          }
+        }
+      },
+      "BadgeVisitor": {
+        "properties": {
+          "BadgeName": {
+            "type": "string",
+            "default": ""
+          },
+          "Location": {
+            "type": "string",
+            "default": ""
+          },
+          "Visit": {
+            "type": "string",
+            "default": ""
+          },
+          "MediaReleaseState": {
+            "enum": [
+              "Released",
+              "Blocked",
+              "BlockedOnlineOnly"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "IsImported": {
+            "type": "boolean",
+            "default": false
+          },
+          "CurrentRole": {
+            "enum": [
+              "UnknownRole",
+              "Invalid",
+              "Standard",
+              "Replacement",
+              "Initialized",
+              "Visitor"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "IsQrCode": {
+            "type": "boolean",
+            "default": false
+          },
+          "MobileAccessMediaData": {
+            "type": "boolean",
+            "default": false
+          },
+          "MobileAccessEmail": {
+            "type": "string",
+            "default": ""
+          },
+          "MobileAccessStatus": {
+            "enum": [
+              "Undefined",
+              "InRegistration",
+              "RegistrationFailed",
+              "RegistrationSuccessful",
+              "Initialized"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "MobilePhoneNumber": {
+            "type": "string",
+            "default": ""
+          }
+        }
+      },
+      "FreeFieldVisitorDetails": {
+        "properties": {
+          "Text1": {
+            "type": "boolean",
+            "default": false
+          },
+          "Text2": {
+            "type": "string",
+            "default": ""
+          },
+          "Text3": {
+            "type": "string",
+            "default": ""
+          },
+          "Text4": {
+            "type": "string",
+            "default": ""
+          },
+          "Text5": {
+            "type": "string",
+            "default": ""
+          },
+          "Text6": {
+            "type": "string",
+            "default": ""
+          },
+          "Text7": {
+            "type": "string",
+            "default": ""
+          },
+          "Text8": {
+            "type": "string",
+            "default": ""
+          },
+          "Text9": {
+            "type": "string",
+            "default": ""
+          },
+          "Text10": {
+            "type": "string",
+            "default": ""
+          },
+          "Text11": {
+            "type": "string",
+            "default": ""
+          },
+          "Text12": {
+            "type": "string",
+            "default": ""
+          },
+          "Text13": {
+            "type": "string",
+            "default": ""
+          },
+          "Text14": {
+            "type": "string",
+            "default": ""
+          },
+          "Text15": {
+            "type": "string",
+            "default": ""
+          },
+          "Text16": {
+            "type": "string",
+            "default": ""
+          },
+          "Text17": {
+            "type": "string",
+            "default": ""
+          },
+          "Text18": {
+            "type": "string",
+            "default": ""
+          },
+          "Text19": {
+            "type": "string",
+            "default": ""
+          },
+          "Text20": {
+            "type": "string",
+            "default": ""
+          },
+          "Text21": {
+            "type": "string",
+            "default": ""
+          },
+          "Text22": {
+            "type": "string",
+            "default": ""
+          },
+          "Text23": {
+            "type": "string",
+            "default": ""
+          },
+          "Text24": {
+            "type": "string",
+            "default": ""
+          },
+          "Text25": {
+            "type": "string",
+            "default": ""
+          },
+          "Text26": {
+            "type": "string",
+            "default": ""
+          },
+          "Text27": {
+            "type": "string",
+            "default": ""
+          },
+          "Text28": {
+            "type": "string",
+            "default": ""
+          },
+          "Text29": {
+            "type": "string",
+            "default": ""
+          },
+          "Text30": {
+            "type": "string",
+            "default": ""
+          },
+          "Text31": {
+            "type": "string",
+            "default": ""
+          },
+          "Text32": {
+            "type": "string",
+            "default": ""
+          },
+          "Text33": {
+            "type": "string",
+            "default": ""
+          },
+          "Text34": {
+            "type": "string",
+            "default": ""
+          },
+          "Text35": {
+            "type": "string",
+            "default": ""
+          },
+          "Text36": {
+            "type": "string",
+            "default": ""
+          },
+          "Text37": {
+            "type": "string",
+            "default": ""
+          },
+          "Text38": {
+            "type": "string",
+            "default": ""
+          },
+          "Text39": {
+            "type": "string",
+            "default": ""
+          },
+          "Text40": {
+            "type": "string",
+            "default": ""
+          },
+          "Text41": {
+            "type": "string",
+            "default": ""
+          },
+          "Text42": {
+            "type": "string",
+            "default": ""
+          },
+          "Text43": {
+            "type": "string",
+            "default": ""
+          },
+          "Text44": {
+            "type": "string",
+            "default": ""
+          },
+          "Text45": {
+            "type": "string",
+            "default": ""
+          },
+          "Text46": {
+            "type": "string",
+            "default": ""
+          },
+          "Text47": {
+            "type": "string",
+            "default": ""
+          },
+          "Text48": {
+            "type": "string",
+            "default": ""
+          },
+          "Text49": {
+            "type": "string",
+            "default": ""
+          },
+          "Text50": {
+            "type": "string",
+            "default": ""
+          },
+          "Number1": {
+            "type": "number",
+            "default": 0,
+            "nullable": true
+          },
+          "Number2": {
+            "type": "number",
+            "default": 0,
+            "nullable": true
+          },
+          "Number3": {
+            "type": "number",
+            "default": 0,
+            "nullable": true
+          },
+          "Number4": {
+            "type": "number",
+            "default": 0,
+            "nullable": true
+          },
+          "Number5": {
+            "type": "number",
+            "default": 0,
+            "nullable": true
+          },
+          "Number6": {
+            "type": "number",
+            "default": 0,
+            "nullable": true
+          },
+          "Number7": {
+            "type": "number",
+            "default": 0,
+            "nullable": true
+          },
+          "Number8": {
+            "type": "number",
+            "default": 0,
+            "nullable": true
+          },
+          "Number9": {
+            "type": "number",
+            "default": 0,
+            "nullable": true
+          },
+          "Number10": {
+            "type": "number",
+            "default": 0,
+            "nullable": true
+          },
+          "Bool1": {
+            "type": "boolean",
+            "nullable": true,
+            "default": false
+          },
+          "Bool2": {
+            "type": "boolean",
+            "nullable": true,
+            "default": false
+          },
+          "Bool3": {
+            "type": "boolean",
+            "nullable": true,
+            "default": false
+          },
+          "Bool4": {
+            "type": "boolean",
+            "nullable": true,
+            "default": false
+          },
+          "Bool5": {
+            "type": "boolean",
+            "nullable": true,
+            "default": false
+          },
+          "Bool6": {
+            "type": "boolean",
+            "nullable": true,
+            "default": false
+          },
+          "Bool7": {
+            "type": "boolean",
+            "nullable": true,
+            "default": false
+          },
+          "Bool8": {
+            "type": "boolean",
+            "nullable": true,
+            "default": false
+          },
+          "Bool9": {
+            "type": "boolean",
+            "nullable": true,
+            "default": false
+          },
+          "Bool10": {
+            "type": "boolean",
+            "nullable": true,
+            "default": false
+          },
+          "Bool11": {
+            "type": "boolean",
+            "nullable": true,
+            "default": false
+          },
+          "Bool12": {
+            "type": "boolean",
+            "nullable": true,
+            "default": false
+          },
+          "Bool13": {
+            "type": "boolean",
+            "nullable": true,
+            "default": false
+          },
+          "Bool14": {
+            "type": "boolean",
+            "nullable": true,
+            "default": false
+          },
+          "Bool15": {
+            "type": "boolean",
+            "nullable": true,
+            "default": false
+          },
+          "Bool16": {
+            "type": "boolean",
+            "nullable": true,
+            "default": false
+          },
+          "Bool17": {
+            "type": "boolean",
+            "nullable": true,
+            "default": false
+          },
+          "Bool18": {
+            "type": "boolean",
+            "nullable": true,
+            "default": false
+          },
+          "Bool19": {
+            "type": "boolean",
+            "nullable": true,
+            "default": false
+          },
+          "Bool20": {
+            "type": "boolean",
+            "nullable": true,
+            "default": false
+          },
+          "Date1": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date2": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date3": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date4": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date5": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date6": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date7": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date8": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date9": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date10": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date11": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date12": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date13": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date14": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date15": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date16": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date17": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date18": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date19": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date20": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          }
+        }
+      },
+      "OfficeFlowVisitorDetails": {
+        "properties": {
+          "MobilexEnabled": {
+            "type": "boolean",
+            "default": false
+          },
+          "Language": {
+            "type": "string",
+            "default": ""
+          },
+          "DirectCallDestinations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CallDestinationVisitor"
+            }
+          }
+        }
+      },
+      "CallDestinationVisitor": {
+        "properties": {
+          "Name": {
+            "type": "string",
+            "default": ""
+          },
+          "SortOrder": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0
+          }
+        }
+      },
+      "VisitorDetails": {
+        "properties": {
+          "Blocked": {
+            "type": "boolean",
+            "default": false
+          },
+          "Birthday": {
+            "type": "string",
+            "format": "date",
+            "nullable": true,
+            "example": "2001-01-31"
+          },
+          "CheckedInBy": {
+            "type": "string",
+            "default": ""
+          },
+          "CheckedOutBy": {
+            "type": "string",
+            "default": ""
+          },
+          "City": {
+            "type": "string",
+            "default": ""
+          },
+          "Company": {
+            "type": "string",
+            "default": ""
+          },
+          "CompanyCity": {
+            "type": "string",
+            "default": ""
+          },
+          "CompanyDepartment": {
+            "type": "string",
+            "default": ""
+          },
+          "CompanyStreet": {
+            "type": "string",
+            "default": ""
+          },
+          "CompanyZipcode": {
+            "type": "string",
+            "default": ""
+          },
+          "Country": {
+            "type": "string",
+            "default": ""
+          },
+          "DateIn": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "DateOut": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "EMail": {
+            "type": "string",
+            "default": ""
+          },
+          "FirstName": {
+            "type": "string",
+            "default": ""
+          },
+          "FullName": {
+            "type": "string",
+            "default": ""
+          },
+          "Info": {
+            "type": "string",
+            "default": ""
+          },
+          "LastName": {
+            "type": "string",
+            "default": ""
+          },
+          "Nationality": {
+            "type": "string",
+            "default": ""
+          },
+          "OfficialIdcardExpeditionDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "OfficialIdcardExpirationDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "OfficialIdcardMedium": {
+            "enum": [
+              "None",
+              "Identity card",
+              "Passport",
+              "Driving license"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "OfficialIdcardNr": {
+            "type": "string",
+            "default": ""
+          },
+          "Picture": {
+            "type": "string",
+            "format": "byte",
+            "default": "",
+            "nullable": true
+          },
+          "PictDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "RoomName": {
+            "type": "string",
+            "default": ""
+          },
+          "Street": {
+            "type": "string",
+            "default": ""
+          },
+          "TelNr": {
+            "type": "string",
+            "default": ""
+          },
+          "VehicleLicensePlate": {
+            "type": "string",
+            "default": ""
+          },
+          "VehicleModel": {
+            "type": "string",
+            "default": ""
+          },
+          "VehicleType": {
+            "type": "string",
+            "default": ""
+          },
+          "Zipcode": {
+            "type": "string",
+            "default": ""
+          },
+          "IsBiometricEnabled": {
+            "type": "boolean",
+            "default": false
+          },
+          "SafetyCheckExpirationDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Steps": {
+            "type": "integer",
+            "format": "int16",
+            "nullable": true
+          }
+        }
+      },
+      "CreateVisitorCompanyInput": {
+        "required": [
+          "Name"
+        ],
+        "properties": {
+          "CompanyId": {
+            "type": "string",
+            "default": "Company01",
+            "nullable": true
+          },
+          "Name": {
+            "type": "string",
+            "default": "Company01"
+          },
+          "City": {
+            "type": "string",
+            "default": "Zurich",
+            "nullable": true
+          },
+          "Street": {
+            "type": "string",
+            "default": "Bahnhofstrasse",
+            "nullable": true
+          },
+          "Zipcode": {
+            "type": "string",
+            "default": "8000",
+            "nullable": true
+          }
+        }
+      },
+      "UpdateVisitorCompanyOutput": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "required": [
+              "CompanyId"
+            ],
+            "properties": {
+              "CompanyId": {
+                "type": "string",
+                "default": "Company01"
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "UpdateVisitorCompanyInput": {
+        "properties": {
+          "CompanyId": {
+            "type": "string",
+            "default": "Company01",
+            "nullable": true
+          },
+          "Name": {
+            "type": "string",
+            "default": "Company01",
+            "nullable": true
+          },
+          "City": {
+            "type": "string",
+            "default": "Zurich",
+            "nullable": true
+          },
+          "Street": {
+            "type": "string",
+            "default": "Bahnhofstrasse",
+            "nullable": true
+          },
+          "Zipcode": {
+            "type": "string",
+            "default": "8000",
+            "nullable": true
+          }
+        }
+      },
+      "VoidResponseOutput": {
+        "required": [
+          "TimeElapsed"
+        ],
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "CreateVisitorCompanyDepartementOutput": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "required": [
+              "DepartementId"
+            ],
+            "properties": {
+              "DepartementId": {
+                "type": "string",
+                "default": "Departement01"
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "CreateVisitorCompanyDepartementInput": {
+        "required": [
+          "CompanyId",
+          "Name"
+        ],
+        "properties": {
+          "CompanyId": {
+            "type": "string",
+            "default": "Company01"
+          },
+          "DepartementId": {
+            "type": "string",
+            "default": "Departement01",
+            "nullable": true
+          },
+          "Name": {
+            "type": "string",
+            "default": "Departement01"
+          }
+        }
+      },
+      "UpdateVisitorCompanyDepartementOutput": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "required": [
+              "DepartementId"
+            ],
+            "properties": {
+              "DepartementId": {
+                "type": "string",
+                "default": "Departement01"
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "UpdateVisitorCompanyDepartementInput": {
+        "properties": {
+          "DepartementId": {
+            "type": "string",
+            "default": "Departement01",
+            "nullable": true
+          },
+          "Name": {
+            "type": "string",
+            "default": "Departement01",
+            "nullable": true
+          }
+        }
+      },
+      "GetVisitorEntryOutput": {
+        "properties": {
+          "PersonIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "PersonId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "VisitId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Blocked": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "FirstName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "LastName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "FullName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "EMail": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "TelNr": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Nationality": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Picture": {
+            "type": "string",
+            "format": "byte",
+            "default": "",
+            "nullable": true
+          },
+          "PictDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "OfficialIdcardMedium": {
+            "enum": [
+              "None",
+              "Identity card",
+              "Passport",
+              "Driving license"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "OfficialIdcardNr": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "OfficialIdcardExpeditionDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "OfficialIdcardExpirationDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Zipcode": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "City": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Country": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Street": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Info": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Steps": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "VehicleLicensePlate": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "VehicleModel": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "VehicleType": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "DateIn": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "DateOut": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "CheckedInBy": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "CheckedOutBy": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Company": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "CompanyStreet": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "CompanyZipcode": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "CompanyCity": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "CompanyDepartment": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "RoomName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "HasBadge": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "HasAccessRight": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "PrivacyStatus": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "OwnerPersonIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "Text1": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text2": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text3": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text4": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text5": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text6": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text7": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text8": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text9": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text10": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text11": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text12": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text13": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text14": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text15": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text16": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text17": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text18": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text19": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text20": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text21": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text22": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text23": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text24": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text25": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text26": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text27": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text28": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text29": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text30": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text31": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text32": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text33": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text34": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text35": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text36": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text37": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text38": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text39": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text40": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text41": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text42": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text43": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text44": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text45": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text46": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text47": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text48": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text49": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text50": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Date1": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date2": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date3": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date4": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date5": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date6": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date7": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date8": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date9": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date10": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date11": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date12": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date13": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date14": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date15": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date16": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date17": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date18": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date19": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date20": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date21": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date22": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date23": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date24": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date25": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date26": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date27": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date28": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date29": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date30": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date31": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date32": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date33": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date34": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date35": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date36": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date37": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date38": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date39": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date40": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date41": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date42": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date43": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date44": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date45": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date46": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date47": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date48": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date49": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date50": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Bool1": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool2": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool3": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool4": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool5": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool6": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool7": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool8": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool9": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool10": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool11": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool12": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool13": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool14": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool15": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool16": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool17": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool18": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool19": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool20": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool21": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool22": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool23": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool24": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool25": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool26": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool27": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool28": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool29": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool30": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool31": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool32": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool33": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool34": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool35": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool36": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool37": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool38": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool39": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool40": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool41": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool42": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool43": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool44": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool45": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool46": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool47": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool48": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool49": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool50": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Number1": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number2": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number3": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number4": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number5": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number6": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number7": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number8": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number9": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number10": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number11": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number12": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number13": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number14": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number15": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number16": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number17": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number18": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number19": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number20": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number21": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number22": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number23": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number24": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number25": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number26": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number27": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number28": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number29": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number30": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number31": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number32": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number33": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number34": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number35": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number36": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number37": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number38": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number39": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number40": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number41": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number42": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number43": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number44": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number45": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number46": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number47": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number48": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number49": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number50": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          }
+        }
+      },
+      "GetVisitorVisitEntryOutput": {
+        "properties": {
+          "PersonIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "PersonId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "IsUpcoming": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "IsOngoing": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "IsPast": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Blocked": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "FirstName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "LastName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "FullName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "EMail": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "TelNr": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Nationality": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "PictDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "OfficialIdcardMedium": {
+            "enum": [
+              "None",
+              "Identity card",
+              "Passport",
+              "Driving license"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "OfficialIdcardNr": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "OfficialIdcardExpeditionDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "OfficialIdcardExpirationDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Zipcode": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "City": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Country": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Street": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Info": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Steps": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "VehicleLicensePlate": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "VehicleModel": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "VehicleType": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "DateIn": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "DateOut": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "CheckedInBy": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "CheckedOutBy": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Company": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "CompanyStreet": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "CompanyZipcode": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "CompanyCity": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "CompanyDepartment": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "RoomName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "HasBadge": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "HasAccessRight": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "PrivacyStatus": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "Text1": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text2": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text3": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text4": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text5": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text6": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text7": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text8": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text9": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text10": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text11": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text12": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text13": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text14": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text15": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text16": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text17": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text18": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text19": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text20": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text21": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text22": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text23": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text24": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text25": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text26": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text27": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text28": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text29": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text30": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text31": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text32": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text33": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text34": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text35": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text36": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text37": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text38": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text39": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text40": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text41": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text42": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text43": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text44": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text45": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text46": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text47": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text48": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text49": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Text50": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Date1": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date2": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date3": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date4": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date5": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date6": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date7": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date8": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date9": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date10": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date11": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date12": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date13": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date14": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date15": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date16": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date17": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date18": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date19": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date20": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date21": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date22": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date23": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date24": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date25": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date26": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date27": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date28": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date29": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date30": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date31": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date32": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date33": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date34": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date35": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date36": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date37": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date38": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date39": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date40": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date41": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date42": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date43": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date44": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date45": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date46": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date47": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date48": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date49": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Date50": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Bool1": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool2": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool3": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool4": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool5": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool6": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool7": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool8": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool9": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool10": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool11": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool12": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool13": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool14": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool15": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool16": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool17": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool18": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool19": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool20": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool21": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool22": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool23": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool24": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool25": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool26": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool27": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool28": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool29": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool30": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool31": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool32": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool33": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool34": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool35": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool36": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool37": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool38": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool39": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool40": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool41": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool42": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool43": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool44": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool45": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool46": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool47": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool48": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool49": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Bool50": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "Number1": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number2": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number3": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number4": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number5": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number6": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number7": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number8": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number9": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number10": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number11": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number12": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number13": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number14": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number15": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number16": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number17": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number18": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number19": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number20": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number21": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number22": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number23": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number24": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number25": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number26": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number27": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number28": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number29": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number30": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number31": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number32": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number33": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number34": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number35": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number36": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number37": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number38": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number39": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number40": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number41": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number42": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number43": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number44": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number45": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number46": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number47": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number48": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number49": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "Number50": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "nullable": true
+          },
+          "VisitAccessRights": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "VisitBadges": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "VisitIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "VisitId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "StartTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "EndTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "Subject": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "VisitInfo": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "AnonymousMembers": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "KabacardLayout": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "HostFirstName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "HostLastName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "HostTelNr": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "DeputyFirstName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "DeputyLastName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "DeputyTelNr": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "LocationId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "Location": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "LocationIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "WorkstationName": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "WorkstationId": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "WorkstationIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "NofVisitors": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "VisitText1": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "VisitText2": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "VisitText3": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "VisitText4": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "VisitText5": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "VisitText6": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "VisitText7": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "VisitText8": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "VisitText9": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "VisitText10": {
+            "type": "string",
+            "default": "",
+            "nullable": true
+          },
+          "VisitNumber1": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "VisitNumber2": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "VisitNumber3": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "VisitNumber4": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "VisitNumber5": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "VisitBool1": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "VisitBool2": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "VisitBool3": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "VisitBool4": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "VisitBool5": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          },
+          "VisitDate1": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "VisitDate2": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "VisitDate3": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "VisitDate4": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "VisitDate5": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          }
+        }
+      },
+      "GetFunctionsSettingOutput": {
+        "required": [
+          "Mandatory",
+          "Optional"
+        ],
+        "properties": {
+          "Mandatory": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "default": "functionName"
+            }
+          },
+          "Optional": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "default": "functionName"
+            }
+          }
+        }
+      },
+      "GetVisitorCompanyOutput": {
+        "required": [
+          "CompanyIdInternal",
+          "CompanyId",
+          "Name"
+        ],
+        "properties": {
+          "CompanyIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "CompanyId": {
+            "type": "string",
+            "default": "Company01"
+          },
+          "Name": {
+            "type": "string",
+            "default": "Company01"
+          },
+          "City": {
+            "type": "string",
+            "default": "Zurich",
+            "nullable": true
+          },
+          "Street": {
+            "type": "string",
+            "default": "Bahnhofstrasse",
+            "nullable": true
+          },
+          "Zipcode": {
+            "type": "string",
+            "default": "8000",
+            "nullable": true
+          },
+          "Departements": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CompanyDepartementOutput"
+            },
+            "nullable": true
+          }
+        }
+      },
+      "CompanyDepartementOutput": {
+        "required": [
+          "DepartementIdInternal",
+          "DepartementId",
+          "Name"
+        ],
+        "properties": {
+          "DepartementIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "DepartementId": {
+            "type": "string",
+            "default": "Departement01"
+          },
+          "Name": {
+            "type": "string",
+            "default": "Departement01"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "visitor",
+      "description": ""
+    }
+  ]
+}

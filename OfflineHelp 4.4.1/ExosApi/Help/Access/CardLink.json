@@ -1,0 +1,497 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "paths": {
+    "/v1.0/cardLink/{validationPeriodId}/assignPerson": {
+      "post": {
+        "tags": [
+          "cardLink"
+        ],
+        "summary": "assign a validation period to a specific person for a specific access domain",
+        "description": "assign a validation period to a specific person for a specific access domain. The validation period will be set for this PersonId (required authorisation is AC_PERS_EDIT)",
+        "parameters": [
+          {
+            "name": "validationPeriodId",
+            "in": "path",
+            "description": "id of validation period",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "ValidationPeriodId1"
+            }
+          },
+          {
+            "name": "ignoreBlacklist",
+            "in": "query",
+            "description": "Ignore blacklist check",
+            "schema": {
+              "type": "boolean",
+              "nullable": true
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "person id and access domain id",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignValidationPeriodToPersonInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_SDM_CardlinkAssignPerson",
+          "API_VM_CardlinkAssignPerson",
+          "API_CM_CardlinkAssignPerson"
+        ],
+        "x-errorcodes": "100000,100001,300004,300009,400001,400072,400089,400090,999999"
+      }
+    },
+    "/v1.0/cardLink/isCardLinkUpdatePending/{personId}/{accessDomainId}": {
+      "get": {
+        "tags": [
+          "cardLink"
+        ],
+        "summary": "check if CardLink update is pending for a specific person on a specific access domain",
+        "description": "<p>check if CardLink update is pending for a specific person on a specific access domain.</p>",
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "path",
+            "description": "id of person",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "accessDomainId",
+            "in": "path",
+            "description": "id of access domain",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IsCardlinkUpdatePendingForAccessDomainOutputWithTime"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_SDM_CardlinkIsCardLinkUpdatePendingRead",
+          "API_VM_CardlinkIsCardLinkUpdatePendingRead",
+          "API_CM_CardlinkIsCardLinkUpdatePendingRead"
+        ],
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100009,300004,300008,400001,400090,999999"
+      }
+    },
+    "/v1.0/cardLink/setSpecificUpdatePeriod": {
+      "post": {
+        "tags": [
+          "cardLink"
+        ],
+        "summary": "update the specific update period for a person and accessdomain",
+        "description": "<p>update the specific update period for a person and accessdomain. Set the update period to a value or unlimited or leave the two optional parameters to reset the update period.</p> ",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SpecificUpdatePeriodInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_SDM_CardlinkSetSpecificUpdatePeriod",
+          "API_VM_CardlinkSetSpecificUpdatePeriod",
+          "API_CM_CardlinkSetSpecificUpdatePeriod"
+        ],
+        "x-errorcodes": "100000,100001,300004,300009,400001,400090,999999"
+      }
+    },
+    "/v1.0/cardLink/updateValidation": {
+      "post": {
+        "tags": [
+          "cardLink"
+        ],
+        "summary": "update cardLink states for persons (r9autop)",
+        "description": "<p>bulk update for all persons with CardLink-righs: sets the state on the periphery (Option) and the ValidationDateTo and VirtualNetworkValidationActive-flag for persons with new, modified, removed and expired CardLink-rights - starting with LastRunDateTime - returns a maximum of 100 Cardlink states</p> ",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateValidationInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateValidationOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_AC_CardlinkUpdateValidation",
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100009,300004,300008,400053,999999"
+      }
+    },
+    "/v1.0/cardLink/validationPeriods/{personId}": {
+      "get": {
+        "tags": [
+          "cardLink"
+        ],
+        "summary": "get validation periods for accessdomains, which are activated for cardLink, and the person has accessright",
+        "description": "<p>get validation periods for accessdomains, which are activated for cardLink and the person has accessright. The Parameter 'IsActual' defines the actual valid validation period for this accessdomain and person.</p> ",
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "path",
+            "description": "id of person",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetValidationPeriodOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": [
+          "API_SDM_CardlinkValidationPeriodsRead",
+          "API_VM_CardlinkValidationPeriodsRead",
+          "API_CM_CardlinkValidationPeriodsRead"
+        ],
+        "x-errorcodes": "100000,100001,100002,100004,100005,100006,100009,300004,300008,400001,999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "IsCardlinkUpdatePendingForAccessDomainOutputWithTime": {
+        "required": [
+          "TimeElapsed",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "$ref": "#/components/schemas/IsCardlinkUpdatePendingForAccessDomainOutput"
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "VoidResponseOutput": {
+        "required": [
+          "TimeElapsed"
+        ],
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "SpecificUpdatePeriodInput": {
+        "required": [
+          "AccessDomainId",
+          "PersonId"
+        ],
+        "properties": {
+          "AccessDomainId": {
+            "type": "string",
+            "default": "AccessDomainId1"
+          },
+          "PersonId": {
+            "type": "string",
+            "default": "PersonId1"
+          },
+          "UpdatePeriod": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00",
+            "nullable": true
+          },
+          "UnlimitedUpdatePeriod": {
+            "type": "integer",
+            "default": 0,
+            "nullable": true
+          }
+        }
+      },
+      "UpdateValidationOutput": {
+        "required": [
+          "Value",
+          "TimeElapsed"
+        ],
+        "properties": {
+          "Value": {
+            "required": [
+              "NumberOfTotalCardLinkPersonsAffected",
+              "NumberOfCardLinkPersonsNew",
+              "NumberOfCardLinkPersonsModified",
+              "NumberOfCardLinkPersonsRemoved",
+              "NumberOfCardLinkPersonsExpired",
+              "CardLinkStates"
+            ],
+            "properties": {
+              "NumberOfTotalCardLinkPersonsAffected": {
+                "type": "integer",
+                "default": 0
+              },
+              "NumberOfCardLinkPersonsNew": {
+                "type": "integer",
+                "default": 0
+              },
+              "NumberOfCardLinkPersonsModified": {
+                "type": "integer",
+                "default": 0
+              },
+              "NumberOfCardLinkPersonsRemoved": {
+                "type": "integer",
+                "default": 0
+              },
+              "NumberOfCardLinkPersonsExpired": {
+                "type": "integer",
+                "default": 0
+              },
+              "CardLinkStates": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CardLinkStates"
+                }
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "UpdateValidationInput": {
+        "required": [
+          "LastRunDateTime",
+          "CurrentDateTime"
+        ],
+        "properties": {
+          "LastRunDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00"
+          },
+          "CurrentDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2001-01-31T11:55:00"
+          }
+        }
+      },
+      "GetValidationPeriodOutput": {
+        "required": [
+          "Value",
+          "TimeElapsed"
+        ],
+        "properties": {
+          "Value": {
+            "required": [
+              "CardLinkAccessDomains"
+            ],
+            "properties": {
+              "CardLinkAccessDomains": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CardLinkAccessDomains"
+                }
+              }
+            }
+          },
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      },
+      "AssignValidationPeriodToPersonInput": {
+        "required": [
+          "AccessDomainId",
+          "PersonId"
+        ],
+        "properties": {
+          "PersonId": {
+            "type": "string",
+            "description": "The person id"
+          },
+          "AccessDomainId": {
+            "type": "string",
+            "description": "The access domain id"
+          }
+        }
+      },
+      "IsCardlinkUpdatePendingForAccessDomainOutput": {
+        "required": [
+          "IsCardLinkUpdatePending"
+        ],
+        "properties": {
+          "IsCardLinkUpdatePending": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "CardLinkStates": {
+        "required": [
+          "PersonIdInternal",
+          "Option",
+          "AccessDomainIdInternal"
+        ],
+        "properties": {
+          "PersonIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0
+          },
+          "Option": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0
+          },
+          "AccessDomainIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          }
+        }
+      },
+      "CardLinkAccessDomains": {
+        "required": [
+          "AccessDomainId",
+          "AccessDomainName",
+          "ValidationPeriods"
+        ],
+        "properties": {
+          "AccessDomainId": {
+            "type": "string",
+            "default": "AccessDomain01"
+          },
+          "AccessDomainName": {
+            "type": "string",
+            "default": "AccessDomain01"
+          },
+          "ValidationPeriods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationPeriods"
+            }
+          }
+        }
+      },
+      "ValidationPeriods": {
+        "required": [
+          "ValidationPeriodId",
+          "Name",
+          "IsActual"
+        ],
+        "properties": {
+          "ValidationPeriodId": {
+            "type": "string",
+            "default": "ValidationPeriod01"
+          },
+          "ValidationPeriodIdInternal": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "nullable": true
+          },
+          "Name": {
+            "type": "string",
+            "default": "ValidationPeriod01"
+          },
+          "IsActual": {
+            "type": "boolean",
+            "default": false
+          },
+          "IsDefault": {
+            "type": "boolean",
+            "default": false,
+            "nullable": true
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "cardLink",
+      "description": "<p>Operations related to CardLink</p>"
+    }
+  ]
+}

@@ -1,0 +1,122 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Application API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "paths": {
+    "/v1.0/application/allapplications": {
+      "get": {
+        "tags": [
+          "application"
+        ],
+        "responses": {
+          "200": {
+            "description": "List of all applications",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseOfGetClientApplicationOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "",
+        "x-errorcodes": "100000,100001,300004,400222,999999"
+      }
+    },
+    "/v1.0/application/webapplications": {
+      "get": {
+        "tags": [
+          "application"
+        ],
+        "responses": {
+          "200": {
+            "description": "List of web applications.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseOfGetClientApplicationOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "",
+        "x-errorcodes": "100000,100001,300004,400222,999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GenericResponseOfGetClientApplicationOutput": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ResponseBase"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/GetClientApplicationOutput"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "GetClientApplicationOutput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "ApplicationID": {
+            "type": "string",
+            "nullable": false
+          },
+          "ApplicationType": {
+            "type": "string",
+            "nullable": false
+          },
+          "Application": {
+            "type": "string",
+            "nullable": false
+          }
+        }
+      },
+      "ResponseBase": {
+        "type": "object",
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "application",
+      "description": "<p>Operations related to client applications</p>"
+    }
+  ]
+}

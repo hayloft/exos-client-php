@@ -1,0 +1,243 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "blacklist",
+      "description": ""
+    },
+    {
+      "name": "hierarchy",
+      "description": "<p>Operations related to company hierarchies.</p>"
+    },
+    {
+      "name": "mail",
+      "description": ""
+    },
+    {
+      "name": "person",
+      "description": "<p>Operations related to persons like employees, visitors or contractors can be done here.</p>"
+    },
+    {
+      "name": "person categories",
+      "description": ""
+    },
+    {
+      "name": "person report",
+      "description": ""
+    },
+    {
+      "name": "tenant",
+      "description": "<p>Operations related to tenants.</p>"
+    }
+  ],
+  "paths": {
+    "/v1.0/blacklist": {
+      "$ref": "./Blacklist.json#/paths/%2Fv1.0%2Fblacklist"
+    },
+    "/v1.0/blacklist/{personId}/isListed": {
+      "$ref": "./Blacklist.json#/paths/%2Fv1.0%2Fblacklist%2F%7BpersonId%7D%2FisListed"
+    },
+    "/v1.0/blacklist/create": {
+      "$ref": "./Blacklist.json#/paths/%2Fv1.0%2Fblacklist%2Fcreate"
+    },
+    "/v1.0/blacklist/delete": {
+      "$ref": "./Blacklist.json#/paths/%2Fv1.0%2Fblacklist%2Fdelete"
+    },
+    "/v1.0/hierarchies": {
+      "$ref": "./Hierarchy.json#/paths/%2Fv1.0%2Fhierarchies"
+    },
+    "/v1.0/hierarchies/{hierarchyId}/block": {
+      "$ref": "./Hierarchy.json#/paths/%2Fv1.0%2Fhierarchies%2F%7BhierarchyId%7D%2Fblock"
+    },
+    "/v1.0/hierarchies/{hierarchyId}/delete": {
+      "$ref": "./Hierarchy.json#/paths/%2Fv1.0%2Fhierarchies%2F%7BhierarchyId%7D%2Fdelete"
+    },
+    "/v1.0/hierarchies/{hierarchyId}/unblock": {
+      "$ref": "./Hierarchy.json#/paths/%2Fv1.0%2Fhierarchies%2F%7BhierarchyId%7D%2Funblock"
+    },
+    "/v1.0/hierarchies/{hierarchyId}/update": {
+      "$ref": "./Hierarchy.json#/paths/%2Fv1.0%2Fhierarchies%2F%7BhierarchyId%7D%2Fupdate"
+    },
+    "/v1.0/hierarchies/create": {
+      "$ref": "./Hierarchy.json#/paths/%2Fv1.0%2Fhierarchies%2Fcreate"
+    },
+    "/v1.0/mails/send": {
+      "$ref": "./Mail.json#/paths/%2Fv1.0%2Fmails%2Fsend"
+    },
+    "/v1.0/personCategories": {
+      "$ref": "./PersonCategories.json#/paths/%2Fv1.0%2FpersonCategories"
+    },
+    "/v1.0/personReports": {
+      "$ref": "./PersonReport.json#/paths/%2Fv1.0%2FpersonReports"
+    },
+    "/v1.0/personReports/{personReportId}/delete": {
+      "$ref": "./PersonReport.json#/paths/%2Fv1.0%2FpersonReports%2F%7BpersonReportId%7D%2Fdelete"
+    },
+    "/v1.0/personReports/create": {
+      "$ref": "./PersonReport.json#/paths/%2Fv1.0%2FpersonReports%2Fcreate"
+    },
+    "/v1.0/personReports/settings/MaximumReportSize": {
+      "$ref": "./PersonReport.json#/paths/%2Fv1.0%2FpersonReports%2Fsettings%2FMaximumReportSize"
+    },
+    "/v1.0/persons": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons"
+    },
+    "/v1.0/personsAccessRights": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2FpersonsAccessRights"
+    },
+    "/v1.0/persons/{personId}/activateMobileAccessDevice": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2F%7BpersonId%7D%2FactivateMobileAccessDevice"
+    },
+    "/v1.0/persons/{personId}/createAndAssignWallet": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2F%7BpersonId%7D%2FcreateAndAssignWallet"
+    },
+    "/v1.1/persons/{personId}/assignAccessRight": {
+      "$ref": "./Person.json#/paths/%2Fv1.1%2Fpersons%2F%7BpersonId%7D%2FassignAccessRight"
+    },
+    "/v1.0/persons/{personId}/assignBadge": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2F%7BpersonId%7D%2FassignBadge"
+    },
+    "/v1.0/persons/{personId}/assignInitializedBadge": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2F%7BpersonId%7D%2FassignInitializedBadge"
+    },
+    "/v1.0/persons/{personId}/assignKey": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2F%7BpersonId%7D%2FassignKey"
+    },
+    "/v1.0/persons/{personId}/assignKeyRing": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2F%7BpersonId%7D%2FassignKeyRing"
+    },
+    "/v1.0/persons/{personId}/assignLogin/{loginId}": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2F%7BpersonId%7D%2FassignLogin%2F%7BloginId%7D"
+    },
+    "/v1.0/persons/{personId}/assignTransitionalBadge": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2F%7BpersonId%7D%2FassignTransitionalBadge"
+    },
+    "/v1.0/persons/{personId}/block": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2F%7BpersonId%7D%2Fblock"
+    },
+    "/v1.0/persons/{personId}/deactivateMobileAccessDevice": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2F%7BpersonId%7D%2FdeactivateMobileAccessDevice"
+    },
+    "/v1.0/persons/{personId}/unassignAndDeleteWallet": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2F%7BpersonId%7D%2FunassignAndDeleteWallet"
+    },
+    "/v1.0/persons/{personId}/removeWalletBadge": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2F%7BpersonId%7D%2FremoveWalletBadge"
+    },
+    "/v1.0/persons/{personId}/delete": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2F%7BpersonId%7D%2Fdelete"
+    },
+    "/v1.1/persons/{personId}/delete": {
+      "$ref": "./Person.json#/paths/%2Fv1.1%2Fpersons%2F%7BpersonId%7D%2Fdelete"
+    },
+    "/v1.0/persons/{personId}/releaseToTenant/{tenantId}": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2F%7BpersonId%7D%2FreleaseToTenant%2F%7BtenantId%7D"
+    },
+    "/v1.0/persons/{personId}/resetWeight": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2F%7BpersonId%7D%2FresetWeight"
+    },
+    "/v1.0/persons/{personId}/setPin": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2F%7BpersonId%7D%2FsetPin"
+    },
+    "/v1.0/persons/{personId}/setRoom": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2F%7BpersonId%7D%2FsetRoom"
+    },
+    "/v1.0/persons/{personId}/tenants": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2F%7BpersonId%7D%2Ftenants"
+    },
+    "/v1.1/persons/{personId}/unassignAccessRight": {
+      "$ref": "./Person.json#/paths/%2Fv1.1%2Fpersons%2F%7BpersonId%7D%2FunassignAccessRight"
+    },
+    "/v1.1/persons/{personId}/unassignAccessRight/{assignmentId}": {
+      "$ref": "./Person.json#/paths/%2Fv1.1%2Fpersons%2F%7BpersonId%7D%2FunassignAccessRight%2F%7BassignmentId%7D"
+    },
+    "/v1.0/persons/{personId}/unassignBadge": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2F%7BpersonId%7D%2FunassignBadge"
+    },
+    "/v1.0/persons/{personId}/unassignInitializedBadge": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2F%7BpersonId%7D%2FunassignInitializedBadge"
+    },
+    "/v1.0/persons/{personId}/unassignKey": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2F%7BpersonId%7D%2FunassignKey"
+    },
+    "/v1.0/persons/{personId}/unassignKeyRing": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2F%7BpersonId%7D%2FunassignKeyRing"
+    },
+    "/v1.0/persons/{personId}/unassignLogin": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2F%7BpersonId%7D%2FunassignLogin"
+    },
+    "/v1.0/persons/{personId}/unassignTransitionalBadge": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2F%7BpersonId%7D%2FunassignTransitionalBadge"
+    },
+    "/v1.0/persons/{personId}/unblock": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2F%7BpersonId%7D%2Funblock"
+    },
+    "/v1.0/persons/{personId}/unreleaseFromTenant/{tenantId}": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2F%7BpersonId%7D%2FunreleaseFromTenant%2F%7BtenantId%7D"
+    },
+    "/v1.0/persons/{personId}/update": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2F%7BpersonId%7D%2Fupdate"
+    },
+    "/v1.0/persons/{personId}/uploadImage": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2F%7BpersonId%7D%2FuploadImage"
+    },
+    "/v1.0/persons/{personId}/deleteImage": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2F%7BpersonId%7D%2FdeleteImage"
+    },
+    "/v1.1/persons/accessRights/{assignmentId}/update": {
+      "$ref": "./Person.json#/paths/%2Fv1.1%2Fpersons%2FaccessRights%2F%7BassignmentId%7D%2Fupdate"
+    },
+    "/v1.0/persons/create": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2Fcreate"
+    },
+    "/v1.1/persons/create": {
+      "$ref": "./Person.json#/paths/%2Fv1.1%2Fpersons%2Fcreate"
+    },
+    "/v1.0/persons/setMyPin": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2FsetMyPin"
+    },
+    "/v1.0/persons/settings/EnableMultipleBadges": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2Fsettings%2FEnableMultipleBadges"
+    },
+    "/v1.0/persons/settings/EnableMultipleProfiles": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2Fsettings%2FEnableMultipleProfiles"
+    },
+    "/v1.0/persons/settings/EnableSecurityLevel": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2Fsettings%2FEnableSecurityLevel"
+    },
+    "/v1.0/persons/settings/FullnameSeparator": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2Fsettings%2FFullnameSeparator"
+    },
+    "/v1.0/persons/settings/MaximumPincodeLength": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2Fsettings%2FMaximumPincodeLength"
+    },
+    "/v1.0/persons/settings/MinimumPincodeLength": {
+      "$ref": "./Person.json#/paths/%2Fv1.0%2Fpersons%2Fsettings%2FMinimumPincodeLength"
+    },
+    "/v1.0/tenants": {
+      "$ref": "./Tenant.json#/paths/%2Fv1.0%2Ftenants"
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  }
+}

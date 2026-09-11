@@ -1,0 +1,79 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "exos API",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "/ExosApi/api"
+    }
+  ],
+  "paths": {
+    "/v1.0/passageways/{passagewayId}/openonce": {
+      "post": {
+        "tags": [
+          "passageway"
+        ],
+        "summary": "open passageway once",
+        "description": "open passageway once",
+        "parameters": [
+          {
+            "name": "passagewayId",
+            "in": "path",
+            "description": "id of passageway",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoidResponseOutput"
+                }
+              }
+            }
+          }
+        },
+        "x-rights": "API_SYS_PassagewaysOpenonce",
+        "x-errorcodes": "100000,100001,300004,300008,400052,999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "VoidResponseOutput": {
+        "required": [
+          "TimeElapsed"
+        ],
+        "properties": {
+          "TimeElapsed": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "passageway",
+      "description": "<p>Operations related to passageways</p>"
+    }
+  ]
+}

@@ -1,0 +1,885 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Auth-Service API Help",
+    "description": "",
+    "version": "4.4.01"
+  },
+  "servers": [
+    {
+      "url": "../../",
+      "description": "Auth"
+    },
+    {
+      "url": "/"
+    }
+  ],
+  "paths": {
+    "/api/v1/Login/Windows": {
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "summary": "Allows to perform a windows login. If successful, returns a identity token.",
+        "operationId": "Login_ApiV1LoginWindows",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Kaba.Exos.Auth.Service.Areas.Api.Models.LoginRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Kaba.Exos.Auth.Service.Areas.Api.Models.LoginRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Kaba.Exos.Auth.Service.Areas.Api.Models.LoginRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "x-errorcodes": "300003,300005,300007,300008,300010,999999"
+      }
+    },
+    "/api/v1/Login": {
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "summary": "Allows to perform a login via user name and password. If successful, returns a identity token.",
+        "operationId": "Login_ApiV1Login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Kaba.Exos.Auth.Service.Areas.Api.Models.LoginUsernamePasswordRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Kaba.Exos.Auth.Service.Areas.Api.Models.LoginUsernamePasswordRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Kaba.Exos.Auth.Service.Areas.Api.Models.LoginUsernamePasswordRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-errorcodes": "300003,300005,300006,300007,300008,300010,300016,999999"
+      }
+    },
+    "/api/v1/Login/WithPasswordChange": {
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "summary": "Allows to perform a login with an integrated password change with user name, password and new password. If successful, returns a identity token.",
+        "operationId": "Login_ApiV1LoginWithPasswordChange",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Kaba.Exos.Auth.Service.Areas.Api.Models.LoginWithPasswordChangeRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Kaba.Exos.Auth.Service.Areas.Api.Models.LoginWithPasswordChangeRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Kaba.Exos.Auth.Service.Areas.Api.Models.LoginWithPasswordChangeRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-errorcodes": "300003,300005,300006,300007,300008,300010,300013,300016,999999"
+      }
+    },
+    "/api/v1/Login/tenants": {
+      "get": {
+        "tags": [
+          "Login"
+        ],
+        "summary": "Returns a list of all available tenants/clients (not to be confused with OAuth client id)",
+        "operationId": "Login_ApiV1LoginTenants",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Kaba.Exos.Auth.Service.Areas.Api.Models.TenantModel"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Kaba.Exos.Auth.Service.Areas.Api.Models.TenantModel"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Kaba.Exos.Auth.Service.Areas.Api.Models.TenantModel"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-errorcodes": "999999"
+      }
+    },
+    "/api/v1/Login/identityProviders": {
+      "get": {
+        "tags": [
+          "Login"
+        ],
+        "summary": "Returns a list of all external identity providers (openIdConnect)",
+        "operationId": "Login_ApiV1LoginIdentityProviders",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Kaba.Exos.Auth.Service.Areas.Api.Models.IdentityProviderModel"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Kaba.Exos.Auth.Service.Areas.Api.Models.IdentityProviderModel"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Kaba.Exos.Auth.Service.Areas.Api.Models.IdentityProviderModel"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-errorcodes": "999999"
+      }
+    },
+    "/api/v1/Login/webapps": {
+      "get": {
+        "tags": [
+          "Login"
+        ],
+        "summary": "Deprecated: returns a list of all available webapps/client applications. Please use \"/v1.0/application/webapplications\" of ExosApi as this endpoint will be removed in the future",
+        "description": "Requires authentication via Cookie (opaque_token)",
+        "operationId": "Login_ApiV1LoginWebapps",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Kaba.Exos.Auth.Service.Areas.Api.Models.WebAppModel"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Kaba.Exos.Auth.Service.Areas.Api.Models.WebAppModel"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Kaba.Exos.Auth.Service.Areas.Api.Models.WebAppModel"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": true
+      }
+    },
+    "/api/v1/Password": {
+      "post": {
+        "tags": [
+          "Password"
+        ],
+        "summary": "Change the password of an authenticated user. User has to be authenticated",
+        "operationId": "Password_ApiV1Password",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Kaba.Exos.Auth.Service.Areas.Api.Models.PasswordChangeRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Kaba.Exos.Auth.Service.Areas.Api.Models.PasswordChangeRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Kaba.Exos.Auth.Service.Areas.Api.Models.PasswordChangeRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "x-errorcodes": "300003,300008,300013,999999"
+      }
+    },
+    "/api/v1/Token/exchange": {
+      "post": {
+        "tags": [
+          "Token"
+        ],
+        "summary": "Allows to exchange an authorization code or a refresh token into new/extended access, refresh and identity tokens.",
+        "operationId": "Token_ApiV1TokenExchange",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Kaba.Exos.Auth.Service.Areas.Api.Models.TokenExchangeRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Kaba.Exos.Auth.Service.Tokens.ExosTokens"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Kaba.Exos.Auth.Service.Tokens.ExosTokens"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Kaba.Exos.Auth.Service.Tokens.ExosTokens"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "x-errorcodes": "300000,999999"
+      }
+    },
+    "/api/v1/Token/revoke": {
+      "post": {
+        "tags": [
+          "Token"
+        ],
+        "summary": "Revokes the token (aka logs out the user)",
+        "operationId": "Token_ApiV1TokenRevoke",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Kaba.Exos.Auth.Service.Areas.Api.Models.TokenRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "x-errorcodes": "999999"
+      }
+    },
+    "/api/v1/Token/keepAlive": {
+      "post": {
+        "tags": [
+          "Token"
+        ],
+        "summary": "Extends a valid tokens lifetime",
+        "operationId": "Token_ApiV1TokenKeepAlive",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Kaba.Exos.Auth.Service.Areas.Api.Models.TokenRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "x-errorcodes": "999999"
+      }
+    },
+    "/api/v1/Token/delayedRevoke": {
+      "post": {
+        "tags": [
+          "Token"
+        ],
+        "summary": "Schedules a revoke of the token",
+        "description": "Will log out user (revoke the token) within a configurable timespan if no other request with that token is made. Intended for internal use only",
+        "operationId": "Token_ApiV1TokenDelayedRevoke",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Kaba.Exos.Auth.Service.Areas.Api.Models.TokenRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "x-errorcodes": "999999"
+      }
+    },
+    "/api/v1/Token/desktopProviderLoginGetToken": {
+      "post": {
+        "tags": [
+          "Token"
+        ],
+        "summary": "Retrieve that exos token has previously been created by identity provider login (OpenIdConnect)",
+        "description": "Intended for internal use only",
+        "operationId": "Token_ApiV1TokenDesktopProviderLoginGetToken",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Kaba.Exos.Auth.Service.Areas.Api.Models.OidcTokenRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-errorcodes": "999999"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Kaba.Exos.Auth.Service.Areas.Api.Models.IdentityProviderModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Kaba.Exos.Auth.Service.Areas.Api.Models.LoginRequest": {
+        "type": "object",
+        "properties": {
+          "tenantId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "requestChannel": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Kaba.Exos.Auth.Service.Areas.Api.Models.LoginUsernamePasswordRequest": {
+        "required": [
+          "password",
+          "userName"
+        ],
+        "type": "object",
+        "properties": {
+          "tenantId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "requestChannel": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "userName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Kaba.Exos.Auth.Service.Areas.Api.Models.LoginWithPasswordChangeRequest": {
+        "required": [
+          "newPassword",
+          "password",
+          "userName"
+        ],
+        "type": "object",
+        "properties": {
+          "tenantId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "requestChannel": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "userName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "newPassword": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Kaba.Exos.Auth.Service.Areas.Api.Models.OidcTokenRequest": {
+        "required": [
+          "codeVerifier",
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "codeVerifier": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Kaba.Exos.Auth.Service.Areas.Api.Models.PasswordChangeRequest": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "newPassword": {
+            "type": "string",
+            "nullable": true
+          },
+          "token": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Kaba.Exos.Auth.Service.Areas.Api.Models.TenantModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Kaba.Exos.Auth.Service.Areas.Api.Models.TokenExchangeRequest": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "code_Verifier": {
+            "type": "string",
+            "nullable": true
+          },
+          "client_Id": {
+            "type": "string",
+            "nullable": true
+          },
+          "grant_Type": {
+            "type": "string",
+            "nullable": true
+          },
+          "redirect_Uri": {
+            "type": "string",
+            "nullable": true
+          },
+          "refresh_Token": {
+            "type": "string",
+            "nullable": true
+          },
+          "requestChannel": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Kaba.Exos.Auth.Service.Areas.Api.Models.TokenRequest": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Kaba.Exos.Auth.Service.Areas.Api.Models.WebAppModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "url": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Kaba.Exos.Auth.Service.Tokens.ExosTokens": {
+        "type": "object",
+        "properties": {
+          "opaque_token": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Microsoft.AspNetCore.Mvc.ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": {}
+      }
+    }
+  }
+}
